@@ -1,0 +1,54 @@
+Technologies and Utilities
+
+- Server/Client MVC Stack
+	Java Server Side:
+		Play: https://www.playframework.com/
+		JavaServer Faces: https://javaserverfaces.java.net/
+		Spring: https://spring.io/
+		Struts: https://struts.apache.org/
+		Thymeleaf: http://www.thymeleaf.org/
+		Wicket: http://wicket.apache.org/
+	JS Alternatives / Supplements:
+		AngularJS: https://angularjs.org/
+		BackboneJS: http://backbonejs.org/
+		EmberJS: http://emberjs.com/
+		Flux: http://facebook.github.io/flux/
+		KnockoutJS: http://knockoutjs.com/
+
+- Java Libraries
+	Jersey: https://jersey.java.net/
+	Mustache: https://github.com/spullara/mustache.java
+	Underscore: https://github.com/javadev/underscore-java
+
+- JavaScript Libraries
+	D3JS: https://d3js.org/
+	ImmutableJS: http://facebook.github.io/immutable-js/
+	Jest: http://facebook.github.io/jest/
+	jQuery: http://jquery.com/
+	jQueryUI: http://jqueryui.com/
+	VelocityJS: http://julian.com/research/velocity/
+
+- Frontend
+	Bootstrap: http://getbootstrap.com/
+	Font Awesome: http://fortawesome.github.io/Font-Awesome/
+	Foundation: http://foundation.zurb.com/
+	jQueryUI: http://jqueryui.com/
+	Kendo: http://www.telerik.com/kendo-ui
+	Modernizr: https://modernizr.com/
+	Normalize: http://necolas.github.io/normalize.css/
+	ReactJS: http://facebook.github.io/react/
+	Susy: http://susy.oddbird.net/
+	Yaml: http://www.yaml.de/
+
+- Utility
+	CSS Minifier: http://cssminifier.com/
+	CSS Validation: http://jigsaw.w3.org/css-validator/#validate_by_input
+	Google Fonts: https://www.google.com/fonts
+	Grunt: http://gruntjs.com/
+	Mobile Emulation: https://developer.chrome.com/devtools/docs/device-mode
+	Placeholder Images: http://lorempixel.com/
+
+- Reference
+	Mozilla Developer Network: https://developer.mozilla.org/en-US/
+	Web Fundamentals: https://developers.google.com/web/fundamentals/
+	Web Platform: http://www.webplatform.org/
