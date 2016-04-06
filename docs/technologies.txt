@@ -2,8 +2,8 @@ Technologies and Utilities
 
 - Server/Client MVC Stack
 	Java Server Side:
-		Play: https://www.playframework.com/
 		JavaServer Faces: https://javaserverfaces.java.net/
+		Play: https://www.playframework.com/
 		Spring: https://spring.io/
 		Struts: https://struts.apache.org/
 		Thymeleaf: http://www.thymeleaf.org/
@@ -25,7 +25,6 @@ Technologies and Utilities
 	ImmutableJS: http://facebook.github.io/immutable-js/
 	Jest: http://facebook.github.io/jest/
 	jQuery: http://jquery.com/
-	jQueryUI: http://jqueryui.com/
 	VelocityJS: http://julian.com/research/velocity/
 
 - Frontend
