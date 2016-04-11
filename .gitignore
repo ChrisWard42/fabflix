@@ -1,5 +1,11 @@
 *.class
 
+# Gradle Task Archives
+.gradle/
+
+# Gradle Builds
+build/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

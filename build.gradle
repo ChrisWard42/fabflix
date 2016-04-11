@@ -40,7 +40,7 @@ ext {
 
 // War file name
 war {
-    archiveName webAppName
+    archiveName = webAppName + ".war"
 }
 
 // Dependencies to run Cargo
@@ -56,7 +56,7 @@ cargo {
     port = 8080
     
     deployable {
-        file = file("build/libs/${webAppName}.war")
+        file = file("build/libs/" + webAppName + ".war")
         context = webAppName
     }
     
