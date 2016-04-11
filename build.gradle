@@ -34,13 +34,13 @@ version = '1.0'
 // Extra Properties (defined in gradle.properties so don't shadow cmd line)
 /*
 ext {
-    webAppName = "fabflix"
+    wAN = "fabflix"
 }
 */
 
 // War file name
 war {
-    archiveName = webAppName + ".war"
+    archiveName = wAN + ".war"
 }
 
 // Dependencies to run Cargo
@@ -56,8 +56,8 @@ cargo {
     port = 8080
     
     deployable {
-        file = file("build/libs/" + webAppName + ".war")
-        context = webAppName
+        file = file("build/libs/" + wAN + ".war")
+        context = wAN
     }
     
     remote {
@@ -66,3 +66,21 @@ cargo {
         password = 'detectivemcnulters'
     }
 }
+
+// Cleanup task to remove old build files so no accidental deploy of outdated stuff
+task cleanWars(type: Delete) {
+    delete "build"
+}
+
+// Task to check that we aren't quick deploying to live site
+task checkLiveSite() << {
+    if(project.property("wAN").toString().equals("live_site")) {
+        throw new GradleException("Build failed. Do not run quick deploy on live site.")
+    }
+}
+
+// Macro to run assemble, redeploy, and cleanup all in a row
+task webAppDeploy(dependsOn: ['checkLiveSite', 'assemble', 'cargoRedeployRemote', 'cleanWars'])
+assemble.mustRunAfter 'checkLiveSite'
+cargoRedeployRemote.mustRunAfter 'assemble'
+cleanWars.mustRunAfter 'cargoRedeployRemote'

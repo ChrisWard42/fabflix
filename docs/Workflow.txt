@@ -18,7 +18,12 @@ stevo/hotfix, benla/hotfix, chris/hotfix
 Deployment
 ----------
 
-.
+/ (ROOT)
+	Live site located in ROOT web app. Only deploy when feature is complete.
+fabflix
+	Web app for use in project grading. DO NOT MODIFY AFTER SUBMISSION.
+stevo, benla, chris
+	Deploy your current work to a web app with your name.
 
 
 Guidelines
@@ -33,7 +38,28 @@ Guidelines
 	- Make sure to use the "--no-ff" flag when merging to make branch history consistent.
 - Commit changes to local branch and push to remote branch webapp often while deploying
   a new feature, to ensure the Git commit history is informative. Make commit msgs informative.
-
+- The app name that corresponds to the live site is 'live_site'. Only deploy to this after merging
+  branch back into master and pushing to remote. If you accidentally deploy to 'live_site' from a branch,
+  add/commit your changes to the branch you're on locally, checkout the master, pull from remote, then
+  build and deploy the live site again from the files that were in the remote master branch.
+- Description of Gradle commands:
+	./gradlew -PwAN=webapp_name wAD
+		Runs assemble, deploy, and cleanup tasks in sequence. Generally desirable to use, just be sure you
+		put the correct name for your app in 'webapp_name'.
+		
+		NOTE: If you try to run this with 'live_site' as the webapp name, it will throw an exception and
+		do nothing. This is a failsafe to prevent accidentally deploying over the live site. To deploy to
+		the live site, just run the three commands individually below in order.
+		
+	./gradlew -PwAN=webapp_name assemble
+		Tells Gradle to assemble the current webapp contents in 'src/main/webapp' of local repository and
+		generate a WAR file 'build/libs/webapp_name.war' for deployment.
+	./gradlew -PwAN=webapp_name cRR
+		Redeploys the web app to the base directory 'webapp_name'. Note that this overwrites whatever is
+		currently there on the server, but it doesn't overwrite Git branches so mistakes can be recovered
+		from.
+	./gradlew -PwAN=webapp_name cW
+		Removed the build directory so that future deployments will need to recreate it.
   
 Example Workflow
 -----------------
@@ -52,12 +78,14 @@ ancillary webapp.
 
 >> git add .
 >> git commit -m "Added credit card search functionality to checkout button."
->> [deploy and test app]
+>> ./gradlew -PwAN=stevo wAD
+>> [Test the app accessible at: http://50.18.81.254/stevo/]
 >> git add .
 >> git commit -m "Added ability to remove an item from the cart."
 >> git add .
 >> git commit -m "Modified session handling so shopping cart is kept across logins."
->> [deploy and test app]
+>> ./gradlew -PwAN=stevo wAD
+>> [Test the app accessible at: http://50.18.81.254/stevo/]
 
 Once it's in a stable state which is "better" than live (ie. doesn't break anything that works
 and makes additional things work), he merges it into the master branch and redeploys the main app.
@@ -67,7 +95,10 @@ and makes additional things work), he merges it into the master branch and redep
 >> git merge --no-ff stevo/shop_cart
 >> git branch -d stevo/shop_cart
 >> git push [origin master]
->> [deploy live site app]
+>> ./gradlew -PwAN=live_site assemble
+>> ./gradlew -PwAN=live_site cRR
+>> ./gradlew cW
+>> [Test the app accessible at: http://50.18.81.254/]
 
 He then quickly makes sure it all came together properly on the live site and can then begin on
 another feature.
