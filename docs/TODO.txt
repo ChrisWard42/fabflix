@@ -11,9 +11,6 @@ Ben
 	
 Chris
 	- Establish URL and Parameter naming guidelines and outline in docs/URLSchema.txt
-	- Modify docs/Workflow.txt to incorporate Gradle build commands into process
-	- Make the build.gradle script more robust with live and test webapps via parameters on command line
-	- Fix up web.xml and build.gradle to work with current project parameters
 	- Define servlet and jsp interactions for each discrete page in web.xml (Session example is good)
 	- Integration of frontend and backend components through JSP variables
 	
@@ -42,6 +39,8 @@ Chris
 	- Debugged Tomcat Manager JVM version mismatches and applied fixes
 	- Installed Gradle build system on AWS and setup config and environment files for all users
 	- Created first iteration of Gradle build script to automatically deploy Tomcat web apps remotely
+	- Modified docs/Workflow.txt to incorporate Gradle build commands into process
+	- Made the build.gradle script more robust with live and test webapps via parameters on command line
 
 Stephen
 	-
