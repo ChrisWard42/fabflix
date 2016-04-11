@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.2.2'   
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo'
+
+// JDK Version
+sourceCompatibility = 1.8
+
+// Project Version
+version = '1.0'
+
+// War file name
+war.baseName = 'Fabflix'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+// Set source directory
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+// Dependencies to run Cargo
+dependencies {
+    def cargoVersion = '1.4.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+          "org.codehaus.cargo:cargo-ant:$cargoVersion"
+}
+
+cargo {
+    containerId = 'tomcat7x'
+    port = 8080
+    
+    deployable {
+        file = file('/home/ubuntu/fabflix/build/libs/Fabflix-1.0.war')
+        context = 'fabflix'
+    }
+    
+    remote {
+        hostname = '50.18.81.254'
+        username = 'build'
+        password = 'detectivemcnulters'
+    }
+}

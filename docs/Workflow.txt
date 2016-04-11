@@ -1,0 +1,73 @@
+======================================
+========== Fabflix Workflow ==========
+======================================
+
+Branches
+--------
+
+master
+	Production website at main public IP. "Live" site, test changes before merging here.
+stevo/f_name, benla/f_name, chris/f_name
+	Feature branches for each person, develop a feature and test it by deploying an
+	ancillary webapp, then merge into master once it doesn't break functionality.
+stevo/hotfix, benla/hotfix, chris/hotfix
+	Quick fix to repair something that was broken in the live site by a bad change,
+	make change independent of feature addition branches for quick deployment.
+	
+	
+Deployment
+----------
+
+.
+
+
+Guidelines
+----------
+
+- Create your named branch whenever developing a new feature or component.
+- If making a quick change, create a hotfix branch and merge to master once complete,
+  making sure to keep the change contained in scope to minimize likelihood of conflicts.
+- Merge and push as soon as a discrete feature/component is complete and tested in
+  a branch webapp. Don't bloat merges with tons of components, try to merge at least once
+  a day.
+	- Make sure to use the "--no-ff" flag when merging to make branch history consistent.
+- Commit changes to local branch and push to remote branch webapp often while deploying
+  a new feature, to ensure the Git commit history is informative. Make commit msgs informative.
+
+  
+Example Workflow
+-----------------
+
+Stephen wants to add functionality to the Shopping Cart so that it utilizes the database. So 
+first he pulls the current live site down.
+
+>> git pull [origin master]
+
+Then he makes a new branch to work on the update to the shopping cart.
+
+>> git checkout -b stevo/shop_cart
+
+He makes a variety of changes to implement the functionality and pushes/tests them to an
+ancillary webapp.
+
+>> git add .
+>> git commit -m "Added credit card search functionality to checkout button."
+>> [deploy and test app]
+>> git add .
+>> git commit -m "Added ability to remove an item from the cart."
+>> git add .
+>> git commit -m "Modified session handling so shopping cart is kept across logins."
+>> [deploy and test app]
+
+Once it's in a stable state which is "better" than live (ie. doesn't break anything that works
+and makes additional things work), he merges it into the master branch and redeploys the main app.
+
+>> git checkout master
+>> git pull [origin master]
+>> git merge --no-ff stevo/shop_cart
+>> git branch -d stevo/shop_cart
+>> git push [origin master]
+>> [deploy live site app]
+
+He then quickly makes sure it all came together properly on the live site and can then begin on
+another feature.
