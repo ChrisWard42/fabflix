@@ -1,3 +1,4 @@
+// Special Buildscript Plugins
 buildscript {
     repositories {
         jcenter()
@@ -8,31 +9,38 @@ buildscript {
     }
 }
 
+// Gradle Plugins
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.cargo'
 
-// JDK Version
-sourceCompatibility = 1.8
-
-// Project Version
-version = '1.0'
-
-// War file name
-war.baseName = 'Fabflix'
-
+// Repositories to look for dependencies
 repositories {
     mavenLocal()
     mavenCentral()
 }
 
-// Set source directory
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-    }
+// Wrapper task to generate ./gradlew
+wrapper {
+    gradleVersion = '2.12'
+}
+
+// JDK Version (from java plugin)
+sourceCompatibility = 1.8
+
+// Project Version (project property)
+version = '1.0'
+
+// Extra Properties (defined in gradle.properties so don't shadow cmd line)
+/*
+ext {
+    webAppName = "fabflix"
+}
+*/
+
+// War file name
+war {
+    archiveName webAppName
 }
 
 // Dependencies to run Cargo
@@ -42,13 +50,14 @@ dependencies {
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
 }
 
+// Web app deployment (use with: cDR, cRR)
 cargo {
     containerId = 'tomcat7x'
     port = 8080
     
     deployable {
-        file = file('/home/ubuntu/fabflix/build/libs/Fabflix-1.0.war')
-        context = 'fabflix'
+        file = file("build/libs/${webAppName}.war")
+        context = webAppName
     }
     
     remote {
