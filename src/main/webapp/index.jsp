@@ -7,5 +7,7 @@
 </head>
 <body>
 Fabflix Web App Test
+
+Here's a small change to observe.
 </body>
 </html>
