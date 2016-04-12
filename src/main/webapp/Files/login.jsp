@@ -5,7 +5,7 @@
 	<title>Login Page</title>
 	<link rel="stylesheet" href="style.css">
 </head>
-<body background = "background_image.jpg">
+<body background = "images/background_image.jpg">
 	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
 		<tr valign="top">
 			<td align="center">
@@ -19,7 +19,7 @@
 
 								<tr>
 									<td align="center" height="86px">
-										<img src="fabflix.png" display="block" alt="logo" height="86" width="auto"/>
+										<img src="images/fabflix.png" display="block" alt="logo" height="86" width="auto"/>
 									</td>
 								</tr>
 
