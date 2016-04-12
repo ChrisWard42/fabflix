@@ -1,5 +1,8 @@
 *.class
 
+# Mac silliness
+.DS_STORE
+
 # Gradle Task Archives
 .gradle/
 
