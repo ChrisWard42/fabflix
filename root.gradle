@@ -57,7 +57,7 @@ cargo {
     
     deployable {
         file = file("build/libs/ROOT.war")
-        context = ''
+        context = '/'
     }
     
     remote {
@@ -73,6 +73,6 @@ task cleanWars(type: Delete) {
 }
 
 // Macro to run assemble, redeploy, and cleanup all in a row
-task webAppDeploy(dependsOn: [assemble', 'cargoRedeployRemote', 'cleanWars'])
+task webAppDeploy(dependsOn: ['assemble', 'cargoRedeployRemote', 'cleanWars'])
 cargoRedeployRemote.mustRunAfter 'assemble'
 cleanWars.mustRunAfter 'cargoRedeployRemote'
