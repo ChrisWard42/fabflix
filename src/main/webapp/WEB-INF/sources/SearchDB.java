@@ -8,6 +8,7 @@ import java.text.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import Model.*;
 
 public class SearchDB extends HttpServlet {
     public String getServletInfo() {
