@@ -1,36 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
- 
-<web-app
-        version="3.0"
-        xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  Copyright 2004 The Apache Software Foundation
 
-    <display-name>Fabflix</display-name>
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <display-name>Test Tomcat Connection to MySQL DB</display-name>
     <description>
-      Fabflix is a website for browsing and purchasing movies.
+      Test Tomcat Connection to mySQL DB
     </description>
 
-    <!--
-    <servlet>
-      <servlet-name>HomePage</servlet-name>
-      <servlet-class>home</servlet-class>
-    </servlet>
 
-    <servlet-mapping>
-      <servlet-name>HomePage</servlet-name>
-      <url-pattern></url-pattern>
-    </servlet-mapping>
-    -->
+  <!-- Define servlets that are included in the example application -->
 
-    <welcome-file-list>
-      <welcome-file>login.jsp</welcome-file>
-    </welcome-file-list>
 
-    <!--
-    <error-page>
-      <error-code>404</error-code>
-      <location>/err404.jsp</location>
-    </error-page>
-    -->
+  <servlet>
+    <servlet-name>TomcatFormServlet</servlet-name>
+    <servlet-class>TomcatForm</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SearchDBServlet</servlet-name>
+    <servlet-class>SearchDB</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TomcatFormServlet</servlet-name>
+    <url-pattern>/TomcatForm</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SearchDBServlet</servlet-name>
+    <url-pattern>/search</url-pattern>
+  </servlet-mapping>
+
 </web-app>
