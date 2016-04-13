@@ -16,13 +16,13 @@
 
 
   <servlet>
-    <servlet-name>TomcatFormServlet</servlet-name>
-    <servlet-class>TomcatForm</servlet-class>
+    <servlet-name>ProcessLoginServlet</servlet-name>
+    <servlet-class>ProcessLogin</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>TomcatFormServlet</servlet-name>
-    <url-pattern>/TomcatForm</url-pattern>
+    <servlet-name>ProcessLoginServlet</servlet-name>
+    <url-pattern>/process-login</url-pattern>
   </servlet-mapping>
 
 
@@ -56,6 +56,17 @@
   <servlet-mapping>
     <servlet-name>SearchPageServlet</servlet-name>
     <url-pattern>/search-page</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>MainPageServlet</servlet-name>
+    <jsp-file>/WEB-INF/main_page.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MainPageServlet</servlet-name>
+    <url-pattern>/main</url-pattern>
   </servlet-mapping>
 
 

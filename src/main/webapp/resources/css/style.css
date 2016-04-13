@@ -6,6 +6,11 @@ html, body {
 	padding: 0;
 	-webkit-text-size-adjust: none;
 	-ms-text-size-adjust: none;
+
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	color: #FFFFFF;
+	font-size: 14px;
 }
 
 html {
@@ -51,6 +56,7 @@ a {
 	text-align: center;
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 .form input {
 	font-family: "Roboto", sans-serif;
 	outline: 0;
@@ -78,6 +84,10 @@ a {
 	cursor: pointer;
 }
 
+#enter:hover {
+	background: #349aff;
+}
+
 button {
 	font-family: "Roboto", sans-serif;
 	text-transform: uppercase;
@@ -93,14 +103,17 @@ button {
 	cursor: pointer;
 }
 
-#enter:hover {
-	background: #349aff;
-}
-
-button:hover, button:active, button:focus {
+button:hover {
 	background: #349aff;
 }
 
 #table-opacity {
 	background: rgba(200, 200, 200, 0.7);
+}
+
+.form .credits {
+	display: none;
+	font-size: 20px !important;
+	background: #000;
+	border-radius: 15px;
 }

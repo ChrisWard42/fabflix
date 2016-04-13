@@ -9,7 +9,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class TomcatForm extends HttpServlet
+public class ProcessLogin extends HttpServlet
 {
     public String getServletInfo()
     {
@@ -35,8 +35,9 @@ public class TomcatForm extends HttpServlet
 
           url = "/WEB-INF/main_page.jsp";
         }
-
-        getServletContext().getRequestDispatcher(url).forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/main");
+        //getServletContext().getRequestDispatcher(url).forward(request, response);
+        return;
 
         // String loginUser = "root";
         // String loginPasswd = "waydowninthehole";
@@ -108,9 +109,9 @@ public class TomcatForm extends HttpServlet
         //  out.close();
     }
 
- //    public void doPost(HttpServletRequest request, HttpServletResponse response)
- //        throws IOException, ServletException
- //    {
-    // doGet(request, response);
- //    }
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        doPost(request, response);
+    }
 }

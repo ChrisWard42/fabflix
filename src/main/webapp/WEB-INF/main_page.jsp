@@ -1,42 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Main Page</title>
-	<link rel="stylesheet" href="resources/css/style.css">
-</head>
-<body background="resources/images/background_image-3.jpg">
-	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
-		<tr>
-			<td>
-				<table align="center" border="0" cellpadding="0" cellspacing="0" width="75%" height="100%">
-					<tr>
-						<td>
-							<table id="table-opacity" align="center" border="0" cellpadding="0" cellspacing="0" width="50%" height="50%">
-								<tr>
-									<td>
-										<table align="center" border="0" cellpadding="0" cellspacing="0" width="75%" height="75%">
-											<tr>
-												<td>
-													<button style="font-size: 20px; padding: 30px 15px">Browse Movies</button>
-												</td>
-											</tr>
-											<tr>
-												<td>
-												<form class="login-form" action="./search-page" method="POST">
-													<button style="font-size: 20px; padding: 30px 15px">Search Movies</button>
-												</form>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-</body>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="resources/css/style2.css">
+  </head>
+  <body background="resources/images/background_image-3.jpg">
+    <div class="login-page">
+      <div class="form">
+        <form class="browse-box" action="#" method="get">
+          <button id="browse">Browse by Genre</button>
+          <button id="browse">Browse by Letter</button>
+          <button class="back1">Back</button>
+        </form>
+
+        <form class="search-box" action="#" method="post">
+          <input type="text" name="query" placeholder="Title"/>
+          <button id="enter" type="submit" formaction="./search" formmethod="post">Enter</button>
+          <button class="back2">Back</button>
+        </form>
+
+        <form class="login-form" id="login" action="#" method="get">
+          <button class="browse">Browse</button>
+          <button class="search">Search</button>
+        </form>
+      </div>
+    </div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="resources/js/index.js"></script>
+    </body>
 </html>
