@@ -1,13 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Fablix</title>
+	<meta charset="UTF-8">
+	<title>Login Page</title>
+	<link rel="stylesheet" href="style.css">
 </head>
-<body>
-Fabflix Web App Test
-
-Here's a small change to observe.
+<body background = "images/background_image.jpg">
+	<img src="images/fabflix.png" alt="" height="100px">
+	<div class="login-page">
+		<div class="form">
+			<form class="login-form" action="./TomcatForm" method="POST">
+				<input type="hidden" name="action" value="add">
+				
+				<input type="text" name="email" placeholder="Email">
+				<input type="password" name="pword" placeholder="Password">
+				<input type="submit" value="Login" id="enter">
+			</form>
+		</div>
+	</div>
 </body>
 </html>
