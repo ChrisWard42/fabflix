@@ -33,7 +33,7 @@ public class TomcatForm extends HttpServlet
           String email = request.getParameter("email");
           String password = request.getParameter("pword");
 
-          url = "/main_page.jsp";
+          url = "/WEB-INF/main_page.jsp";
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);

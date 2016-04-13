@@ -1,4 +1,6 @@
 *.class
+*.orig
+*.backup
 
 # Mac silliness
 .DS_STORE

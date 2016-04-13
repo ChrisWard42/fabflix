@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login Page</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="resources/css/style.css">
 </head>
-<body background = "images/background_image.jpg">
-	<img src="images/fabflix.png" alt="" height="100px">
+<body background = "resources/images/background_image.jpg">
+	<img src="resources/images/fabflix.png" alt="" height="100px">
 	<div class="login-page">
 		<div class="form">
 			<form class="login-form" action="./TomcatForm" method="POST">

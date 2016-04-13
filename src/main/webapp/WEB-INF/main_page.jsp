@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Main Page</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="resources/css/style.css">
 </head>
-<body background="images/background_image-3.jpg">
+<body background="resources/images/background_image-3.jpg">
 	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
 		<tr>
 			<td>
