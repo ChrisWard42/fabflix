@@ -1,0 +1,24 @@
+
+== Managing Servlets ==
+
+Login (url: /login)
+
+Home (url: /home, url: /)
+
+== Included Servlets ==
+
+Header (url: 
+
+== Filter Servlets ==
+
+Authentication (url: /auth, properties: no-web-access)
+	- If the user doesn't have an active session (isn't currently logged in):
+		- If the page is Login:
+			- Do nothing, they're on the right page to authenticate so let the traffic pass through filter.
+		- If the page is any other page on the site:
+			- Redirect them to the Login page
+	- If the user does have an active session (is logged in):
+		- If the page is Login:
+			- Redirect the user to the Home page
+		- If the page is any other page on the site:
+			- Do nothing, they're already logged in so let the traffic pass through filter.

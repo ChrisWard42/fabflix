@@ -33,7 +33,7 @@ public class ProcessLogin extends HttpServlet
           String email = request.getParameter("email");
           String password = request.getParameter("pword");
 
-          url = "/WEB-INF/main_page.jsp";
+          url = "/main_page.jsp";
         }
         response.sendRedirect(request.getContextPath() + "/main");
         //getServletContext().getRequestDispatcher(url).forward(request, response);
