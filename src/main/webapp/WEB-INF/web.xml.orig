@@ -40,11 +40,6 @@
     <servlet-class>SearchDB</servlet-class>
   </servlet>
 
-  <servlet>
-    <servlet-name>MovieListServlet</servlet-name>
-    <jsp-file>/MovieList.jsp</jsp-file>
-  </servlet>
-
   <servlet-mapping>
     <servlet-name>TomcatFormServlet</servlet-name>
     <url-pattern>/TomcatForm</url-pattern>
@@ -53,11 +48,6 @@
   <servlet-mapping>
     <servlet-name>SearchDBServlet</servlet-name>
     <url-pattern>/search</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>MovieListServlet</servlet-name>
-    <url-pattern>/movie-list</url-pattern>
   </servlet-mapping>
 
 </web-app>
