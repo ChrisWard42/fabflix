@@ -23,7 +23,7 @@
 											</tr>
 											<tr>
 												<td>
-												<form class="login-form" action="search.html" method="POST">
+												<form class="login-form" action="./search-page" method="POST">
 													<button style="font-size: 20px; padding: 30px 15px">Search Movies</button>
 												</form>
 												</td>

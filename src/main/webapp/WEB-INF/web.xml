@@ -20,10 +20,22 @@
     <servlet-class>TomcatForm</servlet-class>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>TomcatFormServlet</servlet-name>
+    <url-pattern>/TomcatForm</url-pattern>
+  </servlet-mapping>
+
+
   <servlet>
     <servlet-name>SearchDBServlet</servlet-name>
     <servlet-class>SearchDB</servlet-class>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SearchDBServlet</servlet-name>
+    <url-pattern>/search</url-pattern>
+  </servlet-mapping>
+
 
   <servlet>
     <servlet-name>MovieListServlet</servlet-name>
@@ -31,19 +43,21 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>TomcatFormServlet</servlet-name>
-    <url-pattern>/TomcatForm</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>SearchDBServlet</servlet-name>
-    <url-pattern>/search</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
     <servlet-name>MovieListServlet</servlet-name>
     <url-pattern>/movie-list</url-pattern>
   </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>SearchPageServlet</servlet-name>
+    <jsp-file>/WEB-INF/search.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SearchPageServlet</servlet-name>
+    <url-pattern>/search-page</url-pattern>
+  </servlet-mapping>
+
 
   <welcome-file-list>
     <welcome-file>/WEB-INF/index.jsp</welcome-file>
