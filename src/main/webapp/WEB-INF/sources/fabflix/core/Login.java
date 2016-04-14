@@ -1,6 +1,6 @@
 
 /* A servlet to display the contents of the MySQL movieDB database */
-package fablix.core;
+package fabflix.core;
 
 import java.io.*;
 import java.net.*;

@@ -17,7 +17,7 @@
 
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>Login</servlet-class>
+    <servlet-class>fabflix.core.Login</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -28,7 +28,7 @@
 
   <servlet>
     <servlet-name>SearchServlet</servlet-name>
-    <servlet-class>Search</servlet-class>
+    <servlet-class>fabflix.core.Search</servlet-class>
   </servlet>
 
   <servlet-mapping>
