@@ -1,14 +1,91 @@
 
+== Design Principles ==
+
+- Format... belongs in the JSP files as HTML5 structure
+- Style... belongs in CSS style sheets in /resources/css folder
+- Client-side Interactivity... belongs in JS files in /resources/js folder
+- Server-side Interactivity... is handled by Java servlets and hooked into via JSTL
+- Traffic filtering... is handled by Java filter servlets
+- Data definitions... are in Java "bean" classes stored in Model package
+
 == Managing Servlets ==
 
 Login (url: /login)
+	- Logo
+	- Login Form
+		- Username field
+			- Email is the username currently
+		- Password field
+			- Should also implement password hashing DB-side and client-side then match hashes, but
+				this is of secondary priority
+		- Log In button
+			- Takes username/password and checks the database for the combination
+			- If a match is found, a session is created for the user and sent to Home page
+		- Register button (Optional / Deferred implementation)
+			- Initially: Either a button that does nothing or pops up a dialog saying registration currently
+				disabled but you can login if you have an account.
+				- For what I mean by popup, see IMDB.com logged out and click on Login in upper right. The source code
+					uses this JQuery/JS snippet I believe:
+						jQuery(document).ready(function(){
+							window.imdb.login_lightbox("https://secure.imdb.com",
+										   "https://secure.imdb.com/register-imdb/form-v2?ref_=nv_usr_reg_2");
+						});
+			- Later on some form of Register servlet can handle signing up a user and adding it to database
+		- Remember Me checkbox (Optional / Deferred implementation)
+			- Unchecked by default
+			- If checked by user, stores a long lasting cookie in the browser rather than a session cookie
+			- If not checked, stores session cookie which is removed on browser close
 
 Home (url: /home, url: /)
+	- Banner Slideshow (Optional / Deferred implementation)
+		- See: Amazon.com home page
+		- Fill it with junk about movies just as a visual placeholder so page doesn't seem empty
+	- Featured Movie(s) (Optional / Deferred implementation)
+		- See: Twitch.com Featured Games section
+		- Displays a box containing one row of featured movies (trimmed to screen width)
+		- Each movie only shows image/title and clicking an image calls the Movie servlet
+		- Can implement with a static list initially, later can store # times hit by search query in
+			last week server-side and populate it based on that.
+	- Featured Star(s) (Optional / Deferred implementation)
+		- Same as Featured Movies design above, picture of star and link, link calls the Star servlet.
+		
+Search (url: /search)
+
+Browse (url: /browse)
+
+Movie (url: /movie)
+
+Star (url: /star)
+
+Cart (url: /cart)
+
+Checkout (url: /checkout)
 
 == Included Servlets ==
 
-Header (url: 
+Header (url: /head, properties: no-web-access)
+	- The header includes the following discrete components and is included on every page:
+		- Fabflix Logo
+			- Positioned in the upper left portion of header
+			- Clicking on the logo sends the user to the main page
+		- Search Bar
+			- Centered in the header
+			- Typing an item into the search bar runs Search servlet with an OR query on all fields
+			- (Optional) Dropdown box with "All" initially selected, but can select the other query fields to narrow search
+		- Browse
+			- Link to the right of search bar
+			- Clicking it runs Browse servlet with Genre/Title collapsed and shows a Movie List of all movies initially
+		- Account (Deferred implementation)
+			- Needs to be room for an Account link to show the user's account page, leftmost along right hand side
+		- Cart
+			- Link/Image on right hand side of header which runs Cart servlet taking user to current shopping cart
+		- Log Out (Optional / Deferred implementation)
+			- Link rightmost in header should log user out and send to Login servlet
+			
+Footer (url: /foot, properties: no-web-access)
 
+Movie List (url: /movie-list, properties: no-web-access)
+			
 == Filter Servlets ==
 
 Authentication (url: /auth, properties: no-web-access)
@@ -22,3 +99,8 @@ Authentication (url: /auth, properties: no-web-access)
 			- Redirect the user to the Home page
 		- If the page is any other page on the site:
 			- Do nothing, they're already logged in so let the traffic pass through filter.
+			
+== Java Beans ==
+
+
+			
