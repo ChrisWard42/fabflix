@@ -34,11 +34,11 @@
           <!--  Rest of Buttons -->
 
           <!--  Search Bar -->
-          <form class="navbar-form navbar-right" role="search">
+          <form class="navbar-form navbar-right" role="search" method="post" action="#">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search" style="width: 300px !important">
+              <input type="text" class="form-control" name="query" placeholder="Search" style="width: 300px !important">
             </div>
-            <button type="submit" class="btn btn-default"><img src="resources/images/search.png" alt="search" height="20"></button>
+            <button type="submit" class="btn btn-default" formaction="./search" formmethod="post"><img src="resources/images/search.png" alt="search" height="20"></button>
           </form>
           <!--  Search Bar -->
 
