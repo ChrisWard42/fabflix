@@ -5,6 +5,7 @@ import java.net.*;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import java.util.Date;
 
 public class Sale implements Serializable {
     private int id;

@@ -84,11 +84,11 @@ public class Customer implements Serializable {
         this.address = address;
     }
 
-    public void setEmail(int email){
+    public void setEmail(String email){
         this.email = email;
     }
 
-    public void setPassword(int password){
+    public void setPassword(String password){
         this.password = password;
     }
 }
