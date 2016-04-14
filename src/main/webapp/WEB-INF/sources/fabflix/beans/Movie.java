@@ -11,22 +11,25 @@ public class Movie implements Serializable {
 	private String title;
 	private int year;
 	private String director;
-	private String banner_url;
+	private String bannerUrl;
+    private String trailerUrl;
 
 	public Movie() {
 		id = 0;
 		title = "";
 		year = 0;
 		director = "";
-		banner_url = "";
+		bannerUrl = "";
+        trailerUrl = "";
 	}
 
-	public Movie(int id, String title, int year, String director, String banner_url){
+	public Movie(int id, String title, int year, String director, String bannerUrl, String trailerUrl){
 		this.id = id;
 		this.title = title;
 		this.year = year;
 		this.director = director;
-		this.banner_url = banner_url;
+		this.bannerUrl = bannerUrl;
+        this.trailerUrl = trailerUrl;
 	}
 
 	public int getId(){
@@ -45,11 +48,15 @@ public class Movie implements Serializable {
 		return director;
 	}
 
-	public String getBanner_url(){
-		return banner_url;
+	public String getBannerUrl(){
+		return bannerUrl;
 	}
 
-	public void setID(int id){
+    public String getTrailerUrl(){
+        return trailerUrl;
+    }
+
+	public void setId(int id){
 		this.id = id;
 	}
 
@@ -65,9 +72,13 @@ public class Movie implements Serializable {
 		this.director = director;
 	}
 
-	public void setBanner_url(String banner_url){
-		this.banner_url = banner_url;
+	public void setBannerUrl(String bannerUrl){
+		this.bannerUrl = bannerUrl;
 	}
+
+    public void setTrailerUrl(String trailerUrl){
+        this.trailerUrl = trailerUrl;
+    }
 
 	public static List<Movie> searchMovies(String keywords){
 		String loginUser = "root";
@@ -96,10 +107,11 @@ public class Movie implements Serializable {
                 String title = results.getString("title");
                 Integer year = results.getInt("year");
                 String director = results.getString("director");
-                String banner_url = results.getString("banner_url");
+                String bannerUrl = results.getString("banner_url");
+                String trailerUrl = results.getString("trailer_url");
 
                 //Create movie object
-                movie = new Movie(id, title, year, director, banner_url);
+                movie = new Movie(id, title, year, director, bannerUrl, trailerUrl);
 
                 //Add to movie list
                 searchResults.add(movie);
