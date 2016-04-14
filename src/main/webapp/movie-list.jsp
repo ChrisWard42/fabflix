@@ -30,6 +30,7 @@ if (movies == null) {
                 <td><%=movie.getYear()%></td>
                 <td><%=movie.getDirector()%></td>
 				<td><a href="<%=movie.getBannerUrl()%>" >Banner URL</a></td>
+                <td><a href="<%=movie.getTrailerUrl()%>" >Trailer URL</a></td>
 			</tr>
 			<% }
 				session.setAttribute("search-results", null);
