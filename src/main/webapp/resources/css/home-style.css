@@ -1,0 +1,89 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Varela+Round|Monda);
+
+body {
+  font-family: "Roboto", sans-serif !important;
+  background: #beccdb;
+}
+
+.btn {
+  background: rgba(247, 60, 60, 0.0) !important;
+  border: 0px !important;
+}
+
+.carousel-control.left, .carousel-control.right {
+  background-image: none
+}
+
+.carousel-indicators .active {
+  background: #ff3434;
+  border-color: #ff3434;
+}
+
+.dropdown-menu {
+  background: #f73c3c !important;
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.form-group input {
+  border: 0px !important;
+}
+
+.navbar {
+  background: #ff3434 !important;
+  border-radius: 0px !important;
+  border: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.navbar a {
+  color: #fff !important;
+}
+
+#myCarousel, .carousel-inner {
+  height: 400px !important;
+}
+
+.thumbnail {
+  background: rgba(34, 47, 61, 0.9);
+  border: 0px;
+  padding: 15px;
+  margin: 10px 5px 10px 5px;
+}
+
+.featured_title {
+  text-align: center !important;
+  margin-bottom: 20px;
+}
+
+.label {
+  background: #ff3434;
+  font-family: "Varela+Round", sans-serif;
+  padding-top: 10px;
+}
+
+.row {
+  margin-top: 0px !important;
+  margin-bottom: 0px;
+  margin: 0px auto;
+  width: 100%;
+  padding: 10px;
+}
+
+.featured_movies {
+  color: #fff;
+}
+
+.featured_stars {
+  color: #fff;
+  background: #8da5c0;
+}
+
+.panel, .panel-footer {
+  text-align: right;
+  background: #ff3434;
+  border: 0;
+  color: #fff;
+  margin: 0;
+}
