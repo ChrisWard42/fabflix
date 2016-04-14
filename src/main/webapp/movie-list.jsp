@@ -12,7 +12,7 @@
  java.io.IOException,
  javax.servlet.http.*,
  javax.servlet.*,
- Model.Movie"
+ fabflix.beans.Movie"
  %>
 
  <%
