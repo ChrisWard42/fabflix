@@ -94,8 +94,11 @@ public class Movie implements Serializable {
               // Declare our statement
               Statement statement = connection.createStatement();
 
-              String query = "SELECT * FROM movies WHERE title LIKE '"
-              				 + keywords + "%' or director LIKE '" + keywords + "%';";
+              // TODO: Make this query combine genres_in_movies and stars_in_movies, use Star and
+              //       Genre bean objects. Utilize name search code from proj 1.
+              String query = "SELECT DISTINCT * FROM movies WHERE title LIKE '%"
+              				 + keywords + "%' OR director LIKE '%" + keywords + "%'"
+                             + "OR year LIKE '%" + keywords + "%';";
 
               // Perform the query
               ResultSet results = statement.executeQuery(query);
