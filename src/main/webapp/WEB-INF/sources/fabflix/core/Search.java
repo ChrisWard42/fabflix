@@ -1,5 +1,6 @@
 
-/* A servlet to display the contents of the MySQL movieDB database */
+/* A servlet to search the DB for movies */
+package fabflix.core;
 
 import java.io.*;
 import java.net.*;
@@ -8,35 +9,35 @@ import java.text.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import fabflix.beans.*;
 
-public class ProcessLogin extends HttpServlet
-{
-    public String getServletInfo()
-    {
-       return "Servlet logs a user in, rejects if invalid credentials";
+public class Search extends HttpServlet {
+    public String getServletInfo() {
+       return "Servlet searches for a movie";
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
-        String url = "/";
 
-        String action = request.getParameter("action");
-        if(action == null)
-          action = "join";
+        // if(request.getQueryString() == null){
+        //     String urlSession = response.encodeRedirectURL(request.getContextPath());
+        //     response.sendRedirect(urlSession);
+        //     return;
+        // }
 
-        if(action.equals("join"))
-          url = "/";
-
-        else if (action.equals("add")){
-          String email = request.getParameter("email");
-          String password = request.getParameter("pword");
-
-          url = "/main_page.jsp";
+        if(request.getParameter("query") == null){
+            request.getSession().setAttribute("search-results", new ArrayList<Movie>());
+            RequestDispatcher  dispatcher = request.getRequestDispatcher("/movie-list");
+            dispatcher.forward(request, response);
+            return;
         }
-        response.sendRedirect(request.getContextPath() + "/main");
-        //getServletContext().getRequestDispatcher(url).forward(request, response);
+        String url = "/movie-list";
+        List<Movie> searchResults = Movie.searchMovies(request.getParameter("query"));
+        request.getSession().setAttribute("search-results", searchResults);
+        RequestDispatcher  dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
         return;
 
         // String loginUser = "root";
@@ -61,7 +62,7 @@ public class ProcessLogin extends HttpServlet
         //       // Declare our statement
         //       Statement statement = dbcon.createStatement();
 
-           //      String lastname = request.getParameter("lastname");
+	       //      String lastname = request.getParameter("lastname");
         //       out.println(lastname);
         //       String query = "SELECT * from stars where last_name = '" + lastname + "'";
 
@@ -112,6 +113,6 @@ public class ProcessLogin extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
-        doPost(request, response);
+	   doPost(request, response);
     }
 }

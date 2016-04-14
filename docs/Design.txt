@@ -1,12 +1,12 @@
 
 == Design Principles ==
 
-- Format... belongs in the JSP files as HTML5 structure
-- Style... belongs in CSS style sheets in /resources/css folder
+- Structure / Content... belongs in the JSP files as HTML5 structure with JSTL content
+- Style / Format... belongs in CSS style sheets in /resources/css folder
 - Client-side Interactivity... belongs in JS files in /resources/js folder
-- Server-side Interactivity... is handled by Java servlets and hooked into via JSTL
+- Server-side Interactivity... is handled by Java servlets
 - Traffic filtering... is handled by Java filter servlets
-- Data definitions... are in Java "bean" classes stored in Model package
+- Data definitions... are in Java "bean" classes stored in Beans package
 
 == Managing Servlets ==
 
@@ -50,6 +50,7 @@ Home (url: /home, url: /)
 		- Same as Featured Movies design above, picture of star and link, link calls the Star servlet.
 		
 Search (url: /search)
+	- 
 
 Browse (url: /browse)
 
@@ -83,6 +84,11 @@ Header (url: /head, properties: no-web-access)
 			- Link rightmost in header should log user out and send to Login servlet
 			
 Footer (url: /foot, properties: no-web-access)
+	- The footer includes the following discrete components and is included on every page:
+		- Fabflix mini-logo + "A Jamshid company."
+			- left-aligned
+		- Copyright (c) Benla, Chris, Stevo
+			- right-aligned
 
 Movie List (url: /movie-list, properties: no-web-access)
 			

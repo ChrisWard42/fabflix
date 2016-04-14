@@ -6,52 +6,31 @@
 	<link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body background = "resources/images/background_image.jpg">
-	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
-		<tr valign="top">
-			<td align="center">
-				<table align="center" border="0" cellpadding="0" cellspacing="0" width="500">
-					<tr valign="top">
+	<a class="switch" href="#"><img src="resources/images/fabflix.png" alt="" height="100px"></a>
+	<div class="login-page">
+		<div class="form">
+			<form class="credits">
+				<table align="center" border="0" border-radius="15px" cellpadding="0" cellspacing="0" width="100%">
+					<tr valign="middle">
 						<td>
-							<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-								<tr align="center" height="80px">
-									<td></td>
-								</tr>
-
-								<tr>
-									<td align="center" height="86px">
-										<img src="resources/images/fabflix.png" display="block" alt="logo" height="86" width="auto"/>
-									</td>
-								</tr>
-
-								<tr align="center" height="160px">
-									<td></td>
-								</tr>
-
-								<tr align="center">
-									<td>
-										<table align="center" border="0" cellpadding="0" cellspacing="0" width="75%">
-											<tr>
-												<td align="center">
-													<div class="login-page">
-  														<div class="form">
-															<form class="login-form">
-																<input type="text" placeholder="Email">
-																<input type="password" placeholder="Password">
-																<button>Sign In</button>
-															</form>
-														</div>
-													</div>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
+							<p>Benjamin You (Benla)</p>
+							<p>Chris Ward (Captain)</p>
+							<p>Stephen Castro (Stevo)</p>
 						</td>
 					</tr>
 				</table>
-			</td>
-		</tr>
-	</table>
+			</form>
+
+			<form class="login-form" action="./login" method="POST">
+				<input type="hidden" name="action" value="add">
+				
+				<input type="text" name="email" placeholder="Email">
+				<input type="password" name="pword" placeholder="Password">
+				<input type="submit" value="Sign In" id="enter">
+			</form>
+		</div>
+	</div>
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="resources/js/index-original.js"></script>
 </body>
 </html>
