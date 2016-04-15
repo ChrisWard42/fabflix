@@ -50,17 +50,95 @@ Home (url: /home, url: /)
 		- Same as Featured Movies design above, picture of star and link, link calls the Star servlet.
 		
 Search (url: /search)
-	- 
+	- URLs Like: /search?
+		(Need param pass list)
+	- Global Search Bar
+		- Sending a query with "All" dropdown selected (default) queries LIKE '%query%' OR LIKE '%query%' etc.
+			for Movie fields: title, year, director, and star
+		- Sending a query with "Title", "Year", "Director", or "Star" selected sends a query on only that 
+			Movie field.
+	- Search Dropdown Box
+		- Collapses/expands, with default expanded
+		- Provides input boxes for "Title", "Year", "Director", and "Star", with a "Search" button that confirms
+			the inputs.
+		- Searching through this part of the page is an AND query on all of the fields.
+	- Movie List View
+		- Contained. See Movie List View spec under Included Servlets.
+	- Notes on Backend
+		- For searches where "Star" is included, needs to do the dynamic first name / last name lookup like we
+			did in project 1.
+		- It probably makes sense to have some sort of MovieInfo class built on top of the Movie java bean which
+			combines the info with a movie joined with its stars (from stars and stars_in_movies) and genres
+			(from genres and genres_in_movies). That way can just access a MovieInfo.stars attribute and no 
+			higher level classes have to know the tables are separate.
+		- Most likely want to have a parameter sent by the various search methods that is checked in this module
+			so can split up the different queries.
+				- Ex: if (param("source") == "global_all") ... Do OR query on the single input
+					  if (param("source") == "adv_search") ... Do AND query on the null/provided inputs
+					  etc.
 
 Browse (url: /browse)
+	- URLs Like: /browse?
+		(Need param pass list)
+	- Global Browse Link
+		- Sends user to the Browse page with initial display being all movies
+	- Browse by Genre dropdown box
+		- Provides clickable links which constrain the titles shown to only those in that genre. Sends genre 
+			clicked as param to search.
+		- Once a link is clicked it should be shown as selected on the page (bold)
+		- See design mockup, genres included hardcoded to: Action, Adventure, Animation, Comedy,
+			Crime, Drama, Family, Fantasy, Foreign, Horror, Musical, Mystery, Romance, Science Fiction,
+			Thriller, and War.
+		- Can only have one genre or letter selected at a time, so clicking a new one removes prev selection.
+	- Browse by Title dropdown box
+		- Provides clickable links which constrain the titles shown to only those which start with that letter.
+			Sends letter as param to search.
+		- Once a link is clicked it should be shown as selected on the page (bold).
+		- See design mockup for layout idea. Need 0-9 and A-Z all separate.
+		- Can only have one genre or letter selected at a time, so clicking a new one removes prev selection.
+	- Movie List View
+		- Contained. See Movie List View spec under Included Servlets.
 
 Movie (url: /movie)
+	- URLs Like: /movie/movie-id (ex: /movie/839541)
+	- Movie Info
+		- Movie page is essentially just a blown up and spread out version of the MovieInfo element in Movie List
+			view. Should have id, title, year, director, genre list (linked to Browse by genres page w/ it selected),
+			banner url (displayed as a large image, replace m with f for large version),
+			star list (linked to Star page), and trailer url (link).
+		- Also needs an "Add to Shopping Cart" button. Ideally this would trigger a JS element indicating that the
+			item has been added to the cart and providing a link to view cart or checkout, similar to Amazon, but
+			this is secondary functionality.
+		- Main thing for design is just to use up all of the horizontal space on the page and more vertical space
+			than in the MovieList view.
 
 Star (url: /star)
+	- URLs Like: /star/star-id (ex: /star/738291)
+	- Star Info
+		- Star page displays id, name, date of birth, photo url (displayed as a picture of the star), and a list of
+			movies in which the star has acted (join of stars + stars_in_movies + movies tables, with links to
+			the corresponding movie page).
+		- Should be similar in visual size to the single movie page so that clicking back and forth between them
+			isn't a jarring transition.
 
 Cart (url: /cart)
+	- Just look at other online retailer shopping carts for inspiration on design.
+	- It needs to show all of the items the user has put in the cart, so they need to be saved in the Session across pages.
+	- Should display the current number of copies of each item and allow user to update, using either an input box or a
+		dropdown menu. The former requires an "update quantities" style button somewhere, while the latter could save the
+		quantity to session once an item in the dropdown is clicked.
+	- Need a way to delete the item from the cart, probably just a delete link below each item. Delete link should remove
+		the item from the page and the session variable without redirecting to a different page.
+	- Should have a "Proceed to checkout" button which directs to the Checkout page when clicked.
 
 Checkout (url: /checkout)
+	- Checkout Information
+		- Has input boxes for credit card number, expiration date, first name, and last name, with a "Complete Purchase" button.
+		- All of the credentials must match an entry in the credit card table. If there's not an exact match (no LIKE here) then
+			the transaction fails and the user should be prompted an error message indicating the credentials were wrong.
+		- If the credentials are correct, the items previously in the cart need to be removed from the session object, and the user
+			either redirected to a confirmation page, or a confirmation page popped up in-page and then a redirect to home page 
+			issued when it's closed.
 
 == Included Servlets ==
 
@@ -91,7 +169,25 @@ Footer (url: /foot, properties: no-web-access)
 			- right-aligned
 
 Movie List (url: /movie-list, properties: no-web-access)
-			
+	- Fed a list of Movie or MovieInfo objects which are the result of the string of query parameters sent
+		to the backend.
+	- Required to display: id, title (w/ link to Movie page for title), year, director, list of genres,
+		list of stars (w/ link to Star page for each star).
+	- Also needs an "Add to Shopping Cart" button on each movie in the list. Ideally this would trigger a JS element
+		indicating that the item has been added to the cart and providing a link to view cart or checkout, similar to
+		Amazon, but this is secondary functionality.
+	- Requires ability to sort the list object based on Title (asc/desc) and Year (asc/desc). If done with
+		SQL consider using ORDER BY.
+	- Requires ability to select number of pages to display. Can constrain to 10, 25, and 50. Pass as a 
+		parameter in url and enforce using SQL LIMIT statement.
+	- Requires ability to move from page to page (prev/next). Hitting one should modify the OFFSET attribute
+		of the query.
+		- Additionally, hitting prev on page 1 or next on last page should not be selectable, otherwise errors
+			will result.
+		- Optionally can have a page listing along the bottom like is done with google search results.
+	- First iteration of this functionality can do new queries to the server for each change, though ideally
+		we want to move as much to client-side JS/AJAX as possible so it happens in-page.
+
 == Filter Servlets ==
 
 Authentication (url: /auth, properties: no-web-access)
@@ -104,9 +200,5 @@ Authentication (url: /auth, properties: no-web-access)
 		- If the page is Login:
 			- Redirect the user to the Home page
 		- If the page is any other page on the site:
-			- Do nothing, they're already logged in so let the traffic pass through filter.
-			
-== Java Beans ==
-
-
+			- Do nothing, they're already logged in so let the traffic pass through filter.		
 			

@@ -41,6 +41,9 @@ Chris
 	- Created first iteration of Gradle build script to automatically deploy Tomcat web apps remotely
 	- Modified docs/Workflow.txt to incorporate Gradle build commands into process
 	- Made the build.gradle script more robust with live and test webapps via parameters on command line
+	- Outlined page design and functionality for each page in docs/Design.txt
+	- Refactored project structure to provide better servlet functionality encapsulation
+	- Wrote Java bean classes for each of the tables in the DB schema
 
 Stephen
 	-
