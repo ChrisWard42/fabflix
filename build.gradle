@@ -1,3 +1,5 @@
+import javax.tools.ToolProvider
+
 // Special Buildscript Plugins
 buildscript {
     repositories {
@@ -38,9 +40,8 @@ ext {
 }
 */
 
-// War file name
-war {
-    archiveName = wAN + ".war"
+configurations {
+    webLibs
 }
 
 // Dependencies to run Cargo
@@ -48,6 +49,34 @@ dependencies {
     def cargoVersion = '1.4.5'
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
+    //compile 'mysql:mysql-connector-java:6.0.2'
+    //compile 'tomcat:jsp-api:5.5.23'
+    //compile 'tomcat:servlet-api:5.5.23'
+    //compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar')
+    //compile files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
+
+    webLibs 'mysql:mysql-connector-java:6.0.2'
+    webLibs 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+// Java source sets for compilation
+/*
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/webapp/WEB-INF/sources'
+        }
+
+        output.classesDir = 'src/main/webapp/WEB-INF/classes'
+    }
+}
+*/
+
+// War file name
+war {
+    archiveName = wAN + ".war"
+    classpath configurations.webLibs
 }
 
 // Web app deployment (use with: cDR, cRR)
@@ -84,3 +113,7 @@ task webAppDeploy(dependsOn: ['checkLiveSite', 'assemble', 'cargoRedeployRemote'
 assemble.mustRunAfter 'checkLiveSite'
 cargoRedeployRemote.mustRunAfter 'assemble'
 cleanWars.mustRunAfter 'cargoRedeployRemote'
+
+task printDependencies << {
+    configurations.compile.each { println it.name }
+}
