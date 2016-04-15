@@ -91,17 +91,21 @@ public class Movie implements Serializable {
               Class.forName("com.mysql.jdbc.Driver").newInstance();
 
               Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-              // Declare our statement
-              Statement statement = connection.createStatement();
 
               // TODO: Make this query combine genres_in_movies and stars_in_movies, use Star and
               //       Genre bean objects. Utilize name search code from proj 1.
-              String query = "SELECT DISTINCT * FROM movies WHERE title LIKE '%"
-              				 + keywords + "%' OR director LIKE '%" + keywords + "%'"
-                             + "OR year LIKE '%" + keywords + "%';";
+              String query = "SELECT DISTINCT * FROM movies WHERE title LIKE ? OR director LIKE ? OR year LIKE ? ;";
+
+              // Declare our statement
+              PreparedStatement statement = connection.prepareStatement(query);
+
+              statement.setString(1, "%" + keywords + "%");
+              statement.setString(2, "%" + keywords + "%");
+              statement.setString(3, "%" + keywords + "%");
+
 
               // Perform the query
-              ResultSet results = statement.executeQuery(query);
+              ResultSet results = statement.executeQuery();
 
               // Iterate through each row of results
               while (results.next())
