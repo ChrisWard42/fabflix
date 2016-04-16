@@ -1,3 +1,5 @@
+import javax.tools.ToolProvider
+
 // Special Buildscript Plugins
 buildscript {
     repositories {
@@ -38,9 +40,8 @@ ext {
 }
 */
 
-// War file name
-war {
-    archiveName = wAN + ".war"
+configurations {
+    webLibs
 }
 
 // Dependencies to run Cargo
@@ -48,11 +49,37 @@ dependencies {
     def cargoVersion = '1.4.5'
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
+    compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar')
+    //compile files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
+
+    //compile 'mysql:mysql-connector-java:5.1.38'
+    //compile 'org.apache.tomcat:tomcat-jsp-api:8.0.33'
+    //compile 'org.apache.tomcat:tomcat-el-api:8.0.33'
+    //compile 'org.apache.tomcat:tomcat-servlet-api:8.0.33'
+}
+
+// Java source sets for compilation
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/webapp/WEB-INF/sources'
+        }
+
+        output.classesDir = 'src/main/webapp/WEB-INF/classes'
+    }
+}
+
+
+// War file name
+war {
+    archiveName = wAN + ".war"
 }
 
 // Web app deployment (use with: cDR, cRR)
 cargo {
-    containerId = 'tomcat7x'
+    containerId = 'tomcat8x'
     port = 8080
     
     deployable {

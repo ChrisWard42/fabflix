@@ -172,7 +172,7 @@ Movie List (url: /movie-list, properties: no-web-access)
 	- Fed a list of Movie or MovieInfo objects which are the result of the string of query parameters sent
 		to the backend.
 	- Required to display: id, title (w/ link to Movie page for title), year, director, list of genres,
-		list of stars (w/ link to Star page for each star).
+		list of stars (w/ link to Star page for each star), banner url (as photo), trailer url (as link).
 	- Also needs an "Add to Shopping Cart" button on each movie in the list. Ideally this would trigger a JS element
 		indicating that the item has been added to the cart and providing a link to view cart or checkout, similar to
 		Amazon, but this is secondary functionality.

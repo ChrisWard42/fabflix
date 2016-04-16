@@ -17,7 +17,11 @@
  %>
 
  <%
+<<<<<<< HEAD
 List<MovieInfo> movies = (List<MovieInfo>) session.getAttribute("search-results");
+=======
+List<Movie> movies = (List<Movie>) session.getAttribute("search-display");
+>>>>>>> ed00cb46e643a7ef6f6fd3d8611f2f25fc789d29
 if (movies == null) {
     movies = new ArrayList<MovieInfo>();
 }
@@ -34,7 +38,8 @@ if (movies == null) {
                 <td><a href="<%=movie.getTrailerUrl()%>" >Trailer URL</a></td>
 			</tr>
 			<% }
-				session.setAttribute("search-results", null);
+				session.setAttribute("search-display", null);
+                //session.setAttribute("search-results", null);
 			%>
 		</table>
 

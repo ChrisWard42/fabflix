@@ -5,13 +5,10 @@
   <title>Main Page</title>
   <link rel="stylesheet" href="resources/css/bootstrap.min.css">
   <link rel="stylesheet" href="resources/css/home-style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body>
   <!--  Start of Navigation Bar -->
   <header>
-<<<<<<< HEAD
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -37,7 +34,7 @@
           <!--  Rest of Buttons -->
 
           <!--  Search Bar -->
-          <form class="navbar-form navbar-right" role="search" method="get" action="#">
+          <form class="navbar-form navbar-right" role="search" method="post" action="#">
             <div class="form-group">
               <input type="text" class="form-control" name="query" placeholder="Search" style="width: 300px !important">
             </div>
@@ -48,9 +45,6 @@
         </div>
       </div>
     </nav>
-=======
-    <%@ include file="header.jsp" %>
->>>>>>> ed00cb46e643a7ef6f6fd3d8611f2f25fc789d29
   </header>
   <!--  End of Navigation Bar -->
 
@@ -166,7 +160,23 @@
   <!-- End of Featured Stars -->
 
   <footer>
-    <%@ include file="footer.jsp" %>
+    <div class="panel panel-default">
+      <div class="panel-footer">
+        <table border="0" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td align="left">
+              A Jamshid company
+            </td>
+            <td align="right">
+              Copyright (c) 2016 Benla, Captain, Stevo
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="resources/js/bootstrap.min.js"></script>
 </body>
 </html>
