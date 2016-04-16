@@ -79,6 +79,21 @@
 <!-- Filter Servlets -->
 
 
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>fabflix.filters.Authentication</filter-class>
+    <!--
+    <init-param>
+      <param-name>testParam</param-name>
+      <param-value>1</param-value>
+    </init-param>
+    -->
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
 
 <!-- Other Declarations -->
