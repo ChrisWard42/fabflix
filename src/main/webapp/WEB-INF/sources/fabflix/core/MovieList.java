@@ -10,7 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
-public class MovieInfoList extends HttpServlet {
+public class MovieList extends HttpServlet {
 
     // Compares titles of MovieInfo class for sorting in ascending order
     private class TitleAscComparator implements Comparator<MovieInfo> {

@@ -34,7 +34,7 @@ public class Search extends HttpServlet {
             return;
         }
         String url = "/get-movie-list";
-        List<Movie> searchResults = Movie.searchMovies(request.getParameter("query"));
+        List<MovieInfo> searchResults = Movie.searchMovies(request.getParameter("query"));
         request.getSession().setAttribute("search-results", searchResults);
         RequestDispatcher  dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
