@@ -37,6 +37,17 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>MovieListServlet</servlet-name>
+    <servlet-class>fabflix.core.MovieList</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MovieListServlet</servlet-name>
+    <url-pattern>/get-movie-list</url-pattern>
+  </servlet-mapping>
+
+
 <!-- Primary JSPs -->
 
 

@@ -1,0 +1,110 @@
+/* Processes the results of a search by transforming the resulting list of movies and returning a subset */
+package fabflix.core;
+
+import java.io.*;
+import java.net.*;
+import java.sql.*;
+import java.text.*;
+import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import fabflix.beans.*;
+
+public class MovieList extends HttpServlet {
+
+    // Compares titles of Movie class for sorting in ascending order
+    private class TitleAscComparator implements Comparator<Movie> {
+        
+        @Override
+        public int compare(Movie m1, Movie m2) {
+            return (m1.getTitle().toLowerCase()).compareTo(m2.getTitle().toLowerCase());
+        }
+    }
+
+    // Compares titles of Movie class for sorting in descending order
+    private class TitleDescComparator implements Comparator<Movie> {
+        
+        @Override
+        public int compare(Movie m1, Movie m2) {
+            return -(m1.getTitle().toLowerCase()).compareTo(m2.getTitle().toLowerCase());
+        }
+    }
+
+    // Compares years of Movie class for sorting in ascending order
+    private class YearAscComparator implements Comparator<Movie> {
+        
+        @Override
+        public int compare(Movie m1, Movie m2) {
+            return m1.getYear() - m2.getYear();
+        }
+    }
+
+    // Compares years of Movie class for sorting in ascending order
+    private class YearDescComparator implements Comparator<Movie> {
+        
+        @Override
+        public int compare(Movie m1, Movie m2) {
+            return m2.getYear() - m1.getYear();
+        }
+    }
+
+    public String getServletInfo() {
+       return "Processes the results of a search by transforming the resulting list of movies and returning a subset";
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        doGet(request, response);
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        // Get the movie list from the session object
+        List<Movie> movies = (ArrayList<Movie>) request.getSession().getAttribute("search-results");
+        List<Movie> movie_display = new ArrayList<Movie>();
+
+        // Sort the movie results if a sort mode is specified
+        String sort = request.getParameter("sort");
+        if (Objects.equals(sort, "title-desc")) {
+            Collections.sort(movies, new TitleDescComparator());
+        }
+        else if (Objects.equals(sort, "title-asc")) {
+            Collections.sort(movies, new TitleAscComparator());
+        }
+        else if (Objects.equals(sort, "year-desc")) {
+            Collections.sort(movies, new YearDescComparator());
+        }
+        else if (Objects.equals(sort, "year-asc")) {
+            Collections.sort(movies, new YearAscComparator());
+        }
+
+        request.getSession().setAttribute("search-results", movies);
+
+        // Get the page number and limit per page, default to 1 and 10 if none passed
+        int page = (Objects.equals(request.getParameter("page"), null)) ? 1 : Integer.parseInt(request.getParameter("page"));
+        int limit = (Objects.equals(request.getParameter("limit"), null)) ? 10 : Integer.parseInt(request.getParameter("limit"));
+        
+        // If the page is out of bounds in either direction then nothing to display
+        if (page < 1 || (page-1)*limit > movies.size()-1)
+            request.getSession().setAttribute("error", "No results found for query parameters. Please try another search.");
+        
+        // Otherwise, slice the movie list down to the correct page and size
+        else {
+            int begin = (page-1)*limit;
+            int end = Math.min(page*limit, movies.size() - 1);
+
+            movie_display = movies.subList(begin, end);
+        }
+
+        // Set the session variables
+        // TODO: Set session variables for current page, current limit, etc? Not sure if needed
+        request.getSession().setAttribute("search-display", movie_display);
+        
+        // Get request dispatcher and return
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/movie-list");
+        dispatcher.forward(request, response);
+    }
+}
