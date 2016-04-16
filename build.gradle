@@ -50,18 +50,17 @@ dependencies {
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
 
-    //compile 'mysql:mysql-connector-java:6.0.2'
-    //compile 'tomcat:jsp-api:5.5.23'
-    //compile 'tomcat:servlet-api:5.5.23'
-    //compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar')
+    compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar')
     //compile files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
 
-    webLibs 'mysql:mysql-connector-java:6.0.2'
-    webLibs 'javax.servlet:javax.servlet-api:3.1.0'
+    //compile 'mysql:mysql-connector-java:5.1.38'
+    //compile 'org.apache.tomcat:tomcat-jsp-api:8.0.33'
+    //compile 'org.apache.tomcat:tomcat-el-api:8.0.33'
+    //compile 'org.apache.tomcat:tomcat-servlet-api:8.0.33'
 }
 
 // Java source sets for compilation
-/*
+
 sourceSets {
     main {
         java {
@@ -71,17 +70,16 @@ sourceSets {
         output.classesDir = 'src/main/webapp/WEB-INF/classes'
     }
 }
-*/
+
 
 // War file name
 war {
     archiveName = wAN + ".war"
-    classpath configurations.webLibs
 }
 
 // Web app deployment (use with: cDR, cRR)
 cargo {
-    containerId = 'tomcat7x'
+    containerId = 'tomcat8x'
     port = 8080
     
     deployable {
@@ -113,7 +111,3 @@ task webAppDeploy(dependsOn: ['checkLiveSite', 'assemble', 'cargoRedeployRemote'
 assemble.mustRunAfter 'checkLiveSite'
 cargoRedeployRemote.mustRunAfter 'assemble'
 cleanWars.mustRunAfter 'cargoRedeployRemote'
-
-task printDependencies << {
-    configurations.compile.each { println it.name }
-}
