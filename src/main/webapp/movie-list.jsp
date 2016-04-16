@@ -17,11 +17,7 @@
  %>
 
  <%
-<<<<<<< HEAD
-List<MovieInfo> movies = (List<MovieInfo>) session.getAttribute("search-results");
-=======
-List<Movie> movies = (List<Movie>) session.getAttribute("search-display");
->>>>>>> ed00cb46e643a7ef6f6fd3d8611f2f25fc789d29
+List<MovieInfo> movies = (List<MovieInfo>) session.getAttribute("search-display");
 if (movies == null) {
     movies = new ArrayList<MovieInfo>();
 }

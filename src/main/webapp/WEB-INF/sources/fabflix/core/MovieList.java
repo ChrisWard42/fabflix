@@ -10,40 +10,40 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
-public class MovieList extends HttpServlet {
+public class MovieInfoList extends HttpServlet {
 
-    // Compares titles of Movie class for sorting in ascending order
-    private class TitleAscComparator implements Comparator<Movie> {
+    // Compares titles of MovieInfo class for sorting in ascending order
+    private class TitleAscComparator implements Comparator<MovieInfo> {
         
         @Override
-        public int compare(Movie m1, Movie m2) {
+        public int compare(MovieInfo m1, MovieInfo m2) {
             return (m1.getTitle().toLowerCase()).compareTo(m2.getTitle().toLowerCase());
         }
     }
 
-    // Compares titles of Movie class for sorting in descending order
-    private class TitleDescComparator implements Comparator<Movie> {
+    // Compares titles of MovieInfo class for sorting in descending order
+    private class TitleDescComparator implements Comparator<MovieInfo> {
         
         @Override
-        public int compare(Movie m1, Movie m2) {
+        public int compare(MovieInfo m1, MovieInfo m2) {
             return -(m1.getTitle().toLowerCase()).compareTo(m2.getTitle().toLowerCase());
         }
     }
 
-    // Compares years of Movie class for sorting in ascending order
-    private class YearAscComparator implements Comparator<Movie> {
+    // Compares years of MovieInfo class for sorting in ascending order
+    private class YearAscComparator implements Comparator<MovieInfo> {
         
         @Override
-        public int compare(Movie m1, Movie m2) {
+        public int compare(MovieInfo m1, MovieInfo m2) {
             return m1.getYear() - m2.getYear();
         }
     }
 
-    // Compares years of Movie class for sorting in ascending order
-    private class YearDescComparator implements Comparator<Movie> {
+    // Compares years of MovieInfo class for sorting in ascending order
+    private class YearDescComparator implements Comparator<MovieInfo> {
         
         @Override
-        public int compare(Movie m1, Movie m2) {
+        public int compare(MovieInfo m1, MovieInfo m2) {
             return m2.getYear() - m1.getYear();
         }
     }
@@ -63,8 +63,8 @@ public class MovieList extends HttpServlet {
         throws IOException, ServletException
     {
         // Get the movie list from the session object
-        List<Movie> movies = (ArrayList<Movie>) request.getSession().getAttribute("search-results");
-        List<Movie> movie_display = new ArrayList<Movie>();
+        List<MovieInfo> movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("search-results");
+        List<MovieInfo> movie_display = new ArrayList<MovieInfo>();
 
         // Sort the movie results if a sort mode is specified
         String sort = request.getParameter("sort");
