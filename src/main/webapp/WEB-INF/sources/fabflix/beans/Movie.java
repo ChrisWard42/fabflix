@@ -112,14 +112,14 @@ public class Movie implements Serializable {
 
               statement.setString(1, "%" + keywords + "%");
               statement.setString(2, "%" + keywords + "%");
-              statement.executeQuery();
+              statement.execute();
 
               statement = connection.prepareStatement(movieView);
 
               statement.setString(1, "%" + keywords + "%");
               statement.setString(2, "%" + keywords + "%");
               statement.setString(3, "%" + keywords + "%");
-              statement.executeQuery();
+              statement.execute();
 
               Statement finalStatement = connection.createStatement();
               ResultSet results = statement.executeQuery(finalQuery);
