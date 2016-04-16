@@ -12,19 +12,20 @@
  java.io.IOException,
  javax.servlet.http.*,
  javax.servlet.*,
- fabflix.beans.Movie"
+ fabflix.beans.Movie
+ fabflix.beans.MovieInfo"
  %>
 
  <%
-List<Movie> movies = (List<Movie>) session.getAttribute("search-results");
+List<MovieInfo> movies = (List<MovieInfo>) session.getAttribute("search-results");
 if (movies == null) {
-    movies = new ArrayList<Movie>();
+    movies = new ArrayList<MovieInfo>();
 }
 %>
 	<body>
 		<h1>Movie Results</h1>
 		<table border>
-			<% for (Movie movie : movies){%>
+			<% for (MovieInfo movie : movies){%>
 			<tr>
                 <td><span><%=movie.getTitle()%></span></td>
                 <td><%=movie.getYear()%></td>

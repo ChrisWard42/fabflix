@@ -17,7 +17,7 @@ public class Search extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
 
@@ -34,7 +34,7 @@ public class Search extends HttpServlet {
             return;
         }
         String url = "/movie-list";
-        List<Movie> searchResults = Movie.searchMovies(request.getParameter("query"));
+        List<MovieInfo> searchResults = Movie.searchMovies(request.getParameter("query"));
         request.getSession().setAttribute("search-results", searchResults);
         RequestDispatcher  dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
@@ -110,9 +110,9 @@ public class Search extends HttpServlet {
         //  out.close();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
-	   doPost(request, response);
+	   doGet(request, response);
     }
 }

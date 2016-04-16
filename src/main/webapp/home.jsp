@@ -34,7 +34,7 @@
           <!--  Rest of Buttons -->
 
           <!--  Search Bar -->
-          <form class="navbar-form navbar-right" role="search" method="post" action="#">
+          <form class="navbar-form navbar-right" role="search" method="get" action="#">
             <div class="form-group">
               <input type="text" class="form-control" name="query" placeholder="Search" style="width: 300px !important">
             </div>
