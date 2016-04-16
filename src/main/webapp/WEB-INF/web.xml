@@ -96,6 +96,51 @@
   </filter-mapping>
 
 
+<!-- Security Constraints -->
+
+  <security-role>
+    <description>Regular user of the website</description>
+    <role-name>user</role-name>
+  </security-role>
+
+  <security-role>
+    <description>Admin of the website</description>
+    <role-name>admin</role-name>
+  </security-role>
+
+  <security-constraint>
+    <!-- Restricts access to the site unless user is logged in -->
+    <web-resource-collection>
+      <web-resource-name>Main Website</web-resource-name>
+      <url-pattern>/home/*</url-pattern>
+      <url-pattern>/search/*</url-pattern>
+      <url-pattern>/browser/*</url-pattern>
+      <url-pattern>/cart/*</url-pattern>
+      <url-pattern>/checkout/*</url-pattern>
+    </web-resource-collection>
+    <!-- Authorize all logged in roles -->
+    <auth-constraint>
+      <role-name>user</role-name>
+      <role-name>admin</role-name>
+    </auth-constraint>
+
+    <!-- Requires HTTPS to be set up (may not even want this for this constraint) -->
+    <!--
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+    -->
+  </security-constraint>
+
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+        <form-login-page>/login</form-login-page>
+        <form-error-page>/error</form-error-page>
+    </form-login-config>
+  </login-config>
+
+
 <!-- Other Declarations -->
 
 

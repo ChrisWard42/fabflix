@@ -1,5 +1,5 @@
 
-/* A servlet to display the contents of the MySQL movieDB database */
+/* Servlet logs a user in, rejects if invalid credentials */
 package fabflix.core;
 
 import java.io.*;
@@ -39,75 +39,6 @@ public class Login extends HttpServlet
         response.sendRedirect(request.getContextPath() + "/home");
         //getServletContext().getRequestDispatcher(url).forward(request, response);
         return;
-
-        // String loginUser = "root";
-        // String loginPasswd = "waydowninthehole";
-        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
-        // response.setContentType("text/html");    // Response mime type
-
-        // // Output stream to STDOUT
-        // PrintWriter out = response.getWriter();
-
-        // out.println("<HTML><HEAD><TITLE>MovieDB</TITLE></HEAD>");
-        // out.println("<BODY><H1>MovieDB</H1>");
-
-
-        // try
-        //    {
-        //       //Class.forName("org.gjt.mm.mysql.Driver");
-        //       Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-        //       Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-        //       // Declare our statement
-        //       Statement statement = dbcon.createStatement();
-
-           //      String lastname = request.getParameter("lastname");
-        //       out.println(lastname);
-        //       String query = "SELECT * from stars where last_name = '" + lastname + "'";
-
-        //       // Perform the query
-        //       ResultSet rs = statement.executeQuery(query);
-
-        //       out.println("<TABLE border>");
-
-        //       // Iterate through each row of rs
-        //       while (rs.next())
-        //       {
-        //           String m_ID = rs.getString("id");
-        //           String m_FN = rs.getString("first_name");
-        //           String m_LN = rs.getString("last_name");
-        //           out.println("<tr>" +
-        //                       "<td>" + m_ID + "</td>" +
-        //                       "<td>" + m_FN + "</td>" +
-        //                       "<td>" + m_LN + "</td>" +
-        //                       "</tr>");
-        //       }
-
-        //       out.println("</TABLE>");
-
-        //       rs.close();
-        //       statement.close();
-        //       dbcon.close();
-        //     }
-        // catch (SQLException ex) {
-        //       while (ex != null) {
-        //             System.out.println ("SQL Exception:  " + ex.getMessage ());
-        //             ex = ex.getNextException ();
-        //         }  // end while
-        //     }  // end catch SQLException
-
-        // catch(java.lang.Exception ex)
-        //     {
-        //         out.println("<HTML>" +
-        //                     "<HEAD><TITLE>" +
-        //                     "MovieDB: Error" +
-        //                     "</TITLE></HEAD>\n<BODY>" +
-        //                     "<P>SQL error in doGet: " +
-        //                     ex.getMessage() + "</P></BODY></HTML>");
-        //         return;
-        //     }
-        //  out.close();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)

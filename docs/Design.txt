@@ -139,6 +139,8 @@ Checkout (url: /checkout)
 		- If the credentials are correct, the items previously in the cart need to be removed from the session object, and the user
 			either redirected to a confirmation page, or a confirmation page popped up in-page and then a redirect to home page 
 			issued when it's closed.
+		- Probably ideal to also ensure that the customer information matches the current session, but need to review the model to
+			be sure this is a valid constraint.
 
 == Included Servlets ==
 
