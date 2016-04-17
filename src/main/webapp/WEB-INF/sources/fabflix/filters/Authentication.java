@@ -8,6 +8,7 @@ import java.text.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import fabflix.beans.*;
 
 // Implements Filter class
 public class Authentication implements Filter {
@@ -29,17 +30,21 @@ public class Authentication implements Filter {
         ServletContext sc = filterConfig.getServletContext();
         String filterName = filterConfig.getFilterName();
 
-        // Testing various request path outputs
-        // sc.log("Context Path: " + httpRequest.getContextPath());
-        // sc.log("Path Info: " + httpRequest.getPathInfo());
-        // sc.log("Query String: " + httpRequest.getQueryString());
-        // sc.log("Request URI: " + httpRequest.getRequestURI());
-        // sc.log("Request URL: " + httpRequest.getRequestURL().toString());
-        // sc.log("Servlet Path: " + httpRequest.getServletPath());
-
         // Check against login session and redirect
-        // TODO: If page requested isn't login, and user isn't logged in, redirect to login
-        // TODO: If page requested is login, and user is logged in, redirect to home
+        Customer user = (Customer) httpRequest.getSession().getAttribute("user");
+        String servlet = httpRequest.getServletPath();
+
+        // If page requested is login, and user is logged in, redirect to home
+        if (Objects.equals(servlet, "/login") && user != null) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/");
+            return;
+        }
+
+        // If page requested is any other page and user is not logged in, redirect to login
+        if (!Objects.equals(servlet, "/login") && user == null) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            return;
+        }
 
         // Pass request back down the filter chain
         chain.doFilter(request, response);
