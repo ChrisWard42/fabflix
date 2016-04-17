@@ -7,7 +7,7 @@
   <title>Fabflix</title>
   <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
   <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/search-style.css">
+  <link rel="stylesheet" href="resources/css/browse-style.css">
 </head>
 <body>
   <!--  Start of Navigation Bar -->
@@ -16,38 +16,215 @@
   </header>
   <!--  End of Navigation Bar -->
 
-  <!-- Start of Advanced Search Menu -->
-  <div class="advance_search">
-    <button id="adv_search" class="btn btn-info" data-toggle="collapse" data-target="#demo"><img src="resources/img/expand-white.png" alt="" height="10px" hspace="10px">Advanced Search</button>
-    <div id="demo" class="collapse">
-      <table border="0" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <!-- Start of Browse by Genre -->
+  <div class="browse_genre">
+    <button id="expand_genre" class="btn btn-info" data-toggle="collapse" data-target="#genre"><img src="resources/img/expand-white.png" alt="" height="10px" hspace="10px">Browse by Genre</button>
+    <div id="genre" class="collapse">
+      <table align="center" border="0" border="0" cellpadding="0" cellspacing="0" width="60%">
+        <!-- Start of Row 1 -->
         <tr>
-          <td width="80%">
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">Title</span>
-              <input type="text" class="form-control" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">Year</span>
-              <input type="text" class="form-control" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">Director</span>
-              <input type="text" class="form-control" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">Star</span>
-              <input type="text" class="form-control" aria-describedby="basic-addon1">
-            </div>
+          <td>
+            <a href="#Action">Action</a>
           </td>
-          <td width="20%">
-            <button id="search_button" type="submit" class="btn btn-default">Search</button>
+          <td>
+            <a href="#Crime">Crime</a>
+          </td>
+          <td>
+            <a href="#Foreign">Foreign</a>
+          </td>
+          <td>
+            <a href="#Romance">Romance</a>
           </td>
         </tr>
+        <!-- End of Row 1 -->
+
+        <!-- Start of Row 2 -->
+        <tr>
+          <td>
+            <a href="#Adventure">Adventure</a>
+          </td>
+          <td>
+            <a href="#Drama">Drama</a>
+          </td>
+          <td>
+            <a href="#Horror">Horror</a>
+          </td>
+          <td>
+            <a href="#Science_Fiction">Science Fiction</a>
+          </td>
+        </tr>
+        <!-- End of Row 2 -->
+
+        <!-- Start of Row 3 -->
+        <tr>
+          <td>
+            <a href="#Animation">Animation</a>
+          </td>
+          <td>
+            <a href="#Family">Family</a>
+          </td>
+          <td>
+            <a href="#Musical">Musical</a>
+          </td>
+          <td>
+            <a href="#Thriller">Thriller Fiction</a>
+          </td>
+        </tr>
+        <!-- End of Row 3 -->
+
+        <!-- Start of Row 4 -->
+        <tr>
+          <td>
+            <a href="#Comedy">Comedy</a>
+          </td>
+          <td>
+            <a href="#Fantasy">Fantasy</a>
+          </td>
+          <td>
+            <a href="#Mystery">Mystery</a>
+          </td>
+          <td>
+            <a href="#War">War</a>
+          </td>
+        </tr>
+        <!-- End of Row 4 -->
+
       </table>
     </div>
   </div>
-  <!-- End of Advanced Search Menu -->
+  <!-- End of Browse by Genre -->
+
+  <!-- Start of Browse by Title -->
+  <div class="browse_title">
+    <button id="expand_title" class="btn btn-info" data-toggle="collapse" data-target="#title"><img src="resources/img/expand-white.png" alt="" height="10px" hspace="10px">Browse by Title</button>
+    <div id="title" class="collapse">
+      <table align="center" border="0" border="0" cellpadding="0" cellspacing="0" width="45%" style="margin-top: 10px; border-spacing: 0px !important">
+        <tr>
+          <td>
+            <a href="#0">0</a>
+          </td>
+          <td>
+             <a href="#1">1</a>
+          </td>
+          <td>
+             <a href="#2">2</a>
+          </td>
+          <td>
+             <a href="#3">3</a>
+          </td>
+          <td>
+             <a href="#4">4</a>
+          </td>
+          <td>
+             <a href="#5">5</a>
+          </td>
+          <td>
+             <a href="#6">6</a>
+          </td>
+          <td>
+             <a href="#7">7</a>
+          </td>
+          <td>
+             <a href="#8">8</a>
+          </td>
+          <td>
+             <a href="#9">9</a>
+          </td>
+        </tr>
+      </table>
+      <table align="center" border="0" border="0" cellpadding="0" cellspacing="0" width="60%">
+
+        <!-- Start of Row 2 -->
+        <tr>
+          <td>
+            <a href="#A">A</a>
+          </td>
+          <td>
+            <a href="#B">B</a>
+          </td>
+          <td>
+            <a href="#C">C</a>
+          </td>
+          <td>
+            <a href="#D">D</a>
+          </td>
+          <td>
+            <a href="#E">E</a>
+          </td>
+          <td>
+            <a href="#F">F</a>
+          </td>
+          <td>
+            <a href="#G">G</a>
+          </td>
+          <td>
+            <a href="#H">H</a>
+          </td>
+          <td>
+            <a href="#I">I</a>
+          </td>
+          <td>
+            <a href="#J">J</a>
+          </td>
+          <td>
+            <a href="#K">K</a>
+          </td>
+          <td>
+            <a href="#L">L</a>
+          </td>
+          <td>
+            <a href="#M">M</a>
+          </td>
+        </tr>
+        <!-- End of Row 2 -->
+
+        <!-- Start of Row 3 -->
+        <tr>
+          <td>
+            <a href="#N">N</a>
+          </td>
+          <td>
+            <a href="#O">O</a>
+          </td>
+          <td>
+            <a href="#P">P</a>
+          </td>
+          <td>
+            <a href="#Q">Q</a>
+          </td>
+          <td>
+            <a href="#R">R</a>
+          </td>
+          <td>
+            <a href="#S">S</a>
+          </td>
+          <td>
+            <a href="#T">T</a>
+          </td>
+          <td>
+            <a href="#U">U</a>
+          </td>
+          <td>
+            <a href="#V">V</a>
+          </td>
+          <td>
+            <a href="#W">W</a>
+          </td>
+          <td>
+            <a href="#X">X</a>
+          </td>
+          <td>
+            <a href="#Y">Y</a>
+          </td>
+          <td>
+            <a href="#Z">Z</a>
+          </td>
+        </tr>
+        <!-- End of Row 3 -->
+      </table>
+    </div>
+  </div>
+  <!-- End of Browse by Title -->
 
   <!-- Start of Movie List View -->
   <div class="movie_list">

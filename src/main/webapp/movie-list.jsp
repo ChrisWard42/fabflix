@@ -1,9 +1,12 @@
 <!doctype html>
-<html>
+<html lang="en">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <head>
 	<meta charset="utf-8">
 	<title>Fabflix</title>
-	<link rel="stylesheet" href="/resources/css/styles.css" type="text/css/">
+    <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
+	<link rel="stylesheet" href="resources/css/styles.css" type="text/css/">
 </head>
 
 <%@page import="java.sql.*,

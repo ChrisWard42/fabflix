@@ -6,7 +6,7 @@
           <table border="0" border="0" cellpadding="0" cellspacing="0" width="250">
             <tr>
               <td>
-                <img src="/resources/img/fabflix.png" alt="logo" height="20">
+                <img src="resources/img/fabflix.png" alt="logo" height="20">
               </td>
               <td>
                 A Jamshid company

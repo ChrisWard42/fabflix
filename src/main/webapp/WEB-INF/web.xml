@@ -50,6 +50,17 @@
 
 
   <servlet>
+    <servlet-name>BrowseServlet</servlet-name>
+    <servlet-class>fabflix.core.Browse</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>BrowseServlet</servlet-name>
+    <url-pattern>/browse/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>MovieListServlet</servlet-name>
     <servlet-class>fabflix.core.MovieList</servlet-class>
   </servlet>
@@ -93,6 +104,17 @@
   <servlet-mapping>
     <servlet-name>SearchJSP</servlet-name>
     <url-pattern>/search.jsp</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>BrowseJSP</servlet-name>
+    <jsp-file>/browse.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>BrowseJSP</servlet-name>
+    <url-pattern>/browse.jsp</url-pattern>
   </servlet-mapping>
 
 

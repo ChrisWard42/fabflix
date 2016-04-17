@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <head>
   <meta charset="UTF-8">
   <title>Fabflix</title>
+  <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
   <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
   <link rel="stylesheet" href="/resources/css/home-style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="/resources/js/bootstrap.min.js"></script>
+  <script src="resources/js/bootstrap.min.js"></script>
 </head>
 <body>
   <!--  Start of Navigation Bar -->
@@ -24,15 +27,15 @@
     </ol>
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="/resources/img/background-image.jpg" alt="picture">
+        <img src="resources/img/background-image.jpg" alt="picture">
       </div>
 
       <div class="item">
-        <img src="/resources/img/background-image-2.jpg" alt="picture">
+        <img src="resources/img/background-image-2.jpg" alt="picture">
       </div>
 
       <div class="item">
-        <img src="/resources/img/background-image-3.jpg" alt="picture">
+        <img src="resources/img/background-image-3.jpg" alt="picture">
       </div>
     </div>
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -58,28 +61,28 @@
       <!-- Poster 1 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/poster-1.jpg" alt="twilight"></a>
+          <a href="#"><img src="resources/img/poster-1.jpg" alt="twilight"></a>
         </div>
       </div>
 
       <!-- Poster 2 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/poster-2.jpg" alt="mockingjay"></a>
+          <a href="#"><img src="resources/img/poster-2.jpg" alt="mockingjay"></a>
         </div>
       </div>
 
       <!-- Poster 3 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/poster-3.jpg" alt="star wars"></a>
+          <a href="#"><img src="resources/img/poster-3.jpg" alt="star wars"></a>
         </div>
       </div>
 
       <!-- Poster 4 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/poster-4.jpg" alt="fight club"></a>
+          <a href="#"><img src="resources/img/poster-4.jpg" alt="fight club"></a>
         </div>
       </div>
     </div>
@@ -98,28 +101,28 @@
       <!-- Poster 1 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/star-1.jpg" alt="will smith"></a>
+          <a href="#"><img src="resources/img/star-1.jpg" alt="will smith"></a>
         </div>
       </div>
 
       <!-- Poster 2 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/star-2.jpg" alt="..."></a>
+          <a href="#"><img src="resources/img/star-2.jpg" alt="..."></a>
         </div>
       </div>
 
       <!-- Poster 3 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/star-3.jpg" alt="..."></a>
+          <a href="#"><img src="resources/img/star-3.jpg" alt="..."></a>
         </div>
       </div>
 
       <!-- Poster 4 -->
       <div class="col-sm-3 centered">
         <div class="thumbnail">
-          <a href="#"><img src="/resources/img/star-4.jpg" alt="..."></a>
+          <a href="#"><img src="resources/img/star-4.jpg" alt="..."></a>
         </div>
       </div>
     </div>

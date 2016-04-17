@@ -4,6 +4,8 @@
 body {
   font-family: "Roboto", sans-serif !important;
   background: #beccdb;
+  margin: auto;
+  width: 80%;
 }
 
 .btn {
