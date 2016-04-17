@@ -65,8 +65,9 @@ public class MovieList extends HttpServlet {
         // TODO: Check for search-results being null, can't sort a null
 
         // Get the movie list from the session object
+        @SuppressWarnings("unchecked")
         List<MovieInfo> movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("search-results");
-        List<MovieInfo> movie_display = new ArrayList<MovieInfo>();
+        List<MovieInfo> movieDisplay = new ArrayList<MovieInfo>();
 
         // Sort the movie results if a sort mode is specified
         String sort = request.getParameter("sort");
@@ -98,15 +99,15 @@ public class MovieList extends HttpServlet {
             int begin = (page-1)*limit;
             int end = Math.min(page*limit, movies.size());
 
-            movie_display = movies.subList(begin, end);
+            movieDisplay = movies.subList(begin, end);
         }
 
         // Set the session variables
         // TODO: Set session variables for current page, current limit, etc? Not sure if needed
-        request.getSession().setAttribute("search-display", movie_display);
+        request.getSession().setAttribute("search-display", movieDisplay);
         
         // Get request dispatcher and return
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/movie-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/movie-list.jsp");
         dispatcher.forward(request, response);
     }
 }

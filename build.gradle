@@ -71,6 +71,13 @@ sourceSets {
     }
 }
 
+// Java compilation options
+/*
+compileJava {
+    options.compilerArgs = ["-Xlint:unchecked"]
+}
+*/
+
 
 // War file name
 war {

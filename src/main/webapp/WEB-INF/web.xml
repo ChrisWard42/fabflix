@@ -74,63 +74,6 @@
 <!-- Primary JSPs -->
 
 
-  <servlet>
-    <servlet-name>LoginJSP</servlet-name>
-    <jsp-file>/login.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>LoginJSP</servlet-name>
-    <url-pattern>/login.jsp</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>HomeJSP</servlet-name>
-    <jsp-file>/home.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>HomeJSP</servlet-name>
-    <url-pattern>/home.jsp</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>SearchJSP</servlet-name>
-    <jsp-file>/search.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>SearchJSP</servlet-name>
-    <url-pattern>/search.jsp</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>BrowseJSP</servlet-name>
-    <jsp-file>/browse.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>BrowseJSP</servlet-name>
-    <url-pattern>/browse.jsp</url-pattern>
-  </servlet-mapping>
-
-
-<!-- Included Servlets and JSPs -->
-
-
-  <servlet>
-    <servlet-name>MovieListJSP</servlet-name>
-    <jsp-file>/movie-list.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>MovieListJSP</servlet-name>
-    <url-pattern>/movie-list.jsp</url-pattern>
-  </servlet-mapping>
-
 
 <!-- Filter Servlets -->
 
@@ -142,17 +85,16 @@
 
   <filter-mapping>
     <filter-name>AuthenticationFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/</url-pattern>
+    <url-pattern>/home/*</url-pattern>
+    <url-pattern>/browse/*</url-pattern>
+    <url-pattern>/login/*</url-pattern>
+    <url-pattern>/search/*</url-pattern>
+    <url-pattern>/movie-list/*</url-pattern>
   </filter-mapping>
 
 
 <!-- Other Declarations -->
-
-
-  <!-- <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
-    <welcome-file>home.jsp</welcome-file>
-  </welcome-file-list> -->
 
   <!--
   <error-page>

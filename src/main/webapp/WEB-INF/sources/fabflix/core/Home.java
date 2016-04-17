@@ -20,7 +20,7 @@ public class Home extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Browse extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
-        request.getRequestDispatcher("/browse.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/browse.jsp").forward(request, response);
     }
 
     @Override

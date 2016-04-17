@@ -31,7 +31,7 @@ public class Login extends HttpServlet
             if (email == null || password == null || email.equals("") || password.equals("")) {
                 request.getSession().setAttribute("user", null);
                 request.getSession().setAttribute("errorMsg", "Please fill out all fields.");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
                 return;
             }
             else {
@@ -67,7 +67,7 @@ public class Login extends HttpServlet
                             else {
                                 request.getSession().setAttribute("user", null);
                                 request.getSession().setAttribute("errorMsg", "Incorrect login information. Please try again.");
-                                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                                request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
                                 return;
                             }
                         }
@@ -79,7 +79,7 @@ public class Login extends HttpServlet
             }
         }
 
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
     @Override
