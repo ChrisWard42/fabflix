@@ -62,9 +62,17 @@ public class MovieList extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
+        // TODO: Check for search-results being null, can't sort a null
+
         // Get the movie list from the session object
         List<MovieInfo> movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("search-results");
         List<MovieInfo> movie_display = new ArrayList<MovieInfo>();
+
+        if (movies == null) {
+            request.getSession().setAttribute("search-display", movie_display);
+            request.getRequestDispatcher("/movie-list.jsp").forward(request, response);
+            return;
+        }
 
         // Sort the movie results if a sort mode is specified
         String sort = request.getParameter("sort");
