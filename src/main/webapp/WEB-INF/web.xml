@@ -85,6 +85,17 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>SearchJSP</servlet-name>
+    <jsp-file>/search.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SearchJSP</servlet-name>
+    <url-pattern>/search.jsp</url-pattern>
+  </servlet-mapping>
+
+
 <!-- Included Servlets and JSPs -->
 
 

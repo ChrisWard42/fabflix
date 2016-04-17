@@ -10,11 +10,11 @@
 	<script src="/resources/js/bootstrap.min.js"></script>
 	<script src="/resources/js/index-original.js"></script>
 </head>
-<body background = "/resources/images/background_image.jpg">
-	<a class="switch" href="#"><img src="/resources/images/fabflix.png" alt="" height="100px"></a>
+<body background = "/resources/img/background_image.jpg">
+	<a class="switch" href="#"><img src="/resources/img/fabflix.png" alt="" height="100px"></a>
 	<div class="login-page">
 		<div class="form">
-			<form class="login-form" action="./login" method="POST">
+			<form class="login-form" action="./login" method="post">
 				<input type="hidden" name="action" value="auth">
 				<ul color="white">${errorMsg}</ul>
 				

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Movie List View</title>
+    <title>Fabflix</title>
     <link rel="stylesheet" href="/resources/css/styles.css" type="text/css/">
 </head>
 
