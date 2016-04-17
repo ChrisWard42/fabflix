@@ -3,7 +3,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <!--  Logo Button -->
       <ul class="nav navbar-nav">
-        <li><a href="#"><img src="resources/images/fabflix.png" alt="logo" height="20"></a></li>
+        <li><a href="#"><img src="/resources/images/fabflix.png" alt="logo" height="20"></a></li>
       </ul>
       <!--  Logo Button -->
 
@@ -18,7 +18,7 @@
             <li><a href="#">Logout</a></li>
           </ul>
         </li>
-        <li><a href="#"><img src="resources/images/shop.png" alt="cart" height="20"></a></li>
+        <li><a href="#"><img src="/resources/images/shop.png" alt="cart" height="20"></a></li>
       </ul>
       <!--  Rest of Buttons -->
 
@@ -30,7 +30,7 @@
           <input type="hidden" name="page" value="1">
           <input type="text" class="form-control" name="query" placeholder="Search" style="width: 300px !important">
         </div>
-        <button type="submit" class="btn btn-default" formaction="./search" formmethod="post"><img src="resources/images/search.png" alt="search" height="20"></button>
+        <button type="submit" class="btn btn-default" formaction="./search" formmethod="post"><img src="/resources/images/search.png" alt="search" height="20"></button>
       </form>
       <!--  Search Bar -->
 

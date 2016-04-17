@@ -2,35 +2,27 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Login Page</title>
-	<link rel="stylesheet" href="resources/css/style.css">
+	<title>Fabflix</title>
+
+	<link rel="stylesheet" href="/resources/css/style.css">
+	<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/index-original.js"></script>
 </head>
-<body background = "resources/images/background_image.jpg">
-	<a class="switch" href="#"><img src="resources/images/fabflix.png" alt="" height="100px"></a>
+<body background = "/resources/images/background_image.jpg">
+	<a class="switch" href="#"><img src="/resources/images/fabflix.png" alt="" height="100px"></a>
 	<div class="login-page">
 		<div class="form">
-			<form class="credits">
-				<table align="center" border="0" border-radius="15px" cellpadding="0" cellspacing="0" width="100%">
-					<tr valign="middle">
-						<td>
-							<p>Benjamin You (Benla)</p>
-							<p>Chris Ward (Captain)</p>
-							<p>Stephen Castro (Stevo)</p>
-						</td>
-					</tr>
-				</table>
-			</form>
-
 			<form class="login-form" action="./login" method="POST">
-				<input type="hidden" name="action" value="add">
+				<input type="hidden" name="action" value="auth">
+				<ul color="white">${errorMsg}</ul>
 				
 				<input type="text" name="email" placeholder="Email">
-				<input type="password" name="pword" placeholder="Password">
+				<input type="password" name="password" placeholder="Password">
 				<input type="submit" value="Sign In" id="enter">
 			</form>
 		</div>
 	</div>
-	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src="resources/js/index-original.js"></script>
 </body>
 </html>

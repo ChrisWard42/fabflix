@@ -104,7 +104,7 @@ public class MovieList extends HttpServlet {
         request.getSession().setAttribute("search-display", movie_display);
         
         // Get request dispatcher and return
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/movie-list");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/movie-list.jsp");
         dispatcher.forward(request, response);
     }
 }

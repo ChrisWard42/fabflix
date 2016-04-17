@@ -29,11 +29,11 @@ public class Search extends HttpServlet {
 
         if(request.getParameter("query") == null){
             request.getSession().setAttribute("search-results", new ArrayList<Movie>());
-            RequestDispatcher  dispatcher = request.getRequestDispatcher("/get-movie-list");
+            RequestDispatcher  dispatcher = request.getRequestDispatcher("/movie-list");
             dispatcher.forward(request, response);
             return;
         }
-        String url = "/get-movie-list";
+        String url = "/movie-list";
         List<MovieInfo> searchResults = Movie.searchMovies(request.getParameter("query"));
         request.getSession().setAttribute("search-results", searchResults);
         RequestDispatcher  dispatcher = request.getRequestDispatcher(url);
