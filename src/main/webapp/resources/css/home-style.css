@@ -3,7 +3,7 @@
 
 body {
   font-family: "Roboto", sans-serif !important;
-  background: #beccdb;
+  background: #777;
   margin: auto;
   width: 80%;
 }
@@ -75,11 +75,12 @@ body {
 
 .featured_movies {
   color: #fff;
+  background: #e0e0e0;
 }
 
 .featured_stars {
   color: #fff;
-  background: #8da5c0;
+  background: #e0e0e0;
 }
 
 .panel, .panel-footer {

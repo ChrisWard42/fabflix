@@ -6,8 +6,8 @@
   <meta charset="UTF-8">
   <title>Fabflix</title>
   <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
-  <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/resources/css/home-style.css">
+  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="resources/css/home-style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="resources/js/bootstrap.min.js"></script>
 </head>
