@@ -66,7 +66,7 @@ public class MovieList extends HttpServlet {
 
         // Get the movie list from the session object
         @SuppressWarnings("unchecked")
-        List<MovieInfo> movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("search-results");
+        List<MovieInfo> movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("searchResults");
         List<MovieInfo> movieDisplay = new ArrayList<MovieInfo>();
 
         // Sort the movie results if a sort mode is specified
@@ -84,11 +84,23 @@ public class MovieList extends HttpServlet {
             Collections.sort(movies, new YearAscComparator());
         }
 
-        request.getSession().setAttribute("search-results", movies);
+        request.getSession().setAttribute("searchResults", movies);
 
         // Get the page number and limit per page, default to 1 and 10 if none passed
-        int page = (Objects.equals(request.getParameter("page"), null)) ? 1 : Integer.parseInt(request.getParameter("page"));
-        int limit = (Objects.equals(request.getParameter("limit"), null)) ? 10 : Integer.parseInt(request.getParameter("limit"));
+        String pageQuery = request.getParameter("page");
+        String limitQuery = request.getParameter("limit");
+        int page = 0;
+        int limit = 0;
+
+        if (pageQuery == null || pageQuery.equals(""))
+            page = 1;
+        else
+            page = Integer.parseInt(pageQuery);
+
+        if (limitQuery == null || limitQuery.equals(""))
+            limit = 10;
+        else
+            limit = Integer.parseInt(limitQuery);
         
         // If the page is out of bounds in either direction then nothing to display
         if (page < 1 || (page-1)*limit > movies.size()-1)
@@ -103,11 +115,9 @@ public class MovieList extends HttpServlet {
         }
 
         // Set the session variables
-        // TODO: Set session variables for current page, current limit, etc? Not sure if needed
-        request.getSession().setAttribute("search-display", movieDisplay);
+        request.getSession().setAttribute("searchDisplay", movieDisplay);
         
         // Get request dispatcher and return
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/movie-list.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
     }
 }

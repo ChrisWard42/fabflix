@@ -20,7 +20,7 @@
  %>
 
  <%
-List<MovieInfo> movies = (List<MovieInfo>) session.getAttribute("search-display");
+List<MovieInfo> movies = (List<MovieInfo>) session.getAttribute("searchDisplay");
 if (movies == null) {
     movies = new ArrayList<MovieInfo>();
 }
@@ -37,7 +37,7 @@ if (movies == null) {
                 <td><a href="<%=movie.getTrailerUrl()%>" >Trailer URL</a></td>
 			</tr>
 			<% }
-				session.setAttribute("search-display", null);
+				session.setAttribute("searchDisplay", null);
                 //session.setAttribute("search-results", null);
 			%>
 		</table>
