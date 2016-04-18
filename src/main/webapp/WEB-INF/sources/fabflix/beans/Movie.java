@@ -6,6 +6,8 @@ import java.sql.*;
 import java.text.*;
 import java.util.*;
 import java.util.Date;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 public class Movie implements Serializable {
   private int id;
@@ -362,7 +364,6 @@ public class Movie implements Serializable {
               movieView.append(";");
 
 
-
               statement = connection.prepareStatement(movieView.toString());
 
               int n = 1;
@@ -435,6 +436,9 @@ public class Movie implements Serializable {
     catch (Exception e) {
       e.printStackTrace();
     }
+    for(MovieInfo value : searchResultsMap.values())
+        searchResults.add(value);
+      
     return searchResults;
   }
 }

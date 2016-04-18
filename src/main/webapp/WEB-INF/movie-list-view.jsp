@@ -75,9 +75,9 @@
 
         <td class="description">
           <h3><a href="./movie/${item.id}">${item.title}</a> (${item.year})</h3>
-          <h4 id="genres"><c:forEach var="genre" items="${item.genreList}" varStatus="genreListStatus">
+          <h4 id="genres"><c:forEach var="genre" items="${item.genreSet}" varStatus="genreSetStatus">
                       <c:choose>
-                        <c:when test="${genreListStatus.last == true}">
+                        <c:when test="${genreSetStatus.last == true}">
                           ${genre}
                         </c:when>
                         <c:otherwise>
@@ -91,9 +91,9 @@
           <h4>
             Director:&nbsp;${item.director}
             <br>
-            Stars:&nbsp;<c:forEach var="star" items="${item.starList}" varStatus="starListStatus">
+            Stars:&nbsp;<c:forEach var="star" items="${item.starSet}" varStatus="starSetStatus">
                       <c:choose>
-                        <c:when test="${starListStatus.last == true}">
+                        <c:when test="${starSetStatus.last == true}">
                           <a href="./star/${star.id}">${star.firstName}&nbsp;${star.lastName}</a>
                         </c:when>
                         <c:otherwise>
