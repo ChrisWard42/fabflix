@@ -61,6 +61,28 @@
 
 
   <servlet>
+    <servlet-name>MovieServlet</servlet-name>
+    <servlet-class>fabflix.core.SingleMovie</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MovieServlet</servlet-name>
+    <url-pattern>/movie/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>StarServlet</servlet-name>
+    <servlet-class>fabflix.core.SingleStar</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>StarServlet</servlet-name>
+    <url-pattern>/star/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>MovieListServlet</servlet-name>
     <servlet-class>fabflix.core.MovieList</servlet-class>
   </servlet>
@@ -90,18 +112,34 @@
     <url-pattern>/browse/*</url-pattern>
     <url-pattern>/login/*</url-pattern>
     <url-pattern>/search/*</url-pattern>
+    <url-pattern>/movie/*</url-pattern>
+    <url-pattern>/star/*</url-pattern>
     <url-pattern>/movie-list/*</url-pattern>
   </filter-mapping>
 
 
 <!-- Other Declarations -->
 
-  <!--
-  <error-page>
-      <error-code>404</error-code>
-      <location>/WEB-INF/err404.jsp</code>
+  <!-- <error-page>
+    <error-code>401</error-code>
+    <location>/error.html</location>
   </error-page>
-   -->
+  <error-page>
+    <error-code>403</error-code>
+    <location>/error.html</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error.html</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error.html</location>
+  </error-page>
+  <error-page>
+    <error-code>503</error-code>
+    <location>/error.html</location>
+  </error-page> -->
 
 
 </web-app>

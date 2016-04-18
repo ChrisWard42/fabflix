@@ -1,0 +1,59 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Varela+Round|Monda);
+
+body {
+  font-family: "Roboto", sans-serif !important;
+  background: #777;
+  margin: auto;
+  width: 80%;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+nav .btn {
+  background: rgba(247, 60, 60, 0.0) !important;
+  border: 0px !important;
+}
+
+.dropdown-menu {
+  background: #f73c3c !important;
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.form-group input {
+  border: 0px !important;
+}
+
+.navbar {
+  background: #ff3434 !important;
+  border-radius: 0px !important;
+  border: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.navbar a {
+  color: #fff !important;
+}
+
+footer .panel, footer .panel-footer {
+  text-align: right;
+  background: #ff3434;
+  border: 0;
+  color: #fff;
+  margin: 0;
+}
+
+.error {
+  background: #9ae6ff;
+  display: block;
+  text-align: center;
+}
+
+.error img {
+  padding: 50px 0px;
+  width: 700px;
+}
