@@ -16,7 +16,8 @@
  javax.servlet.http.*,
  javax.servlet.*,
  fabflix.beans.Movie,
- fabflix.beans.MovieInfo"
+ fabflix.beans.MovieInfo,
+ fabflix.beans.Star"
  %>
 
  <%
@@ -35,6 +36,16 @@ if (movies == null) {
                 <td><%=movie.getDirector()%></td>
 				<td><a href="<%=movie.getBannerUrl()%>" >Banner URL</a></td>
                 <td><a href="<%=movie.getTrailerUrl()%>" >Trailer URL</a></td>
+                <td>
+                <% for (Star star : movie.getStarSet()){ %>
+                	<%=star.getFirstName()%> <%=star.getLastName()%><br/>
+                <% } %>
+                </td>
+                <td>
+                <% for (String genre : movie.getGenreSet()){ %>
+                	<%=genre%><br/>
+                <% } %>
+                </td>
 			</tr>
 			<% }
 				session.setAttribute("search-display", null);

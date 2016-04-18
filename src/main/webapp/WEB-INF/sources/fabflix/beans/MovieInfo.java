@@ -13,8 +13,8 @@ public class MovieInfo implements Serializable {
 	private String director;
 	private String bannerUrl;
     private String trailerUrl;
-    private List<Star> starList;
-    private List<String> genreList;
+    private Set<Star> starSet;
+    private Set<String> genreSet;
 
 
 	public MovieInfo() {
@@ -24,21 +24,21 @@ public class MovieInfo implements Serializable {
 		director = "";
 		bannerUrl = "";
         trailerUrl = "";
-        starList = new ArrayList<Star>();
-        genreList = new ArrayList<String>();
+        starSet = new HashSet<Star>();
+        genreSet = new HashSet<String>();
 	}
 
 	public MovieInfo(int id, String title, int year, String director, 
-					String bannerUrl, String trailerUrl, ArrayList<Star> starList,
-					ArrayList<String> genreList){
+					String bannerUrl, String trailerUrl, HashSet<Star> starSet,
+					HashSet<String> genreSet){
 		this.id = id;
 		this.title = title;
 		this.year = year;
 		this.director = director;
 		this.bannerUrl = bannerUrl;
         this.trailerUrl = trailerUrl;
-        this.starList = new ArrayList<Star>(starList);
-        this.genreList = new ArrayList<String>(genreList);
+        this.starSet = new HashSet<Star>(starSet);
+        this.genreSet = new HashSet<String>(genreSet);
 	}
 
 	public int getId(){
@@ -65,12 +65,12 @@ public class MovieInfo implements Serializable {
         return trailerUrl;
     }
 
-    public List<Star> getStarList(){
-    	return starList;
+    public Set<Star> getStarSet(){
+    	return starSet;
     }
 
-    public List<String> getGenreList(){
-    	return genreList;
+    public Set<String> getGenreSet(){
+    	return genreSet;
     }
 
 	public void setId(int id){
@@ -97,12 +97,24 @@ public class MovieInfo implements Serializable {
         this.trailerUrl = trailerUrl;
     }
 
-    public void setStarList(List<Star> starList){
-    	this.starList = new ArrayList<Star>(starList);
+    public void setStarSet(Set<Star> starSet){
+    	this.starSet = new HashSet<Star>(starSet);
     }
 
-    public void setGenreList(List<String> genreList){
-    	this.genreList = new ArrayList<String>(genreList);
+    public void setGenreSet(Set<String> genreSet){
+    	this.genreSet = new HashSet<String>(genreSet);
+    }
+
+    public void addToStarSet(Star star){
+    	if(starSet != null){
+    		starSet.add(star);
+    	}
+    }
+
+    public void addToGenreSet(String genre){
+    	if(genreSet != null){
+    		genreSet.add(genre);
+    	}
     }
 
 }
