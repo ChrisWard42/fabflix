@@ -48,8 +48,12 @@ public class Search extends HttpServlet {
                      (request.getParameter("star") != null && !request.getParameter("star").equals("")))
             {
                 // TODO: Change this to use the advanced search to generate search-results
-                System.out.println("Advanced search not implemented");
-                request.getSession().setAttribute("searchResults", new ArrayList<Movie>());
+                List<MovieInfo> searchResults = Movie.searchMovies(
+                    request.getParameter("title"),
+                    request.getParameter("star"),
+                    request.getParameter("year"),
+                    request.getParameter("director"));
+                request.getSession().setAttribute("searchResults", searchResults);
             }
 
             // If no query parameters at all are supplied, generate an empty list
