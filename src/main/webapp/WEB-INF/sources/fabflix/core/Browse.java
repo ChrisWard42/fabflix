@@ -36,21 +36,21 @@ public class Browse extends HttpServlet {
 
             // If genre is in parameter list, use that
             if (request.getParameter("genre") != null && !request.getParameter("genre").equals("")) {
-                // TODO: Implement genre search code that returns ArrayList<Movie> here
-                request.getSession().setAttribute("browseResults", new ArrayList<Movie>());
+                List<MovieInfo> searchResults = Movie.browseMoviesByGenre(request.getParameter("genre"));
+                request.getSession().setAttribute("browseResults", searchResults);
             }
 
             // Otherwise, if startsWith is in parameter list, use that
             else if (request.getParameter("startsWith") != null && !request.getParameter("startsWith").equals(""))
             {
-                // TODO: Implement startsWith search code that returns ArrayList<Movie> here
-                request.getSession().setAttribute("browseResults", new ArrayList<Movie>());
+                List<MovieInfo> searchResults = Movie.browseMoviesByLetter(request.getParameter("startsWith"));
+                request.getSession().setAttribute("browseResults", searchResults);
             }
 
             // If no query parameters at all are supplied, get all results
             else {
-                // TODO: Implement code that gets all movies in table and returns ArrayList<Movie> here
-                request.getSession().setAttribute("browseResults", new ArrayList<Movie>());
+                List<MovieInfo> searchResults = Movie.browseMoviesByLetter("");
+                request.getSession().setAttribute("browseResults", searchResults);
             }
         }
 

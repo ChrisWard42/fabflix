@@ -81,7 +81,7 @@ public class MovieList extends HttpServlet {
         if (Objects.equals(sort, "title-desc") && !movies.isEmpty()) {
             Collections.sort(movies, new TitleDescComparator());
         }
-        else if (Objects.equals(sort, "title-asc") && !movies.isEmpty()) {
+        else if ((Objects.equals(sort, "title-asc") || Objects.equals(sort, null) || Objects.equals(sort, "")) && !movies.isEmpty() ) {
             Collections.sort(movies, new TitleAscComparator());
         }
         else if (Objects.equals(sort, "year-desc") && !movies.isEmpty()) {

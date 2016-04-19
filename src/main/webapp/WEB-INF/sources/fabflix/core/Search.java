@@ -59,7 +59,7 @@ public class Search extends HttpServlet {
 
             // If no query parameters at all are supplied, generate an empty list
             else {
-                request.getSession().setAttribute("searchResults", new ArrayList<Movie>());
+                request.getSession().setAttribute("searchResults", new ArrayList<MovieInfo>());
             }
         }
 

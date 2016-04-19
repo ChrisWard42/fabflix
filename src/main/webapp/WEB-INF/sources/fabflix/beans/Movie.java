@@ -55,9 +55,9 @@ public class Movie implements Serializable {
     return bannerUrl;
   }
 
-    public String getTrailerUrl(){
-        return trailerUrl;
-    }
+  public String getTrailerUrl(){
+      return trailerUrl;
+  }
 
   public void setId(int id){
     this.id = id;
@@ -176,56 +176,13 @@ public class Movie implements Serializable {
                   statement.setString(3, "%" + keywords + "%");
                   statement.execute();
 
+                  
+
                   finalStatement = connection.createStatement();
-                  //Iterate through results twice, once for star list, again for genre list
-                  for(int i = 0; i < 2; ++i){
-                    if(i == 0){
-                      results = finalStatement.executeQuery(finalQuery);
-                    }
-                    else{
-                      //change finalQuery to display all genres for each movie
-                      String finalQueryGenre = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, g.name AS gname " + 
-                      "FROM  movieView AS mv, genres AS g, genres_in_movies as gim " + 
-                      "WHERE gim.genre_id = g.id AND gim.movie_id = mv.id;";
-                      results = finalStatement.executeQuery(finalQueryGenre);
-                    }
 
-                    // Iterate through each row of results
-                    while (results.next())
-                    {
-                      Integer id = results.getInt("mid");
-                      String title = results.getString("title");
-                      Integer year = results.getInt("year");
-                      String director = results.getString("director");
-                      String bannerUrl = results.getString("banner_url");
-                      String trailerUrl = results.getString("trailer_url");
-                      Integer sid = new Integer(0);
-                      String actorF_Name = "";
-                      String actorL_Name = "";
-                      String genreName = "";
-                      //get actor attributes if first iteration, else get genre attributes
-                      if(i == 0){
-                        sid = results.getInt("sid");
-                        actorF_Name = results.getString("first_name");
-                        actorL_Name = results.getString("last_name");
-                      }
-                      else{
-                        genreName = results.getString("gname");
-                      }
+                  searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
 
-                      if(!searchResultsMap.containsKey(id)){
-                        searchResultsMap.put(id, 
-                          new MovieInfo(id, title, year, director, bannerUrl, trailerUrl, new HashSet<Star>(), new HashSet<String>()));
-                      }
-                      
-                      //insert into star set if first iteration, else insert into genre set
-                      if(i == 0)
-                        searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, new Date(), ""));
-                      else
-                        searchResultsMap.get(id).addToGenreSet(genreName);
-                    }
-                  }
-                    ++firstNameIndex;
+                  ++firstNameIndex;
                 }while(firstNameIndex != possibleFirstNames.size());
               
               results.close();
@@ -381,54 +338,7 @@ public class Movie implements Serializable {
               statement.execute();
 
               finalStatement = connection.createStatement();
-              //Iterate through results twice, once for star list, again for genre list
-              for(int i = 0; i < 2; ++i){
-                if(i == 0){
-                  results = finalStatement.executeQuery(finalQuery);
-                }
-                else{
-                  //change finalQuery to display all genres for each movie
-                  String finalQueryGenre = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, g.name AS gname " + 
-                  "FROM  movieView AS mv, genres AS g, genres_in_movies as gim " + 
-                  "WHERE gim.genre_id = g.id AND gim.movie_id = mv.id;";
-                  results = finalStatement.executeQuery(finalQueryGenre);
-                }
-
-                // Iterate through each row of results
-                while (results.next())
-                {
-                  Integer id = results.getInt("mid");
-                  String titleResult = results.getString("title");
-                  Integer yearResult = results.getInt("year");
-                  String directorResult = results.getString("director");
-                  String bannerUrl = results.getString("banner_url");
-                  String trailerUrl = results.getString("trailer_url");
-                  Integer sid = new Integer(0);
-                  String actorF_Name = "";
-                  String actorL_Name = "";
-                  String genreName = "";
-                  //get actor attributes if first iteration, else get genre attributes
-                  if(i == 0){
-                    sid = results.getInt("sid");
-                    actorF_Name = results.getString("first_name");
-                    actorL_Name = results.getString("last_name");
-                  }
-                  else{
-                    genreName = results.getString("gname");
-                  }
-
-                  if(!searchResultsMap.containsKey(id)){
-                    searchResultsMap.put(id, 
-                      new MovieInfo(id, titleResult, yearResult, directorResult, bannerUrl, trailerUrl, new HashSet<Star>(), new HashSet<String>()));
-                  }
-                  
-                  //insert into star set if first iteration, else insert into genre set
-                  if(i == 0)
-                    searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, new Date(), ""));
-                  else
-                    searchResultsMap.get(id).addToGenreSet(genreName);
-                }
-              }
+              searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
 
               ++firstNameIndex;
 
@@ -447,4 +357,164 @@ public class Movie implements Serializable {
 
     return searchResults;
   }
+
+  public static List<MovieInfo> browseMoviesByGenre(String genre){
+    List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
+    HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
+
+    String loginUser = "root";
+    String loginPasswd = "waydowninthehole";
+    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+    MovieInfo movie = null;
+    try {
+          Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          String genreView = "CREATE OR REPLACE VIEW genreView AS " + 
+            "SELECT * " + 
+            "FROM genres AS g2 " + 
+            "WHERE g2.name = ?;";
+
+          String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
+            "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
+            "FROM movies AS m, genres_in_movies AS gim " + 
+            "WHERE (gim.genre_id IN (SELECT id FROM genreView) AND gim.movie_id = m.id);";
+
+          String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
+           "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
+           "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
+
+          PreparedStatement statement = null;
+          Statement finalStatement = null;
+          ResultSet results = null;
+
+          statement = connection.prepareStatement(genreView);
+
+          statement.setString(1, genre);
+          statement.execute();
+
+          statement = connection.prepareStatement(movieView);
+          statement.execute();
+
+          finalStatement = connection.createStatement();
+          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+
+          results.close();
+          statement.close();
+          finalStatement.close();
+          connection.close();
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    for(MovieInfo value : searchResultsMap.values())
+        searchResults.add(value);
+
+    return searchResults;
+  }
+
+  public static List<MovieInfo> browseMoviesByLetter(String letter){
+    List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
+    HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
+
+    String loginUser = "root";
+    String loginPasswd = "waydowninthehole";
+    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+    MovieInfo movie = null;
+    try {
+          Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
+              "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
+              "FROM movies AS m, stars_in_movies AS sim " + 
+              "WHERE m.title LIKE ? "; 
+
+          String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
+            "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
+            "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
+
+          PreparedStatement statement = null;
+          Statement finalStatement = null;
+          ResultSet results = null;
+
+          statement = connection.prepareStatement(movieView);
+          statement.setString(1, letter + "%");
+          statement.execute();
+
+          finalStatement = connection.createStatement();
+          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+
+          results.close();
+          statement.close();
+          finalStatement.close();
+          connection.close();
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+    for(MovieInfo value : searchResultsMap.values())
+        searchResults.add(value);
+
+    return searchResults;
+  }
+
+  private static HashMap<Integer, MovieInfo> getResults(Statement statement, String query, HashMap<Integer, MovieInfo> searchResultsMap) throws Exception{
+    ResultSet results = null;
+    //Iterate through results twice, once for star list, again for genre list
+    for(int i = 0; i < 2; ++i){
+      if(i == 0){
+        results = statement.executeQuery(query);
+      }
+      else{
+        //change query to display all genres for each movie
+        String finalQueryGenre = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, g.name AS gname " + 
+        "FROM  movieView AS mv, genres AS g, genres_in_movies as gim " + 
+        "WHERE gim.genre_id = g.id AND gim.movie_id = mv.id;";
+        results = statement.executeQuery(finalQueryGenre);
+      }
+
+      // Iterate through each row of results
+      while (results.next())
+      {
+        Integer id = results.getInt("mid");
+        String title = results.getString("title");
+        Integer year = results.getInt("year");
+        String director = results.getString("director");
+        String bannerUrl = results.getString("banner_url");
+        String trailerUrl = results.getString("trailer_url");
+        Integer sid = new Integer(0);
+        String actorF_Name = "";
+        String actorL_Name = "";
+        String genreName = "";
+        //get actor attributes if first iteration, else get genre attributes
+        if(i == 0){
+          sid = results.getInt("sid");
+          actorF_Name = results.getString("first_name");
+          actorL_Name = results.getString("last_name");
+        }
+        else{
+          genreName = results.getString("gname");
+        }
+
+        if(!searchResultsMap.containsKey(id)){
+          searchResultsMap.put(id, 
+            new MovieInfo(id, title, year, director, bannerUrl, trailerUrl, new HashSet<Star>(), new HashSet<String>()));
+        }
+        
+        //insert into star set if first iteration, else insert into genre set
+        if(i == 0)
+          searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, new Date(), ""));
+        else
+          searchResultsMap.get(id).addToGenreSet(genreName);
+      }
+    }
+    return searchResultsMap;
+  }
+
 }
