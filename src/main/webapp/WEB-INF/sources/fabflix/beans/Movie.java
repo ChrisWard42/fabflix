@@ -323,7 +323,7 @@ public class Movie implements Serializable {
               //always use firstname OR lastname with all keywords for first iteration(if star is entered)
               if(firstNameIndex == -1 && !star.isEmpty()){
                 // Declare our statement
-                starView.append("first_name LIKE ? OR last_name LIKE ?;");
+                starView.append(" first_name LIKE ? OR last_name LIKE ?;");
                 statement = connection.prepareStatement(starView.toString());
 
                 statement.setString(1, "%" + star + "%");
@@ -332,6 +332,9 @@ public class Movie implements Serializable {
               }
               //for subsequent iterations, use permutations of first and last names ANDed together
               else if(!star.isEmpty()){
+                //delete append from previous iteration
+                //the AND and OR appends are both 39 characters long
+                starView.delete(starView.length() - 39, starView.length());
                 starView.append("first_name LIKE ? AND last_name LIKE ?;");
 
                 statement = connection.prepareStatement(starView.toString());
@@ -342,26 +345,29 @@ public class Movie implements Serializable {
 
               }
 
-              if(!title.isEmpty()){
-                movieView.append("m.title LIKE ? AND ");
-              }
+              //only append to query the on first iteration
+              if(firstNameIndex == -1){
+                if(!title.isEmpty()){
+                  movieView.append("m.title LIKE ? AND ");
+                }
 
-              if(!year.isEmpty()){
-                movieView.append("m.year LIKE ? AND ");
-              }
+                if(!year.isEmpty()){
+                  movieView.append("m.year LIKE ? AND ");
+                }
 
-              if(!director.isEmpty()){
-                movieView.append("m.director LIKE ? AND ");
-              }
+                if(!director.isEmpty()){
+                  movieView.append("m.director LIKE ? AND ");
+                }
 
-              if(!star.isEmpty()){
-                movieView.append("(sim.star_id IN (SELECT id FROM starView) AND sim.movie_id = m.id)");
+                if(!star.isEmpty()){
+                  movieView.append("(sim.star_id IN (SELECT id FROM starView) AND sim.movie_id = m.id)");
+                }
+                //trim off excess AND if no star was inputted
+                else{
+                  movieView.delete(movieView.length() - 4, movieView.length());
+                }
+                movieView.append(";");
               }
-              //trim off excess AND if no star was inputted
-              else{
-                movieView.delete(movieView.length() - 4, movieView.length());
-              }
-              movieView.append(";");
 
 
               statement = connection.prepareStatement(movieView.toString());
@@ -438,7 +444,7 @@ public class Movie implements Serializable {
     }
     for(MovieInfo value : searchResultsMap.values())
         searchResults.add(value);
-      
+
     return searchResults;
   }
 }
