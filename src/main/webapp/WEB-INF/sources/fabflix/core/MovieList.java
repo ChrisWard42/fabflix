@@ -63,28 +63,42 @@ public class MovieList extends HttpServlet {
         throws IOException, ServletException
     {
         // TODO: Check for search-results being null, can't sort a null
+        String listSrc = request.getAttribute("listSrc").toString();
 
         // Get the movie list from the session object
-        @SuppressWarnings("unchecked")
-        List<MovieInfo> movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("searchResults");
+        List<MovieInfo> movies = new ArrayList<MovieInfo>();
         List<MovieInfo> movieDisplay = new ArrayList<MovieInfo>();
+        
+        if (listSrc.equals("search")) {
+            movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("searchResults");
+        }
+        else if (listSrc.equals("browse")) {
+            movies = (ArrayList<MovieInfo>) request.getSession().getAttribute("browseResults");
+        }
 
         // Sort the movie results if a sort mode is specified
         String sort = request.getParameter("sort");
-        if (Objects.equals(sort, "title-desc")) {
+        if (Objects.equals(sort, "title-desc") && !movies.isEmpty()) {
             Collections.sort(movies, new TitleDescComparator());
         }
-        else if (Objects.equals(sort, "title-asc")) {
+        else if (Objects.equals(sort, "title-asc") && !movies.isEmpty()) {
             Collections.sort(movies, new TitleAscComparator());
         }
-        else if (Objects.equals(sort, "year-desc")) {
+        else if (Objects.equals(sort, "year-desc") && !movies.isEmpty()) {
             Collections.sort(movies, new YearDescComparator());
         }
-        else if (Objects.equals(sort, "year-asc")) {
+        else if (Objects.equals(sort, "year-asc") && !movies.isEmpty()) {
             Collections.sort(movies, new YearAscComparator());
         }
 
-        request.getSession().setAttribute("searchResults", movies);
+        if (listSrc.equals("search")) {
+            request.getSession().setAttribute("searchResults", movies);
+            request.getSession().setAttribute("browseResults", null);
+        }
+        else if (listSrc.equals("browse")) {
+            request.getSession().setAttribute("searchResults", null);
+            request.getSession().setAttribute("browseResults", movies);
+        }
 
         // Get the page number and limit per page, default to 1 and 10 if none passed
         String pageQuery = request.getParameter("page");
@@ -115,9 +129,12 @@ public class MovieList extends HttpServlet {
         }
 
         // Set the session variables
-        request.getSession().setAttribute("searchDisplay", movieDisplay);
+        request.getSession().setAttribute("movieDisplay", movieDisplay);
         
         // Get request dispatcher and return
-        request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        if (listSrc.equals("search"))
+            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        else
+            request.getRequestDispatcher("/WEB-INF/browse.jsp").forward(request, response);
     }
 }

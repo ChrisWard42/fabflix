@@ -34,6 +34,8 @@ public class Search extends HttpServlet {
             request.getSession().setAttribute("yearQuery", request.getParameter("year"));
             request.getSession().setAttribute("directorQuery", request.getParameter("director"));
             request.getSession().setAttribute("starQuery", request.getParameter("star"));
+            request.getSession().setAttribute("genreQuery", request.getParameter("genre"));
+            request.getSession().setAttribute("startsWithQuery", request.getParameter("startsWith"));
 
             // If query is in the parameter list, use that and ignore the rest
             if (request.getParameter("query") != null && !request.getParameter("query").equals("")) {
@@ -47,7 +49,6 @@ public class Search extends HttpServlet {
                      (request.getParameter("director") != null && !request.getParameter("director").equals("")) ||
                      (request.getParameter("star") != null && !request.getParameter("star").equals("")))
             {
-                // TODO: Change this to use the advanced search to generate search-results
                 List<MovieInfo> searchResults = Movie.searchMovies(
                     request.getParameter("title"),
                     request.getParameter("star"),
@@ -62,6 +63,7 @@ public class Search extends HttpServlet {
             }
         }
 
+        request.setAttribute("listSrc", "search");
         request.getRequestDispatcher("/movie-list").forward(request, response);
     }
 

@@ -7,7 +7,12 @@
         <div class="input-group">
           <span class="input-group-addon" id="basic-addon1">Sort by:</span>
           <div class="input-group-btn">
-            <form id="sort" method="get" action="./search">
+            <c:if test="${pageContext.request.servletPath == '/WEB-INF/search.jsp'}">
+              <form id="sort" method="get" action="./search">
+            </c:if>
+            <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
+              <form id="sort" method="get" action="./browse">
+            </c:if>
               <%@ include file="include/sort-params.jsp" %>
               <c:choose>
                 <c:when test="${param.sort == 'title-asc'}">
@@ -34,7 +39,12 @@
         <div class="input-group">
           <span class="input-group-addon" id="basic-addon1">Items per Page:</span>
           <div class="input-group-btn">
-            <form id="limit" method="get" action="./search">
+            <c:if test="${pageContext.request.servletPath == '/WEB-INF/search.jsp'}">
+              <form id="limit" method="get" action="./search">
+            </c:if>
+            <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
+              <form id="limit" method="get" action="./browse">
+            </c:if>
               <%@ include file="include/limit-params.jsp" %>
               <button class="btn btn-default" type="submit" name="limit" value="10">10</button>
               <button class="btn btn-default" type="submit" name="limit" value="25">25</button>
@@ -63,7 +73,7 @@
   <!-- End on top pagination -->
 
   <table class="list" align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
-    <c:forEach var="item" items="${searchDisplay}">
+    <c:forEach var="item" items="${movieDisplay}">
       <tr style="padding: 10px 0">
         <td class="poster_pic">
           <a href="./movie/${item.id}">
