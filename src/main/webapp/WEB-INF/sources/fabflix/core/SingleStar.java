@@ -7,6 +7,7 @@ import java.net.*;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
@@ -20,6 +21,18 @@ public class SingleStar extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
+        // Get the star id from the path info
+        String starId = request.getPathInfo().toString().substring(1);
+
+        // TEMPORARY TEST CODE
+        Star star = new Star(420420, "Max", "Ushkalov", new Date(420, 4, 20)
+            , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg");
+        // TEMPORARY TEST CODE
+
+        // TODO: Implement search query to get a single star by his/her id, along with list of movies
+        //StarInfo star = Star.searchStar(starId);
+        request.setAttribute("star", star);
+
         request.getRequestDispatcher("/WEB-INF/star.jsp").forward(request, response);
     }
 
