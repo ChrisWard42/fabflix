@@ -22,23 +22,23 @@
     <table class="list" align="center" border="0" cellpadding="0" cellspacing="0" width="50%">
       <tr>
         <td class=title>
-          <h1>Vince Vaughn</h1>
-          <h4 id="id">[872004]</h4>
+          <h1>${star.firstName} ${star.lastName}</h1>
+          <h4 id="id">[${star.id}]</h4>
         </td>
       </tr>
     </table>
     <table class="list" align="center" border="0" cellpadding="0" cellspacing="0" width="50%">
       <tr>
         <td class="poster_pic">
-          <img src="http://ia.imdb.com/media/imdb/01/I/18/65/38f.jpg" alt="" onerror="this.src='resources/img/dora-error-img.png'" />
+          <img src="${star.photoUrl}" alt="" onError="this.src='resources/img/dora-error-img.png'" />
         </td>
       </tr>
 
       <tr>
         <td class="description">
           <h4>
-            <span>Date of Birth</span>: 1970-03-28<br>
-            <span>Movies</span>: <a href="#Wedding_Crashers">Wedding Crashers</a><br>
+            <span>Date of Birth</span>: ${star.dob}<br>
+            <span>Movies</span>: <a href="#Wedding_Crashers">Not Implemented Need StarInfo object</a><br>
           </h4>
         </td>
       </tr>
