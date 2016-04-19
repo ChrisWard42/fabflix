@@ -11,7 +11,7 @@ public class StarInfo implements Serializable{
     private int id;
     private String firstName;
     private String lastName;
-    private Date dob;
+    private String dob;
     private String photoUrl;
     private Set<Movie> movieSet;
 
@@ -19,12 +19,12 @@ public class StarInfo implements Serializable{
         id = 0;
         firstName = "";
         lastName = "";
-        dob = new Date();
+        dob = "";
         photoUrl = "";
         movieSet = new HashSet<Movie>();
     }
 
-    public StarInfo(int id, String firstName, String lastName, Date dob, String photoUrl, HashSet<Movie> movieSet){
+    public StarInfo(int id, String firstName, String lastName, String dob, String photoUrl, HashSet<Movie> movieSet){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,7 +45,7 @@ public class StarInfo implements Serializable{
         return lastName;
     }
 
-    public Date getDob(){
+    public String getDob(){
         return dob;
     }
 
@@ -69,7 +69,7 @@ public class StarInfo implements Serializable{
         this.lastName = lastName;
     }
 
-    public void setDob(Date dob){
+    public void setDob(String dob){
         this.dob = dob;
     }
 

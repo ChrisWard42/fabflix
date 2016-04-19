@@ -38,7 +38,16 @@
         <td class="description">
           <h4>
             <span>Date of Birth</span>: ${star.dob}<br>
-            <span>Movies</span>: <a href="#Wedding_Crashers">Not Implemented Need StarInfo object</a><br>
+            <span>Movies</span>:&nbsp;<c:forEach var="movie" items="${star.movieSet}" varStatus="movieSetStatus">
+              <c:choose>
+                <c:when test="${movieSetStatus.last == true}">
+                  <a href="./movie/${movie.id}">${movie.title}</a>
+                </c:when>
+                <c:otherwise>
+                  <a href="./movie/${movie.id}">${movie.title}</a>,&nbsp;
+                </c:otherwise>
+              </c:choose>
+           </c:forEach><br>
           </h4>
         </td>
       </tr>

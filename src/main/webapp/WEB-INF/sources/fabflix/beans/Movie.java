@@ -585,7 +585,7 @@ public class Movie implements Serializable {
         
         //insert into star set if first iteration, else insert into genre set
         if(i == 0)
-          searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, new Date(), ""));
+          searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, "", ""));
         else
           searchResultsMap.get(id).addToGenreSet(genreName);
       }

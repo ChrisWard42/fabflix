@@ -14,18 +14,18 @@ public class Star implements Serializable, Comparable<Star>{
     private int id;
     private String firstName;
     private String lastName;
-    private Date dob;
+    private String dob;
     private String photoUrl;
 
     public Star() {
         id = 0;
         firstName = "";
         lastName = "";
-        dob = new Date();
+        dob = "";
         photoUrl = "";
     }
 
-    public Star(int id, String firstName, String lastName, Date dob, String photoUrl){
+    public Star(int id, String firstName, String lastName, String dob, String photoUrl){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -77,7 +77,7 @@ public class Star implements Serializable, Comparable<Star>{
         return lastName;
     }
 
-    public Date getDob(){
+    public String getDob(){
         return dob;
     }
 
@@ -97,7 +97,7 @@ public class Star implements Serializable, Comparable<Star>{
         this.lastName = lastName;
     }
 
-    public void setDob(Date dob){
+    public void setDob(String dob){
         this.dob = dob;
     }
 
@@ -123,7 +123,7 @@ public class Star implements Serializable, Comparable<Star>{
               "FROM stars AS s " + 
               "WHERE s.id = ?; "; 
 
-          String finalQuery = "SELECT sv.id AS sid, sv.first_name, sv.last_name, sv.dob, sv.photo_url, m.id as mid, m.title" + 
+          String finalQuery = "SELECT sv.id AS sid, sv.first_name, sv.last_name, sv.dob, sv.photo_url, m.id as mid, m.title " + 
             "FROM  starView AS sv, movies AS m, stars_in_movies as sim1 " + 
             "WHERE sim1.star_id = sv.id AND sim1.movie_id = m.id;";
 
@@ -164,14 +164,26 @@ public class Star implements Serializable, Comparable<Star>{
         Integer id = results.getInt("sid");
         String fName = results.getString("first_name");
         String lName = results.getString("last_name");
-        // String dob = results.getString("dob");
+        String dob = results.getString("dob");
         String photo_url = results.getString("photo_url");
         Integer movieId = results.getInt("mid");
         String movieTitle = results.getString("title");
 
+        // int year = 1900;
+        // int month = 1;
+        // int day = 1;
+
+        // //split dob string into year, month and day array
+        // if(dob != null && !dob.isEmpty()){
+        //   String dateVals[] = dob.split("-");
+        //   year = Integer.parseInt(dateVals[0]);
+        //   month = Integer.parseInt(dateVals[1]);
+        //   day = Integer.parseInt(dateVals[2]);
+        // }
+
         if(!searchResultsMap.containsKey(id)){
           searchResultsMap.put(id, 
-            new StarInfo(id, fName, lName, new Date(), photo_url, new HashSet<Movie>()));
+            new StarInfo(id, fName, lName, dob, photo_url, new HashSet<Movie>()));
         }
         
         searchResultsMap.get(id).addToMovieSet(new Movie(movieId, movieTitle, 0, "", "", ""));
