@@ -24,13 +24,13 @@ public class SingleStar extends HttpServlet {
         // Get the star id from the path info
         String starId = request.getPathInfo().toString().substring(1);
 
-        // TEMPORARY TEST CODE
-        Star star = new Star(420420, "Max", "Ushkalov", new Date(420, 4, 20)
-            , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg");
+        // // TEMPORARY TEST CODE
+        // Star star = new Star(420420, "Max", "Ushkalov", new Date(420, 4, 20)
+        //     , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg");
         // TEMPORARY TEST CODE
 
         // TODO: Implement search query to get a single star by his/her id, along with list of movies
-        //StarInfo star = Star.searchStar(starId);
+        StarInfo star = Star.getStarById(starId);
         request.setAttribute("star", star);
 
         request.getRequestDispatcher("/WEB-INF/star.jsp").forward(request, response);

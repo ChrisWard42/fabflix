@@ -25,21 +25,21 @@ public class SingleMovie extends HttpServlet {
         String movieId = request.getPathInfo().toString().substring(1);
 
         // TEMPORARY TEST CODE
-        Star star = new Star(420420, "Max", "Ushkalov", new Date(420, 4, 20)
-            , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg");
-        HashSet<Star> stars = new HashSet<Star>();
-        stars.add(star);
-        String genre = "Book of Manners";
-        HashSet<String> genres = new HashSet<String>();
-        genres.add(genre);
-        MovieInfo movie = new MovieInfo(420420, "Yolo Blaze It", 420, "Max Ushkalov"
-            , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg"
-            , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg"
-            , stars, genres);
+        // Star star = new Star(420420, "Max", "Ushkalov", new Date(420, 4, 20)
+        //     , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg");
+        // HashSet<Star> stars = new HashSet<Star>();
+        // stars.add(star);
+        // String genre = "Book of Manners";
+        // HashSet<String> genres = new HashSet<String>();
+        // genres.add(genre);
+        // MovieInfo movie = new MovieInfo(420420, "Yolo Blaze It", 420, "Max Ushkalov"
+        //     , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg"
+        //     , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg"
+            // , stars, genres);
         // TEMPORARY TEST CODE
 
         // TODO: Implement search query to get a single movie by its id
-        //MovieInfo movie = Movie.searchMovies(movieId);
+        MovieInfo movie = Movie.getMovieById(movieId);
         request.setAttribute("movie", movie);
         
         request.getRequestDispatcher("/WEB-INF/movie.jsp").forward(request, response);

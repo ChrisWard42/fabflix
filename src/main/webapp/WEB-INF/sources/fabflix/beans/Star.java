@@ -101,4 +101,82 @@ public class Star implements Serializable, Comparable<Star>{
     public void setPhotoUrl(String photoUrl){
         this.photoUrl = photoUrl;
     }
-}
+
+    public static StarInfo getStarById(String id){
+    List<StarInfo> searchResults = new ArrayList<StarInfo>();
+    HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
+
+    String loginUser = "root";
+    String loginPasswd = "waydowninthehole";
+    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+    MovieInfo movie = null;
+    try {
+          Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          String starView = "CREATE OR REPLACE VIEW starView AS " + 
+              "SELECT DISTINCT s.id, s.first_name, s.last_name, s.dob, s.photo_url " + 
+              "FROM stars AS s " + 
+              "WHERE s.id = ? "; 
+
+          String finalQuery = "SELECT sv.id AS sid, sv.first_name, sv.last_name, sv.dob, sv.photo_url, m.id as mid, m.title" + 
+            "FROM  starView AS sv, movies AS m, stars_in_movies as sim1 " + 
+            "WHERE sim1.star_id = sv.id AND sim1.movie_id = m.id;";
+
+          PreparedStatement statement = null;
+          Statement finalStatement = null;
+          ResultSet results = null;
+
+          statement = connection.prepareStatement(starView);
+          statement.setString(1, id);
+          statement.execute();
+
+          finalStatement = connection.createStatement();
+          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+
+          results.close();
+          statement.close();
+          finalStatement.close();
+          connection.close();
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    for(StarInfo value : searchResultsMap.values())
+        searchResults.add(value);
+
+    if(searchResults.isEmpty())
+      return null;
+    else
+      return searchResults.get(0);
+  }
+
+    private static HashMap<Integer, StarInfo> getResults(Statement statement, String query, HashMap<Integer, StarInfo> searchResultsMap) throws Exception{
+      ResultSet results = null;
+
+      // Iterate through each row of results
+      while (results.next())
+      {
+        Integer id = results.getInt("sid");
+        String fName = results.getString("first_name");
+        String lName = results.getString("last_name");
+        // String dob = results.getString("dob");
+        String photo_url = results.getString("photo_url");
+        Integer movieId = results.getInt("mid");
+        String movieTitle = results.getString("title");
+
+        if(!searchResultsMap.containsKey(id)){
+          searchResultsMap.put(id, 
+            new StarInfo(id, fName, lName, new Date(), photo_url, new HashSet<Movie>()));
+        }
+        
+        searchResultsMap.get(id).addToMovieSet(new Movie(movieId, movieTitle, 0, "", "", ""));
+       }
+    
+      return searchResultsMap;
+    }
+    
+    }
