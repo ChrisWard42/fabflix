@@ -12,7 +12,7 @@
 <body>
   <!--  Start of Navigation Bar -->
   <header>
-    <%@ include file="header.jsp" %>
+    <%@ include file="include/header.jsp" %>
   </header>
   <!--  End of Navigation Bar -->
 
@@ -49,7 +49,7 @@
 
   <!-- Start of Footer -->
   <footer>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="include/footer.jsp" %>
   </footer>
   <!-- End of Footer -->
 

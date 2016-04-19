@@ -20,7 +20,7 @@
           </ul>
         </li>
         -->
-        <li><a href="#"><img src="resources/img/shop.png" alt="cart" height="20px"></a></li>
+        <li><a href="./cart"><img src="resources/img/shop.png" alt="cart" height="20px"></a></li>
       </ul>
       <!--  Rest of Buttons -->
 

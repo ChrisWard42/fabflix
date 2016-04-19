@@ -1,6 +1,6 @@
 <div class="movie_list">
-  <%@ include file="include/page-prev.jsp" %>
-  <%@ include file="include/page-next.jsp" %>
+  <%@ include file="page-prev.jsp" %>
+  <%@ include file="page-next.jsp" %>
   <table border="0" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
       <td align="left">
@@ -13,7 +13,7 @@
             <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
               <form id="sort" method="get" action="./browse">
             </c:if>
-              <%@ include file="include/sort-params.jsp" %>
+              <%@ include file="sort-params.jsp" %>
               <c:choose>
                 <c:when test="${param.sort == 'title-asc'}">
                   <button class="btn btn-default" type="submit" name="sort" value="title-desc"><img src="resources/img/expand-gray.png" alt="" height="10px" hspace="10px">Title</button>
@@ -45,7 +45,7 @@
             <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
               <form id="limit" method="get" action="./browse">
             </c:if>
-              <%@ include file="include/limit-params.jsp" %>
+              <%@ include file="limit-params.jsp" %>
               <button class="btn btn-default" type="submit" name="limit" value="10">10</button>
               <button class="btn btn-default" type="submit" name="limit" value="25">25</button>
               <button class="btn btn-default" type="submit" name="limit" value="50">50</button>

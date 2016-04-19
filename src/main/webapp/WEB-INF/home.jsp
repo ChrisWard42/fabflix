@@ -14,7 +14,7 @@
 <body>
   <!--  Start of Navigation Bar -->
   <header>
-    <%@ include file="header.jsp" %>
+    <%@ include file="include/header.jsp" %>
   </header>
   <!--  End of Navigation Bar -->
 
@@ -130,7 +130,7 @@
   <!-- End of Featured Stars -->
 
   <footer>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="include/footer.jsp" %>
   </footer>
 </body>
 </html>
