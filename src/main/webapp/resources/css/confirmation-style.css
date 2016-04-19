@@ -67,6 +67,10 @@ footer .panel-footer {
   background: #eee;
 }
 
+.cart .input-group input {
+  width: 100px;
+}
+
 .cart button {
   width: 100px;
   border: 0;
@@ -96,19 +100,14 @@ footer .panel-footer {
 
 .big {
   font-size: 20px;
-  width: 99% !important;
+  width: 49.5% !important;
   height: 100px;
 }
 
-.cart .input-group {
-  width: 100%;
+.quantity {
+  text-align: center;
 }
 
-.cart .input-group input {
-  /*border-radius: 0px;*/
-}
-
-.cart .input-group-addon {
-  /*border-radius: 0px;*/
-  width: 125px;
+#id {
+  color: #009b4c;
 }
