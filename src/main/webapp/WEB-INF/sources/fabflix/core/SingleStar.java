@@ -25,8 +25,8 @@ public class SingleStar extends HttpServlet {
         String starId = request.getPathInfo().toString().substring(1);
 
         // // TEMPORARY TEST CODE
-        // Star star = new Star(420420, "Max", "Ushkalov", new Date(420, 4, 20)
-        //     , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg");
+        // StarInfo star = new StarInfo(420420, "Max", "Ushkalov", new Date(420, 4, 20)
+        //     , "https://lh6.googleusercontent.com/-X0MlOK7eabU/AAAAAAAAAAI/AAAAAAAABTs/3_u0TpKa4V0/s0/photo.jpg", new HashSet<Movie>());
         // TEMPORARY TEST CODE
 
         // TODO: Implement search query to get a single star by his/her id, along with list of movies

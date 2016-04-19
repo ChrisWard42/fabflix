@@ -6,6 +6,9 @@ import java.sql.*;
 import java.text.*;
 import java.util.*;
 import java.util.Date;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
 
 public class Star implements Serializable, Comparable<Star>{
     private int id;
@@ -103,15 +106,14 @@ public class Star implements Serializable, Comparable<Star>{
     }
 
     public static StarInfo getStarById(String id){
-    List<StarInfo> searchResults = new ArrayList<StarInfo>();
-    HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
+        List<StarInfo> searchResults = new ArrayList<StarInfo>();
+        HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
 
-    String loginUser = "root";
-    String loginPasswd = "waydowninthehole";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        String loginUser = "root";
+        String loginPasswd = "waydowninthehole";
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
-    MovieInfo movie = null;
-    try {
+        try {
           Class.forName("com.mysql.jdbc.Driver").newInstance();
 
           Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -119,7 +121,7 @@ public class Star implements Serializable, Comparable<Star>{
           String starView = "CREATE OR REPLACE VIEW starView AS " + 
               "SELECT DISTINCT s.id, s.first_name, s.last_name, s.dob, s.photo_url " + 
               "FROM stars AS s " + 
-              "WHERE s.id = ? "; 
+              "WHERE s.id = ?; "; 
 
           String finalQuery = "SELECT sv.id AS sid, sv.first_name, sv.last_name, sv.dob, sv.photo_url, m.id as mid, m.title" + 
             "FROM  starView AS sv, movies AS m, stars_in_movies as sim1 " + 
@@ -127,7 +129,6 @@ public class Star implements Serializable, Comparable<Star>{
 
           PreparedStatement statement = null;
           Statement finalStatement = null;
-          ResultSet results = null;
 
           statement = connection.prepareStatement(starView);
           statement.setString(1, id);
@@ -136,26 +137,26 @@ public class Star implements Serializable, Comparable<Star>{
           finalStatement = connection.createStatement();
           searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
 
-          results.close();
           statement.close();
           finalStatement.close();
           connection.close();
-    } 
-    catch (Exception e) {
-      e.printStackTrace();
+        } 
+        catch (Exception e) {
+          e.printStackTrace();
+        }
+
+        for(StarInfo value : searchResultsMap.values())
+            searchResults.add(value);
+
+        if(searchResults.isEmpty())
+          return null;
+        else
+          return searchResults.get(0);
     }
-
-    for(StarInfo value : searchResultsMap.values())
-        searchResults.add(value);
-
-    if(searchResults.isEmpty())
-      return null;
-    else
-      return searchResults.get(0);
-  }
 
     private static HashMap<Integer, StarInfo> getResults(Statement statement, String query, HashMap<Integer, StarInfo> searchResultsMap) throws Exception{
       ResultSet results = null;
+      results = statement.executeQuery(query);
 
       // Iterate through each row of results
       while (results.next())
@@ -175,7 +176,7 @@ public class Star implements Serializable, Comparable<Star>{
         
         searchResultsMap.get(id).addToMovieSet(new Movie(movieId, movieTitle, 0, "", "", ""));
        }
-    
+      results.close();
       return searchResultsMap;
     }
     

@@ -499,7 +499,6 @@ public class Movie implements Serializable {
     String loginPasswd = "waydowninthehole";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
-    MovieInfo movie = null;
     try {
           Class.forName("com.mysql.jdbc.Driver").newInstance();
 
@@ -525,7 +524,6 @@ public class Movie implements Serializable {
           finalStatement = connection.createStatement();
           searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
 
-          results.close();
           statement.close();
           finalStatement.close();
           connection.close();
@@ -592,6 +590,7 @@ public class Movie implements Serializable {
           searchResultsMap.get(id).addToGenreSet(genreName);
       }
     }
+    results.close();
     return searchResultsMap;
   }
 
