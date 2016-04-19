@@ -12,7 +12,7 @@
 <body>
   <!--  Start of Navigation Bar -->
   <header>
-    <%@ include file="header.jsp" %>
+    <%@ include file="include/header.jsp" %>
   </header>
   <!--  End of Navigation Bar -->
 
@@ -52,12 +52,12 @@
   <!-- End of Advanced Search Menu -->
 
   <!-- Start of Movie List View -->
-  <%@ include file="movie-list-view.jsp" %>
+  <%@ include file="include/movielist.jsp" %>
   <!-- End of Movie List View -->
 
   <!-- Start of Footer -->
   <footer>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="include/footer.jsp" %>
   </footer>
   <!-- End of Footer -->
 

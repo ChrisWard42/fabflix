@@ -8,7 +8,7 @@
 
     <display-name>Fabflix</display-name>
     <description>
-      Fabflix is a website for browsing and purchasing movies
+      Fabflix is a website for browsing and purchasing movies.
     </description>
 
 
@@ -90,6 +90,28 @@
   <servlet-mapping>
     <servlet-name>MovieListServlet</servlet-name>
     <url-pattern>/movie-list/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CartServlet</servlet-name>
+    <servlet-class>fabflix.core.Cart</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>CartServlet</servlet-name>
+    <url-pattern>/cart/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>CheckoutServlet</servlet-name>
+    <servlet-class>fabflix.core.Checkout</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>CheckoutServlet</servlet-name>
+    <url-pattern>/checkout/*</url-pattern>
   </servlet-mapping>
 
 
