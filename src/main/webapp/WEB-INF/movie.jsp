@@ -39,7 +39,7 @@
           <table class="table_buttons" border="0" cellpadding="0" cellspacing="0" width="50%">
             <tr>
               <td>
-                <form id="cart" method="get" action="./cart">
+                <form id="cart" method="post" action="./cart">
                   <input type="hidden" name="action" value="add">
                   <button type="submit" class="btn btn-default" name="productId" value="${movie.id}"><img src="resources/img/shop.png" alt="cart" height="20px"> Add to Cart</button>
                 </form>

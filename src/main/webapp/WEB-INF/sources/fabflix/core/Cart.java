@@ -48,18 +48,14 @@ public class Cart extends HttpServlet {
             }
             // Item not in cart, add with quantity 1
             else {
-                // TODO: Uncomment this when there's a way to search movie by id
-                //MovieInfo details = Movie.searchMovies(id);
-                // TEMPORARY CODE, REMOVE WHEN ABOVE AVAILABLE
-                MovieInfo details = new MovieInfo();
-                details.setId(id);
-                details.setTitle("Title of " + Integer.toString(id));
-                details.setYear(420);
-                // TEMPORARY CODE, REMOVE WHEN ABOVE AVAILABLE
+                MovieInfo details = Movie.getMovieById(Integer.toString(id));
                 if (details != null) {
                     cart.put(id, new CartItem(id, 1, details));
                 }
             }
+
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
         }
 
         // Get update parameters and update the count for that product
@@ -74,16 +70,23 @@ public class Cart extends HttpServlet {
                 product.setQuantity(quantity);
                 cart.put(id, product);
             }
+
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
         }
 
         // Remove that item from the cart
         else if (Objects.equals(action, "remove") && id != -1 && cart.containsKey(id)) {
             cart.remove(id);
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
         }
 
         // Empty the cart
         else if (Objects.equals(action, "empty")) {
             cart.clear();
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
         }
 
         // If no action or invalid action provided, just display the contents of the cart
