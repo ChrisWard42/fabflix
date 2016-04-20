@@ -128,8 +128,9 @@ public class MovieList extends HttpServlet {
             movieDisplay = movies.subList(begin, end);
         }
 
-        // Set the session variables
+        // Set the session anf page attributes
         request.getSession().setAttribute("movieDisplay", movieDisplay);
+        request.setAttribute("maxPage", ((movies.size() - 1) / limit) + 1);
         
         // Get request dispatcher and return
         if (listSrc.equals("search"))

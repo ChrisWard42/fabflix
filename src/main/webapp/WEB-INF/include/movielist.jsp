@@ -67,7 +67,14 @@
           <li class="previous"><a href="${pagePrevUrl}"><span aria-hidden="true">&larr;</span> Previous</a></li>
         </c:otherwise>
       </c:choose>
-      <li class="next"><a href="${pageNextUrl}">Next <span aria-hidden="true">&rarr;</span></a></li>
+      <c:choose>
+        <c:when test="${param.page >= maxPage}">
+          <li class="next"><span aria-hidden="true">Next &rarr;</span></li>
+        </c:when>
+        <c:otherwise>
+          <li class="next"><a href="${pageNextUrl}">Next <span aria-hidden="true">&rarr;</span></a></li>
+        </c:otherwise>
+      </c:choose>
     </ul>
   </nav>
   <!-- End on top pagination -->
@@ -157,7 +164,14 @@
           <li class="previous"><a href="${pagePrevUrl}"><span aria-hidden="true">&larr;</span> Previous</a></li>
         </c:otherwise>
       </c:choose>
-      <li class="next"><a href="${pageNextUrl}">Next <span aria-hidden="true">&rarr;</span></a></li>
+      <c:choose>
+        <c:when test="${param.page >= maxPage}">
+          <li class="next"><span aria-hidden="true">Next &rarr;</span></li>
+        </c:when>
+        <c:otherwise>
+          <li class="next"><a href="${pageNextUrl}">Next <span aria-hidden="true">&rarr;</span></a></li>
+        </c:otherwise>
+      </c:choose>
     </ul>
   </nav>
   <!-- End on bottom pagination -->

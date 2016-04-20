@@ -10,15 +10,14 @@ README
     - File should be located in WEB-INF/sources
     - Should also be accessible at 50.18.81.254/fabflix/reports/readme
 
-Allow Server Access
+[X] Allow Server Access
     - Make sure SSH (22) and HTTP (8080) are open to IP: 128.195.52.91/32
 
-Add Database User
+[X] Add Database User
     - Add the user "testuser" with password "testpass" to moviedb database
 
 Switch Application Logins to User
     - Switch the root/waydowninthehole logins to testuser/testpass and use those files in submission
-    - Do not commit the changes to testuser/testpass to the repo, it's for grading only
 
 Package WAR Submission
     - Submit .war file to EEE, with all dependencies included
