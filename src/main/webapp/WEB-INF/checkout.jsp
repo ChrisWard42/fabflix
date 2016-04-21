@@ -29,59 +29,57 @@
     </table>
     <!-- End of Title -->
 
-    <!-- Start of Customer Info -->
-    <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Credit Number</span>
-            <input type="text" class="form-control">
-          </div>
-        </td>
-      </tr>
+    <form id="checkout" method = "post" action="./checkout">
+      <!-- Start of Customer Info -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
+        <tr>
+          <td>
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">Credit Number</span>
+              <input type="text" class="form-control" placeholder="3-20 digits" name="ccNum" value="${param.ccNum}">
+            </div>
+          </td>
+        </tr>
 
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Expiration Date</span>
-            <input type="text" class="form-control">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">First Name</span>
-            <input type="text" class="form-control">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Last Name</span>
-            <input type="text" class="form-control">
-          </div>
-        </td>
-      </tr>
-    </table>
-    <!-- End of Customer Info -->
+        <tr>
+          <td>
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">Expiration Date</span>
+              <input type="text" class="form-control" placeholder="MM/YY or YYYY-MM-DD format" name="expiry" value="${param.expiry}">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">First Name</span>
+              <input type="text" class="form-control" placeholder="As it appears on the card" name="firstName" value="${param.firstName}">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">Last Name</span>
+              <input type="text" class="form-control" placeholder="As it appears on the card" name="lastName" value=${param.lastName}>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <!-- End of Customer Info -->
 
-    <!-- Start of Checkout -->
-    <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
-      <tr class="title">
-        <td align="center" style="padding: 20px">
-          <form id="view-cart" method="get" action="./cart">
-            <button type="submit" class="btn btn-default delete big">Previous</button>
-          </form>
-        </td>
-        <td align="center" style="padding: 20px">
-          <form id="view-cart" method="post" action="./confirmation">
-            <button type="submit" class="btn btn-default update big">Purchase</button>
-          </form>
-        </td>
-      </tr>
-    </table>
+      <!-- Start of Checkout -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
+        <tr class="title">
+          <td align="center" style="padding: 20px">
+              <button type="submit" class="btn btn-default delete big" formmethod="get" formaction="./cart">Previous</button>
+          </td>
+          <td align="center" style="padding: 20px">
+              <button type="submit" class="btn btn-default update big" name="action" value="purchase">Purchase</button>
+          </td>
+        </tr>
+      </table>
+    </form>
     <!-- End of Checkout -->
   </div>
   <!-- End of Total Purchase -->

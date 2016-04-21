@@ -9,6 +9,7 @@
 
       <!--  Rest of Buttons -->
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="./search">Adv. Search</a></li>
         <li><a href="./browse">Browse</a></li>
         <!--
         <li class="dropdown">
@@ -27,7 +28,7 @@
       <!--  Search Bar -->
       <form class="navbar-form navbar-right" role="search" method="get" action="./search">
         <div class="form-group">
-          <input type="text" class="form-control" name="query" placeholder="Search" style="width: 500px !important">
+          <input type="text" class="form-control" name="query" placeholder="Search" style="width: 400px !important">
         </div>
         <button type="submit" class="btn btn-default"><img src="resources/img/search.png" alt="search" height="20px"></button>
       </form>
