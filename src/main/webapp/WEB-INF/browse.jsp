@@ -98,11 +98,11 @@
         <!-- Start of Row 3 -->
         <tr>
           <td>
-            <c:if test="${param.genre == 'Amination'}">
-              <a class="disabled" href="./browse?genre=Amination">Amination</a>
+            <c:if test="${param.genre == 'Animation'}">
+              <a class="disabled" href="./browse?genre=Animation">Animation</a>
             </c:if>
-            <c:if test="${param.genre != 'Amination'}">
-              <a href="./browse?genre=Amination">Amination</a>
+            <c:if test="${param.genre != 'Animation'}">
+              <a href="./browse?genre=Amination">Animation</a>
             </c:if>
           </td>
           <td>

@@ -16,19 +16,25 @@
               <%@ include file="sort-params.jsp" %>
               <c:choose>
                 <c:when test="${param.sort == 'title-asc'}">
-                  <button class="btn btn-default" type="submit" name="sort" value="title-desc"><img src="resources/img/expand-gray.png" alt="" height="10px" hspace="10px">Title</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="title-desc"><img src="resources/img/triangle3.png" alt="" height="10px" hspace="10px">Title</button>
+                </c:when>
+                <c:when test="${param.sort == 'title-desc'}">
+                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/triangle2.png" alt="" height="10px" hspace="10px">Title</button>
                 </c:when>
                 <c:otherwise>
-                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/expand-gray.png" alt="" height="10px" hspace="10px">Title</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/triangle1.png" alt="" height="10px" hspace="10px">Title</button>
                 </c:otherwise>
               </c:choose>
 
               <c:choose>
                 <c:when test="${param.sort == 'year-asc'}">
-                  <button class="btn btn-default" type="submit" name="sort" value="year-desc"><img src="resources/img/expand-gray.png" alt="" height="10px" hspace="10px">Year</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="year-desc"><img src="resources/img/triangle3.png" alt="" height="10px" hspace="10px">Year</button>
+                </c:when>
+                <c:when test="${param.sort == 'year-desc'}">
+                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/triangle2.png" alt="" height="10px" hspace="10px">Year</button>
                 </c:when>
                 <c:otherwise>
-                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/expand-gray.png" alt="" height="10px" hspace="10px">Year</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/triangle1.png" alt="" height="10px" hspace="10px">Year</button>
                 </c:otherwise>
               </c:choose>
           </div>
