@@ -41,7 +41,7 @@ public class Authentication implements Filter {
         }
 
         // If page requested is any other page and user is not logged in, redirect to login
-        if (!Objects.equals(servlet, "/login") && user == null) {
+        if (!Objects.equals(servlet, "/login") && !Objects.equals(servlet, "/reports") && user == null) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
             return;
         }

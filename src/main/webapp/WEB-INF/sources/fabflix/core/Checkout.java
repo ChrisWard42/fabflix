@@ -34,8 +34,9 @@ public class Checkout extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
 
-        // if(ccId != null && !ccId.isEmpty() && expiry != null && !expiry.isEmpty() &&
-        //     firstName != null && !firstName.isEmpty() && lastName != null && lastName.isEmpty()){
+        // All of the boxes are filled out
+        if(ccId != null && !ccId.isEmpty() && expiry != null && !expiry.isEmpty() &&
+            firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()){
 
             // Test the credit card information against what's show in the database
             if (action != null && action.equals("purchase")) {
@@ -63,8 +64,14 @@ public class Checkout extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/confirmation");
                     return;
                 }
+                else {
+                    request.setAttribute("errorMsg", "Information does not match a credit card on file. Please try again.");
+                }
             }
-        // }
+        }
+        else if (action != null && action.equals("purchase")) {
+            request.setAttribute("errorMsg", "Please fill out all fields before submitting.");
+        }
 
         request.getRequestDispatcher("/WEB-INF/checkout.jsp").forward(request, response);
     }

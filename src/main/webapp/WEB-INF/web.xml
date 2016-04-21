@@ -143,7 +143,7 @@
 
 <!-- Filter Servlets -->
 
-  <!--
+
   <filter>
     <filter-name>AuthenticationFilter</filter-name>
     <filter-class>fabflix.filters.Authentication</filter-class>
@@ -159,8 +159,11 @@
     <url-pattern>/movie/*</url-pattern>
     <url-pattern>/star/*</url-pattern>
     <url-pattern>/movie-list/*</url-pattern>
+    <url-pattern>/cart/*</url-pattern>
+    <url-pattern>/checkout/*</url-pattern>
+    <url-pattern>/confirmation/*</url-pattern>
+    <url-pattern>/reports/*</url-pattern>
   </filter-mapping>
-  -->
 
 
 <!-- Other Declarations -->
@@ -173,7 +176,7 @@
     </jsp-property-group>
   </jsp-config>
 
-  <!-- <error-page>
+  <error-page>
     <error-code>401</error-code>
     <location>/error.html</location>
   </error-page>
@@ -192,7 +195,7 @@
   <error-page>
     <error-code>503</error-code>
     <location>/error.html</location>
-  </error-page> -->
+  </error-page>
 
 
 </web-app>

@@ -16,10 +16,10 @@ README
 [X] Add Database User
     - Add the user "testuser" with password "testpass" to moviedb database
 	
-Switch Application Logins to User
+[X] Switch Application Logins to User
     - Switch the root/waydowninthehole logins to testuser/testpass and use those files in submission
 
-Re-enable disabled components
+[X] Re-enable disabled components
 	- Uncomment the authentication filter and check that it works
 	- Uncomment the error page and check that it works
 	

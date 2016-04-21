@@ -34,6 +34,13 @@
       <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
         <tr>
           <td>
+            <c:if test="${empty errorMsg == false}">
+              <div class="alert alert-danger" role="alert">${errorMsg}</div>
+            </c:if>
+          </td>
+        </tr>
+        <tr>
+          <td>
             <div class="input-group">
               <span class="input-group-addon" id="basic-addon1">Credit Number</span>
               <input type="text" class="form-control" placeholder="1-20 digits" name="ccNum" value="${param.ccNum}">

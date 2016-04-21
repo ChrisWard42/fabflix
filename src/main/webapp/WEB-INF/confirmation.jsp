@@ -55,43 +55,23 @@
         </td>
       </tr>
 
-      <tr>
-        <td>
-          <a href="#">Leon: The Professional (1994)</a>
-        </td>
-        <td class="quantity">
-          1
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#">Leon: The Professional (1994)</a>
-        </td>
-        <td class="quantity">
-          1
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#">Leon: The Professional (1994)</a>
-        </td>
-        <td class="quantity">
-          1
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <a href="#">Leon: The Professional (1994)</a>
-        </td>
-        <td class="quantity">
-          1
-        </td>
-      </tr>
+      <c:forEach var="product" items="${purchased}">
+        <tr>
+          <td>
+            <a href="./movie/${product.key}">${product.value.details.title} (${product.value.details.year})</a>
+          </td>
+          <td class="quantity">
+            ${product.value.quantity}
+          </td>
+        </tr>
+      </c:forEach>
     </table>
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
       <tr class="title">
         <td align="center" style="padding: 20px">
-          <button type="submit" class="btn btn-default update big">Return to Home</button>
+          <form id="home" method="post" action="./home">
+            <button type="submit" class="btn btn-default update big">Return to Home</button>
+          </form>
         </td>
       </tr>
     </table>

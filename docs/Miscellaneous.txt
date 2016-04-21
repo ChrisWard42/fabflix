@@ -2,9 +2,6 @@ Header
 	* Advanced Search link
 	- Dropdown box with other search options including advanced search (requires new queries)
 	
-Home
-	- Links should actually be for movies and stars in the stock DB and resolve properly
-	
 Build System
 	- Can incorporate 'checkstyle' module to run Google Java Style guidelines on Java code
 	- Look into 'findbugs' plugin for Java code static analysis
