@@ -7,9 +7,8 @@
   <title>Fabflix</title>
   <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
   <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/home-style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="resources/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="resources/css/home2-style.css">
+  <link rel="stylesheet" href="resources/css/hover-effect.css">
 </head>
 <body>
   <!--  Start of Navigation Bar -->
@@ -24,18 +23,38 @@
       <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
       <li data-target="#myCarousel" data-slide-to="1"></li>
       <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
     </ol>
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="resources/img/background-image.jpg" alt="picture">
+        <img src="resources/img/background-image.jpg" alt="picture" width="100%">
       </div>
 
       <div class="item">
-        <img src="resources/img/background-image-2.jpg" alt="picture">
+        <img src="resources/img/background-image-2.jpg" alt="picture" width="100%">
       </div>
 
       <div class="item">
-        <img src="resources/img/background-image-3.jpg" alt="picture">
+        <img src="resources/img/background-image-4.jpg" alt="picture" width="100%">
+      </div>
+
+      <div class="item">
+        <img src="resources/img/background-image-5.jpg" alt="picture" width="100%">
+      </div>
+
+      <div class="item">
+        <img src="resources/img/background-image-6.jpg" alt="picture" width="100%">
+      </div>
+
+      <div class="item">
+        <img src="resources/img/background-image-7.jpg" alt="picture" width="100%">
+      </div>
+
+      <div class="item">
+        <img src="resources/img/background-image-8.jpg" alt="picture" width="100%">
       </div>
     </div>
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -49,88 +68,138 @@
   </div>
   <!-- End of Carousel -->
 
-  <!-- Start of Featured Movies -->
-  <div class=featured_movies>
-    <div class="row" max-width="100%">
-      <div class="thumbnail" style="margin-bottom: 0px">
-        <h1 class="featured_title">Featured Movies <span class="label label-default">NEW</span></h1>
-      </div>
-    </div>
-
-    <div class="row" max-width="100%">
-      <!-- Poster 1 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/poster-1.jpg" alt="twilight"></a>
-        </div>
-      </div>
-
-      <!-- Poster 2 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/poster-2.jpg" alt="mockingjay"></a>
-        </div>
-      </div>
-
-      <!-- Poster 3 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/poster-3.jpg" alt="star wars"></a>
-        </div>
-      </div>
-
-      <!-- Poster 4 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/poster-4.jpg" alt="fight club"></a>
-        </div>
-      </div>
-    </div>
+  <div class="title">
+    <table align="center" border="1" cellpadding="0" cellspacing="0" width="100%">
+      <tr height="50px">
+        <td>
+          <h2>Featured Movies</h2>
+        </td>
+      </tr>
+    </table>
   </div>
-  <!-- End of Featured Movies -->
 
-  <!-- Start of Featured Stars -->
-  <div class=featured_stars>
-    <div class="row" max-width="100%">
-      <div class="thumbnail" style="margin-bottom: 0px">
-        <h1 class="featured_title">Featured Stars <span class="label label-default">HOT</span></h1>
-      </div>
-    </div>
-
-    <div class="row" max-width="100%">
-      <!-- Poster 1 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/star-1.jpg" alt="will smith"></a>
-        </div>
-      </div>
-
-      <!-- Poster 2 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/star-2.jpg" alt="..."></a>
-        </div>
-      </div>
-
-      <!-- Poster 3 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/star-3.jpg" alt="..."></a>
-        </div>
-      </div>
-
-      <!-- Poster 4 -->
-      <div class="col-sm-3 centered">
-        <div class="thumbnail">
-          <a href="#"><img src="resources/img/star-4.jpg" alt="..."></a>
-        </div>
-      </div>
-    </div>
+  <div class="movies">
+    <table align="center" border="1" cellpadding="0" cellspacing="0" width="100%">
+      <tr height="260px">
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://images.amazon.com/images/P/B00005LKHW.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <div class="overlay">
+              <h2>Barbershop</h2>
+              <a class="info" href="./movie/683008">View Movie Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://images.amazon.com/images/P/B00004Z4WR.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <div class="overlay">
+              <h2>Gone in 60 Seconds</h2>
+              <a class="info" href="./movie/140004">View Movie Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://images.amazon.com/images/P/B000062XH9.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <div class="overlay">
+              <h2>Oceans Eleven</h2>
+              <a class="info" href="./movie/683006">View Movie Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://images.amazon.com/images/P/B00003CX5A.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <div class="overlay">
+              <h2>Sleepy Hollow</h2>
+              <a class="info" href="./movie/855008">View Movie Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://images.amazon.com/images/P/B00005R87Q.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <div class="overlay">
+              <h2>The Fast and the Furious</h2>
+              <a class="info" href="./movie/683007" style="margin:160px 0 0;">View Movie Page</a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
   </div>
-  <!-- End of Featured Stars -->
 
+  <div class="title">
+    <table align="center" border="1" cellpadding="0" cellspacing="0" width="100%">
+      <tr height="50px">
+        <td>
+          <h2>Featured Stars</h2>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="movies">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr height="260px">
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://www.kcweb.com/superm/supermg/b_willis.jpg" alt="">
+            <div class="overlay">
+              <h2>Bruce Willis</h2>
+              <a class="info" href="./star/855102">View Star Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://www.askmen.com/imagesmodel/aug00/estella_warren/estella_warren_150.JPG" alt="">
+            <div class="overlay">
+              <h2>Estella Warren</h2>
+              <a class="info" href="./star/683019">View Star Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://www.askmen.com/imagessexsymbol/2001_jun/gina_gershon/gina_gershon_150.jpg" alt="">
+            <div class="overlay">
+              <h2>Gina Gershon</h2>
+              <a class="info" href="./star/683018">View Star Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://www.kidzworld.com/img/upload/article/a957i0_bradpittAw.jpg" alt="">
+            <div class="overlay">
+              <h2>Brad Pitt</h2>
+              <a class="info" href="./star/855106">View Star Page</a>
+            </div>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="hovereffect">
+            <img class="img-responsive" src="http://www.eforu.com/cards/pictures/jackiechan/jc10_thumb.jpg" alt="">
+            <div class="overlay">
+              <h2>Jackie Chan</h2>
+              <a class="info" href="./star/855100">View Star Page</a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- End of Movie List View -->
+  
+  <!-- Start of Footer -->
   <footer>
     <%@ include file="include/footer.jsp" %>
   </footer>
+  <!-- End of Footer -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="resources/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -45,9 +45,9 @@ public class Checkout extends HttpServlet {
         //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
         //     }
         //     else if (Pattern.matches("\d\d\d\d-\d\d-\d\d", expiry)) {
-        //         valid = CreditCard.check(ccId, expiry.substring(2,3) + "/" + expiry.substring(5,6), firstName, lastName);
+        //         valid = CreditCard.check(ccId, expiry.substring(5,6) + "/" + expiry.substring(2,3), firstName, lastName);
         //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(2,3) + "/" + expiry.substring(5,6), firstName, lastName);
+        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(5,6) + "/" + expiry.substring(2,3), firstName, lastName);
         //     }
         //     else {
         //         valid = CreditCard.check(ccId, expiry, firstName, lastName);
