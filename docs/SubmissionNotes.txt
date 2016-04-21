@@ -1,6 +1,6 @@
 The following things need to be completed to ready the project for submission:
 
-LIKE-predicate Usage
+[X] LIKE-predicate Usage
     - Write and explanation of how/where the LIKE preicate in SQL is used in the codebase (search, browse)
         - See the project 2 description page under Substring matching for more info
     - This needs to be accessible at 50.18.81.254/fabflix/reports/like-predicate

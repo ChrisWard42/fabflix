@@ -115,6 +115,28 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>ConfirmationServlet</servlet-name>
+    <servlet-class>fabflix.core.Confirmation</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ConfirmationServlet</servlet-name>
+    <url-pattern>/confirmation/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>ReportsServlet</servlet-name>
+    <servlet-class>fabflix.core.Reports</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ReportsServlet</servlet-name>
+    <url-pattern>/reports/*</url-pattern>
+  </servlet-mapping>
+
+
 <!-- Primary JSPs -->
 
 

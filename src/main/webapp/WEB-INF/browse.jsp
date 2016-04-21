@@ -24,15 +24,23 @@
         <!-- Start of Row 1 -->
         <tr>
           <td>
-            <a href="./browse?genre=Action">Action</a>
+            <c:if test="${param.genre == 'Action'}">
+              <a class="disabled" href="./browse?genre=Action">Action</a>
+            </c:if>
+            <c:if test="${param.genre != 'Action'}">
+              <a href="./browse?genre=Action">Action</a>
+            </c:if>
           </td>
           <td>
+            <a href="./browse?genre=Crime">Crime</a>
             <a href="./browse?genre=Crime">Crime</a>
           </td>
           <td>
             <a href="./browse?genre=Foreign">Foreign</a>
+            <a href="./browse?genre=Foreign">Foreign</a>
           </td>
           <td>
+            <a href="./browse?genre=Romance">Romance</a>
             <a href="./browse?genre=Romance">Romance</a>
           </td>
         </tr>
@@ -42,14 +50,18 @@
         <tr>
           <td>
             <a href="./browse?genre=Adventure">Adventure</a>
+            <a href="./browse?genre=Adventure">Adventure</a>
           </td>
           <td>
+            <a href="./browse?genre=Drama">Drama</a>
             <a href="./browse?genre=Drama">Drama</a>
           </td>
           <td>
             <a href="./browse?genre=Horror">Horror</a>
+            <a href="./browse?genre=Horror">Horror</a>
           </td>
           <td>
+            <a href="./browse?genre=Science+Fiction">Science Fiction</a>
             <a href="./browse?genre=Science+Fiction">Science Fiction</a>
           </td>
         </tr>
@@ -59,14 +71,18 @@
         <tr>
           <td>
             <a href="./browse?genre=Animation">Animation</a>
+            <a href="./browse?genre=Animation">Animation</a>
           </td>
           <td>
+            <a href="./browse?genre=Family">Family</a>
             <a href="./browse?genre=Family">Family</a>
           </td>
           <td>
             <a href="./browse?genre=Musical">Musical</a>
+            <a href="./browse?genre=Musical">Musical</a>
           </td>
           <td>
+            <a href="./browse?genre=Thriller">Thriller</a>
             <a href="./browse?genre=Thriller">Thriller</a>
           </td>
         </tr>
@@ -76,14 +92,18 @@
         <tr>
           <td>
             <a href="./browse?genre=Comedy">Comedy</a>
+            <a href="./browse?genre=Comedy">Comedy</a>
           </td>
           <td>
+            <a href="./browse?genre=Fantasy">Fantasy</a>
             <a href="./browse?genre=Fantasy">Fantasy</a>
           </td>
           <td>
             <a href="./browse?genre=Mystery">Mystery</a>
+            <a href="./browse?genre=Mystery">Mystery</a>
           </td>
           <td>
+            <a href="./browse?genre=War">War</a>
             <a href="./browse?genre=War">War</a>
           </td>
         </tr>
@@ -101,34 +121,84 @@
       <table align="center" border="0" border="0" cellpadding="0" cellspacing="0" width="45%" style="margin-top: 10px; border-spacing: 0px !important">
         <tr>
           <td>
-             <a href="./browse?startsWith=0">0</a>
+             <c:if test="${param.startsWith == '0'}">
+              <a class="disabled" href="./browse?startsWith=0">0</a>
+             </c:if>
+             <c:if test="${param.startsWith != '0'}">
+              <a href="./browse?startsWith=0">0</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=1">1</a>
+             <c:if test="${param.startsWith == '1'}">
+              <a class="disabled" href="./browse?startsWith=1">1</a>
+             </c:if>
+             <c:if test="${param.startsWith != '1'}">
+              <a href="./browse?startsWith=1">1</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=2">2</a>
+             <c:if test="${param.startsWith == '2'}">
+              <a class="disabled" href="./browse?startsWith=2">2</a>
+             </c:if>
+             <c:if test="${param.startsWith != '2'}">
+              <a href="./browse?startsWith=2">2</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=3">3</a>
+             <c:if test="${param.startsWith == '3'}">
+              <a class="disabled" href="./browse?startsWith=3">3</a>
+             </c:if>
+             <c:if test="${param.startsWith != '3'}">
+              <a href="./browse?startsWith=3">3</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=4">4</a>
+             <c:if test="${param.startsWith == '4'}">
+              <a class="disabled" href="./browse?startsWith=4">4</a>
+             </c:if>
+             <c:if test="${param.startsWith != '4'}">
+              <a href="./browse?startsWith=4">4</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=5">5</a>
+             <c:if test="${param.startsWith == '5'}">
+              <a class="disabled" href="./browse?startsWith=5">5</a>
+             </c:if>
+             <c:if test="${param.startsWith != '5'}">
+              <a href="./browse?startsWith=5">5</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=6">6</a>
+             <c:if test="${param.startsWith == '6'}">
+              <a class="disabled" href="./browse?startsWith=6">6</a>
+             </c:if>
+             <c:if test="${param.startsWith != '6'}">
+              <a href="./browse?startsWith=6">6</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=7">7</a>
+             <c:if test="${param.startsWith == '7'}">
+              <a class="disabled" href="./browse?startsWith=7">7</a>
+             </c:if>
+             <c:if test="${param.startsWith != '7'}">
+              <a href="./browse?startsWith=7">7</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=8">8</a>
+             <c:if test="${param.startsWith == '8'}">
+              <a class="disabled" href="./browse?startsWith=8">8</a>
+             </c:if>
+             <c:if test="${param.startsWith != '8'}">
+              <a href="./browse?startsWith=8">8</a>
+             </c:if>
           </td>
           <td>
-             <a href="./browse?startsWith=9">9</a>
+             <c:if test="${param.startsWith == '9'}">
+              <a class="disabled" href="./browse?startsWith=9">9</a>
+             </c:if>
+             <c:if test="${param.startsWith != '9'}">
+              <a href="./browse?startsWith=9">9</a>
+             </c:if>
           </td>
         </tr>
       </table>
@@ -138,41 +208,54 @@
         <tr>
           <td>
             <a href="./browse?startsWith=A">A</a>
+            <a href="./browse?startsWith=A">A</a>
           </td>
           <td>
+            <a href="./browse?startsWith=B">B</a>
             <a href="./browse?startsWith=B">B</a>
           </td>
           <td>
             <a href="./browse?startsWith=C">C</a>
+            <a href="./browse?startsWith=C">C</a>
           </td>
           <td>
+            <a href="./browse?startsWith=D">D</a>
             <a href="./browse?startsWith=D">D</a>
           </td>
           <td>
             <a href="./browse?startsWith=E">E</a>
+            <a href="./browse?startsWith=E">E</a>
           </td>
           <td>
+            <a href="./browse?startsWith=F">F</a>
             <a href="./browse?startsWith=F">F</a>
           </td>
           <td>
             <a href="./browse?startsWith=G">G</a>
+            <a href="./browse?startsWith=G">G</a>
           </td>
           <td>
+            <a href="./browse?startsWith=H">H</a>
             <a href="./browse?startsWith=H">H</a>
           </td>
           <td>
             <a href="./browse?startsWith=I">I</a>
+            <a href="./browse?startsWith=I">I</a>
           </td>
           <td>
+            <a href="./browse?startsWith=J">J</a>
             <a href="./browse?startsWith=J">J</a>
           </td>
           <td>
             <a href="./browse?startsWith=K">K</a>
+            <a href="./browse?startsWith=K">K</a>
           </td>
           <td>
             <a href="./browse?startsWith=L">L</a>
+            <a href="./browse?startsWith=L">L</a>
           </td>
           <td>
+            <a href="./browse?startsWith=M">M</a>
             <a href="./browse?startsWith=M">M</a>
           </td>
         </tr>
@@ -182,41 +265,54 @@
         <tr>
           <td>
             <a href="./browse?startsWith=N">N</a>
+            <a href="./browse?startsWith=N">N</a>
           </td>
           <td>
+            <a href="./browse?startsWith=O">O</a>
             <a href="./browse?startsWith=O">O</a>
           </td>
           <td>
             <a href="./browse?startsWith=P">P</a>
+            <a href="./browse?startsWith=P">P</a>
           </td>
           <td>
+            <a href="./browse?startsWith=Q">Q</a>
             <a href="./browse?startsWith=Q">Q</a>
           </td>
           <td>
             <a href="./browse?startsWith=R">R</a>
+            <a href="./browse?startsWith=R">R</a>
           </td>
           <td>
+            <a href="./browse?startsWith=S">S</a>
             <a href="./browse?startsWith=S">S</a>
           </td>
           <td>
             <a href="./browse?startsWith=T">T</a>
+            <a href="./browse?startsWith=T">T</a>
           </td>
           <td>
+            <a href="./browse?startsWith=U">U</a>
             <a href="./browse?startsWith=U">U</a>
           </td>
           <td>
             <a href="./browse?startsWith=V">V</a>
+            <a href="./browse?startsWith=V">V</a>
           </td>
           <td>
+            <a href="./browse?startsWith=W">W</a>
             <a href="./browse?startsWith=W">W</a>
           </td>
           <td>
             <a href="./browse?startsWith=X">X</a>
+            <a href="./browse?startsWith=X">X</a>
           </td>
           <td>
             <a href="./browse?startsWith=Y">Y</a>
+            <a href="./browse?startsWith=Y">Y</a>
           </td>
           <td>
+            <a href="./browse?startsWith=Z">Z</a>
             <a href="./browse?startsWith=Z">Z</a>
           </td>
         </tr>
