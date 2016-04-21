@@ -115,8 +115,8 @@ public class Movie implements Serializable {
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
     if(!keywords.isEmpty()){
-        String loginUser = "root";
-        String loginPasswd = "waydowninthehole";
+        String loginUser = "testuser";
+        String loginPasswd = "testpass";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         MovieInfo movie = null;
@@ -249,8 +249,8 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "root";
-    String loginPasswd = "waydowninthehole";
+    String loginUser = "testuser";
+    String loginPasswd = "testpass";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
@@ -389,8 +389,8 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "root";
-    String loginPasswd = "waydowninthehole";
+    String loginUser = "testuser";
+    String loginPasswd = "testpass";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
@@ -447,8 +447,8 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "root";
-    String loginPasswd = "waydowninthehole";
+    String loginUser = "testuser";
+    String loginPasswd = "testpass";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
@@ -495,8 +495,8 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "root";
-    String loginPasswd = "waydowninthehole";
+    String loginUser = "testuser";
+    String loginPasswd = "testpass";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {

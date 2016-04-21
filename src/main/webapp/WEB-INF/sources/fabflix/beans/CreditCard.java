@@ -70,8 +70,8 @@ public class CreditCard implements Serializable {
         if(lastName == null)
             lastName = "";
 
-        String loginUser = "root";
-        String loginPasswd = "waydowninthehole";
+        String loginUser = "testuser";
+        String loginPasswd = "testpass";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         try {

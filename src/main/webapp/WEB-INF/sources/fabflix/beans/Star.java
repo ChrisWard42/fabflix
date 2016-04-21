@@ -109,8 +109,8 @@ public class Star implements Serializable, Comparable<Star>{
         List<StarInfo> searchResults = new ArrayList<StarInfo>();
         HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
 
-        String loginUser = "root";
-        String loginPasswd = "waydowninthehole";
+        String loginUser = "testuser";
+        String loginPasswd = "testpass";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         try {
