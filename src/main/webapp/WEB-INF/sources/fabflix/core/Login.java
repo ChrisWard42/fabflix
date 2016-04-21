@@ -30,7 +30,7 @@ public class Login extends HttpServlet
 
             if (email == null || password == null || email.equals("") || password.equals("")) {
                 request.getSession().setAttribute("user", null);
-                request.getSession().setAttribute("errorMsg", "Please fill out all fields.");
+                request.setAttribute("errorMsg", "Please fill out all fields.");
                 request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
                 return;
             }
@@ -58,7 +58,6 @@ public class Login extends HttpServlet
                                 user = new Customer(results.getInt("id"), results.getString("first_name"), results.getString("last_name"),
                                             results.getString("cc_id"), results.getString("address"), results.getString("email"), null);
                                 request.getSession().setAttribute("user", user);
-                                request.getSession().setAttribute("errorMsg", "");
                                 response.sendRedirect(request.getContextPath() + "/");
                                 return;
                             }
@@ -66,7 +65,7 @@ public class Login extends HttpServlet
                             // No matching user found, set error parameter and send back to login page
                             else {
                                 request.getSession().setAttribute("user", null);
-                                request.getSession().setAttribute("errorMsg", "Incorrect login information. Please try again.");
+                                request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
                                 request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
                                 return;
                             }
