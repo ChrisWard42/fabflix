@@ -29,37 +29,46 @@ public class Checkout extends HttpServlet {
         throws IOException, ServletException
     {
         String action = request.getParameter("action");
-        String ccId = request.getParameter("ccId");
+        String ccId = request.getParameter("ccNum");
         String expiry = request.getParameter("expiry");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
 
-        // Test the credit card information against what's show in the database
-        if (action.equals("purchase")) {
-            boolean valid = false;
+        // if(ccId != null && !ccId.isEmpty() && expiry != null && !expiry.isEmpty() &&
+        //     firstName != null && !firstName.isEmpty() && lastName != null && lastName.isEmpty()){
 
-        //     // Get credit card number and expiry permutations
-        //     if (Pattern.matches("\d\d/\d\d", expiry)) {
-        //         valid = CreditCard.check(ccId, expiry, firstName, lastName);
-        //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
-        //     }
-        //     else if (Pattern.matches("\d\d\d\d-\d\d-\d\d", expiry)) {
-        //         valid = CreditCard.check(ccId, expiry.substring(5,6) + "/" + expiry.substring(2,3), firstName, lastName);
-        //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(5,6) + "/" + expiry.substring(2,3), firstName, lastName);
-        //     }
-        //     else {
-        //         valid = CreditCard.check(ccId, expiry, firstName, lastName);
-        //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
-        //     }
+            // Test the credit card information against what's show in the database
+            if (action != null && action.equals("purchase")) {
+                boolean valid = false;
 
-            if (valid) {
-                response.sendRedirect(request.getContextPath() + "/confirmation");
-                return
+                // Get credit card number and expiry permutations
+                if (Pattern.matches("\\d\\d/\\d\\d", expiry)) {
+                    valid = CreditCard.check(ccId, expiry, firstName, lastName);
+                    if (!valid){
+                        valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
+                        // String n = null;
+                        // n.replace(" ","");
+                    }
+                }
+                else if (Pattern.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d", expiry)) {
+                    valid = CreditCard.check(ccId, expiry.substring(5,7) + "/" + expiry.substring(2,4), firstName, lastName);
+                    if (!valid)
+                        valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(5,7) + "/" + expiry.substring(2,4), firstName, lastName);
+                }
+                else {
+                    valid = CreditCard.check(ccId, expiry, firstName, lastName);
+                    if (!valid)
+                        valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
+                }
+
+                if (valid) {
+                    // String n = null;
+                    // n.replace(" ","");
+                    response.sendRedirect(request.getContextPath() + "/confirmation");
+                    return;
+                }
             }
-        }
+        // }
 
         request.getRequestDispatcher("/WEB-INF/checkout.jsp").forward(request, response);
     }
