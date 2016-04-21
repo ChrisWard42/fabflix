@@ -36,7 +36,7 @@
           <td>
             <div class="input-group">
               <span class="input-group-addon" id="basic-addon1">Credit Number</span>
-              <input type="text" class="form-control" placeholder="3-20 digits" name="ccNum" value="${param.ccNum}">
+              <input type="text" class="form-control" placeholder="1-20 digits" name="ccNum" value="${param.ccNum}">
             </div>
           </td>
         </tr>
