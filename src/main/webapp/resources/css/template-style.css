@@ -6,16 +6,16 @@ body {
   background: #777;
   margin: auto;
   width: 80%;
-  height: 100%;
-}
-
-html {
-  height: 100%;
+  height: auto;
 }
 
 nav .btn {
   background: rgba(247, 60, 60, 0.0) !important;
   border: 0px !important;
+}
+
+a {
+  color: #ff3434 !important;
 }
 
 .dropdown-menu {
