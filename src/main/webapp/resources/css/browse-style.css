@@ -258,5 +258,6 @@ footer .panel-footer {
 .disabled {
   pointer-events: none;
   cursor: default;
-  font-weight: bold;
+  font-weight: bolder !important;
+  color: #ff3434 !important;
 }
