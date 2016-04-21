@@ -46,8 +46,6 @@ public class Checkout extends HttpServlet {
                     valid = CreditCard.check(ccId, expiry, firstName, lastName);
                     if (!valid){
                         valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
-                        // String n = null;
-                        // n.replace(" ","");
                     }
                 }
                 else if (Pattern.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d", expiry)) {
@@ -62,8 +60,6 @@ public class Checkout extends HttpServlet {
                 }
 
                 if (valid) {
-                    // String n = null;
-                    // n.replace(" ","");
                     response.sendRedirect(request.getContextPath() + "/confirmation");
                     return;
                 }

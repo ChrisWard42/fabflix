@@ -107,25 +107,25 @@ public class CreditCard implements Serializable {
             String endDate = "20" + nextYear + "-" + nextMonth + "-01";
 
             statement = connection.prepareStatement(checkQuery);
-            
+
             statement.setString(1, ccid);
             statement.setDate(2, java.sql.Date.valueOf(expiry));
             statement.setDate(3, java.sql.Date.valueOf(endDate));
-            statement.setString(2, firstName);
-            statement.setString(2, lastName);
+            statement.setString(4, firstName);
+            statement.setString(5, lastName);
 
             ResultSet results = statement.executeQuery();
 
-            statement.close();
-            connection.close();
-
-
-            if (!results.next()){
+            if (!results.isBeforeFirst()){
                 results.close();
+                statement.close();
+                connection.close();
                 return false;
             }
             else{
                 results.close();
+                statement.close();
+                connection.close();
                 return true;
             }
         } 
