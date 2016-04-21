@@ -35,31 +35,31 @@ public class Checkout extends HttpServlet {
         String lastName = request.getParameter("lastName");
 
         // Test the credit card information against what's show in the database
-        // if (action.equals("purchase")) {
-        //     boolean valid = false;
+        if (action.equals("purchase")) {
+            boolean valid = false;
 
-        //     // Get credit card number and expiry permutations
-        //     if (Pattern.matches("\d\d/\d\d", expiry)) {
-        //         valid = CreditCard.check(ccId, expiry, firstName, lastName);
-        //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
-        //     }
-        //     else if (Pattern.matches("\d\d\d\d-\d\d-\d\d", expiry)) {
-        //         valid = CreditCard.check(ccId, expiry.substring(2,3) + "/" + expiry.substring(5,6), firstName, lastName);
-        //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(2,3) + "/" + expiry.substring(5,6), firstName, lastName);
-        //     }
-        //     else {
-        //         valid = CreditCard.check(ccId, expiry, firstName, lastName);
-        //         if (!valid)
-        //             valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
-        //     }
+            // Get credit card number and expiry permutations
+            if (Pattern.matches("\d\d/\d\d", expiry)) {
+                valid = CreditCard.check(ccId, expiry, firstName, lastName);
+                if (!valid)
+                    valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
+            }
+            else if (Pattern.matches("\d\d\d\d-\d\d-\d\d", expiry)) {
+                valid = CreditCard.check(ccId, expiry.substring(2,3) + "/" + expiry.substring(5,6), firstName, lastName);
+                if (!valid)
+                    valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(2,3) + "/" + expiry.substring(5,6), firstName, lastName);
+            }
+            else {
+                valid = CreditCard.check(ccId, expiry, firstName, lastName);
+                if (!valid)
+                    valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
+            }
 
-        //     if (valid) {
-        //         response.sendRedirect(request.getContextPath() + "/confirmation");
-        //         return
-        //     }
-        // }
+            if (valid) {
+                response.sendRedirect(request.getContextPath() + "/confirmation");
+                return
+            }
+        }
 
         request.getRequestDispatcher("/WEB-INF/checkout.jsp").forward(request, response);
     }
