@@ -83,7 +83,7 @@
       <tr height="260px">
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://images.amazon.com/images/P/B00005LKHW.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <img class="img-responsive" src="resources/img/banner_url/683008" alt="" height="260px">
             <div class="overlay">
               <h2>Barbershop</h2>
               <a class="info" href="./movie/683008">View Movie Page</a>
@@ -92,7 +92,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://images.amazon.com/images/P/B00004Z4WR.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <img class="img-responsive" src="resources/img/banner_url/140004" alt="" height="260px">
             <div class="overlay">
               <h2>Gone in 60 Seconds</h2>
               <a class="info" href="./movie/140004">View Movie Page</a>
@@ -101,7 +101,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://images.amazon.com/images/P/B000062XH9.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <img class="img-responsive" src="resources/img/banner_url/683006" alt="" height="260px">
             <div class="overlay">
               <h2>Oceans Eleven</h2>
               <a class="info" href="./movie/683006">View Movie Page</a>
@@ -110,7 +110,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://images.amazon.com/images/P/B00003CX5A.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <img class="img-responsive" src="resources/img/banner_url/855008" alt="" height="260px">
             <div class="overlay">
               <h2>Sleepy Hollow</h2>
               <a class="info" href="./movie/855008">View Movie Page</a>
@@ -119,7 +119,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://images.amazon.com/images/P/B00005R87Q.01.LZZZZZZZ.jpg" alt="" height="260px">
+            <img class="img-responsive" src="resources/img/banner_url/683007" alt="" height="260px">
             <div class="overlay">
               <h2>The Fast and the Furious</h2>
               <a class="info" href="./movie/683007" style="margin:160px 0 0;">View Movie Page</a>
@@ -145,7 +145,7 @@
       <tr height="260px">
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://www.kcweb.com/superm/supermg/b_willis.jpg" alt="">
+            <img class="img-responsive" src="resources/img/photo_url/855102" alt="">
             <div class="overlay">
               <h2>Bruce Willis</h2>
               <a class="info" href="./star/855102">View Star Page</a>
@@ -154,7 +154,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://www.askmen.com/imagesmodel/aug00/estella_warren/estella_warren_150.JPG" alt="">
+            <img class="img-responsive" src="resources/img/photo_url/683019" alt="">
             <div class="overlay">
               <h2>Estella Warren</h2>
               <a class="info" href="./star/683019">View Star Page</a>
@@ -163,7 +163,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://www.askmen.com/imagessexsymbol/2001_jun/gina_gershon/gina_gershon_150.jpg" alt="">
+            <img class="img-responsive" src="resources/img/photo_url/683018" alt="">
             <div class="overlay">
               <h2>Gina Gershon</h2>
               <a class="info" href="./star/683018">View Star Page</a>
@@ -172,7 +172,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://www.kidzworld.com/img/upload/article/a957i0_bradpittAw.jpg" alt="">
+            <img class="img-responsive" src="resources/img/photo_url/855106" alt="">
             <div class="overlay">
               <h2>Brad Pitt</h2>
               <a class="info" href="./star/855106">View Star Page</a>
@@ -181,7 +181,7 @@
         </td>
         <td width="20%">
           <div class="hovereffect">
-            <img class="img-responsive" src="http://www.eforu.com/cards/pictures/jackiechan/jc10_thumb.jpg" alt="">
+            <img class="img-responsive" src="resources/img/photo_url/855100" alt="">
             <div class="overlay">
               <h2>Jackie Chan</h2>
               <a class="info" href="./star/855100">View Star Page</a>
