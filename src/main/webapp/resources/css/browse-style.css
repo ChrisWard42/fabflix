@@ -254,3 +254,9 @@ footer .panel-footer {
 #id {
   color: #999;
 }
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  font-weight: bold;
+}

@@ -4,15 +4,15 @@
   <table border="0" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
       <td align="left">
+        <c:if test="${pageContext.request.servletPath == '/WEB-INF/search.jsp'}">
+          <form id="sort" method="get" action="./search">
+        </c:if>
+        <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
+          <form id="sort" method="get" action="./browse">
+        </c:if>
         <div class="input-group">
           <span class="input-group-addon" id="basic-addon1">Sort by:</span>
           <div class="input-group-btn">
-            <c:if test="${pageContext.request.servletPath == '/WEB-INF/search.jsp'}">
-              <form id="sort" method="get" action="./search">
-            </c:if>
-            <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
-              <form id="sort" method="get" action="./browse">
-            </c:if>
               <%@ include file="sort-params.jsp" %>
               <c:choose>
                 <c:when test="${param.sort == 'title-asc'}">
@@ -31,27 +31,42 @@
                   <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/expand-gray.png" alt="" height="10px" hspace="10px">Year</button>
                 </c:otherwise>
               </c:choose>
-            </form>
           </div>
         </div>
+        </form>
       </td>
       <td align="right">
-        <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">Items per Page:</span>
-          <div class="input-group-btn">
-            <c:if test="${pageContext.request.servletPath == '/WEB-INF/search.jsp'}">
-              <form id="limit" method="get" action="./search">
-            </c:if>
-            <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
-              <form id="limit" method="get" action="./browse">
-            </c:if>
-              <%@ include file="limit-params.jsp" %>
-              <button class="btn btn-default" type="submit" name="limit" value="10">10</button>
-              <button class="btn btn-default" type="submit" name="limit" value="25">25</button>
-              <button class="btn btn-default" type="submit" name="limit" value="50">50</button>
-            </form>
+        <c:if test="${pageContext.request.servletPath == '/WEB-INF/search.jsp'}">
+          <form id="limit" method="get" action="./search">
+        </c:if>
+        <c:if test="${pageContext.request.servletPath == '/WEB-INF/browse.jsp'}">
+          <form id="limit" method="get" action="./browse">
+        </c:if>
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Items per Page:</span>
+            <div class="input-group-btn">
+                <%@ include file="limit-params.jsp" %>
+                <c:if test="${param.limit != 10 and empty param.limit != true}">
+                  <button class="btn btn-default" type="submit" name="limit" value="10">10</button>
+                </c:if>
+                <c:if test="${param.limit == 10 or empty param.limit}">
+                  <button class="btn btn-default active" type="submit" aria-pressed="true" name="limit" value="10">10</button>
+                </c:if>
+                <c:if test="${param.limit != 25}">
+                  <button class="btn btn-default" type="submit" name="limit" value="25">25</button>
+                </c:if>
+                <c:if test="${param.limit == 25}">
+                  <button class="btn btn-default active" type="submit" aria-pressed="true" name="limit" value="25">25</button>
+                </c:if>
+                <c:if test="${param.limit != 50}">
+                  <button class="btn btn-default" type="submit" name="limit" value="50">50</button>
+                </c:if>
+                <c:if test="${param.limit == 50}">
+                  <button class="btn btn-default active" type="submit" aria-pressed="true" name="limit" value="50">50</button>
+                </c:if>
+            </div>
           </div>
-        </div>
+        </form>
       </td>
     </tr>
   </table>
