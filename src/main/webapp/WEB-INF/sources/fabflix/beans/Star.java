@@ -169,18 +169,6 @@ public class Star implements Serializable, Comparable<Star>{
         Integer movieId = results.getInt("mid");
         String movieTitle = results.getString("title");
 
-        // int year = 1900;
-        // int month = 1;
-        // int day = 1;
-
-        // //split dob string into year, month and day array
-        // if(dob != null && !dob.isEmpty()){
-        //   String dateVals[] = dob.split("-");
-        //   year = Integer.parseInt(dateVals[0]);
-        //   month = Integer.parseInt(dateVals[1]);
-        //   day = Integer.parseInt(dateVals[2]);
-        // }
-
         if(!searchResultsMap.containsKey(id)){
           searchResultsMap.put(id, 
             new StarInfo(id, fName, lName, dob, photo_url, new HashSet<Movie>()));
