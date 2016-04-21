@@ -16,25 +16,25 @@
               <%@ include file="sort-params.jsp" %>
               <c:choose>
                 <c:when test="${param.sort == 'title-asc'}">
-                  <button class="btn btn-default" type="submit" name="sort" value="title-desc"><img src="resources/img/triangle3.png" alt="" height="10px" hspace="10px">Title</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="title-desc"><img src="resources/img/triangle_up.png" alt="" height="10px" hspace="10px">Title</button>
                 </c:when>
                 <c:when test="${param.sort == 'title-desc'}">
-                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/triangle2.png" alt="" height="10px" hspace="10px">Title</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/triangle_down.png" alt="" height="10px" hspace="10px">Title</button>
                 </c:when>
                 <c:otherwise>
-                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/triangle1.png" alt="" height="10px" hspace="10px">Title</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="title-asc"><img src="resources/img/triangle_none.png" alt="" height="10px" hspace="10px">Title</button>
                 </c:otherwise>
               </c:choose>
 
               <c:choose>
                 <c:when test="${param.sort == 'year-asc'}">
-                  <button class="btn btn-default" type="submit" name="sort" value="year-desc"><img src="resources/img/triangle3.png" alt="" height="10px" hspace="10px">Year</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="year-desc"><img src="resources/img/triangle_up.png" alt="" height="10px" hspace="10px">Year</button>
                 </c:when>
                 <c:when test="${param.sort == 'year-desc'}">
-                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/triangle2.png" alt="" height="10px" hspace="10px">Year</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/triangle_down.png" alt="" height="10px" hspace="10px">Year</button>
                 </c:when>
                 <c:otherwise>
-                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/triangle1.png" alt="" height="10px" hspace="10px">Year</button>
+                  <button class="btn btn-default" type="submit" name="sort" value="year-asc"><img src="resources/img/triangle_none.png" alt="" height="10px" hspace="10px">Year</button>
                 </c:otherwise>
               </c:choose>
           </div>
@@ -102,7 +102,7 @@
 
   <table class="list" align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
     <c:forEach var="item" items="${movieDisplay}">
-      <tr style="padding: 10px 0">
+      <tr style="padding: 10px 0" height="200px">
         <td class="poster_pic">
           <a href="./movie/${item.id}">
           <img src="${item.bannerUrl}" crossorigin="anonymous" alt="" width="100%" onError="this.src='resources/img/dora-error-img.png';" />

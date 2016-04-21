@@ -30,7 +30,7 @@
     <table class="list" align="center" border="0" cellpadding="0" cellspacing="0" width="50%">
       <tr>
         <td class="poster_pic">
-          <img src="${star.photoUrl}" alt="" onError="this.src='resources/img/dora-error-img.png'" height="475px" />
+          <img src="${star.photoUrl}" alt="" onError="this.src='resources/img/dora-error-img.png'" height="300px" />
         </td>
       </tr>
 
