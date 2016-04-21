@@ -15,10 +15,14 @@ README
 
 [X] Add Database User
     - Add the user "testuser" with password "testpass" to moviedb database
-
+	
 Switch Application Logins to User
     - Switch the root/waydowninthehole logins to testuser/testpass and use those files in submission
 
+Re-enable disabled components
+	- Uncomment the authentication filter and check that it works
+	- Uncomment the error page and check that it works
+	
 Package WAR Submission
     - Submit .war file to EEE, with all dependencies included
         - Use command: ./gradlew -PwAN=project2_7 assemble
