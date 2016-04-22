@@ -18,15 +18,43 @@
         <span style="font-weight:bold">Tomcat webapps directory on our AWS instance:</span> /opt/tomcat/webapps<br><br>
 
         If deploying the WAR file as-is doesn't work and the sources need to be recompiled there are two ways to
-        accomplish this, the recommended way that we've utilized throughout development, and a kludgy way we
-        made for this readme but have only tested twice.<br><br>
+        accomplish this, the automatic way that we've utilized throughout development, and a kludgy way we
+        made for this readme but have only tested twice, but which should be quicker for grading.<br><br>
 
-        <h4>Automatic Installation with Gradle (Recommended)</h4><br>
+        <h4>Manual Installation with Java Command Line</h4><br>
+
+        First unpack the WAR file somewhere and navigate to the WEB-INF/classes folder. Delete all of the *.class files from
+        here so that they can be recompiled. From that folder:<br><br>
+
+        rm -r fabflix<br><br>
+
+        Then navigate to the sources folder:<br><br>
+
+        cd ../sources<br><br>
+
+        Run the following command to recompile all of the sources into bytecode in the classes directory:<br><br>
+
+        javac -cp ".:../lib/*" fabflix/beans/*.java fabflix/core/*.java fabflix/filters/*.java -d ../classes<br><br>
+
+        Then move back to the main directory and package it into a WAR file again:<br><br>
+
+        cd ..<br>
+        jar cvf ../web_app_name.war *.*<br>
+        cd ..<br>
+        ls<br>
+
+        Grab the file generated and deploy it using the Tomcat Web Manager, or by manually placing the WAR file in the Tomcat
+        webapps directory. As previously mentioned, if deploying to our AWS server, avoid using names live_site, chris, benla, and
+        stevo, and note that our webapps directory is:<br><br>
+
+        /opt/tomcat/webapps/<br><br>
+
+        <h4>Automatic Installation with Gradle</h4><br>
 
         We're utilizing <a href="http://gradle.org/">Gradle</a> as our build and deploy system for the projects.
         In order to utilize our Gradle build scripts, download the files at the following link:<br><br>
 
-        <span style="font-weight:bold"><a href="http://50.18.81.254/chris/resources/gradle/gradle.zip">Download Gradle Build Files</a></span> (<span style="font-weight:bold"><a href="#">Mirror</a></span>)<br><br>
+        <span style="font-weight:bold"><a href="http://50.18.81.254/chris/resources/gradle/gradle.zip">Download Gradle Build Files</a></span> (<span style="font-weight:bold"><a href="https://www.sendspace.com/file/vzh2bi">Mirror</a></span>)<br><br>
 
         Extract the ZIP file to any directory, and extract the submitted WAR file as well, deleting all of the *.class files in WEB-INF/classes if desired. Then place all of the contents of the WAR file (META-INF folder, WEB-INF folder, resources folder, error.html) in the folder:<br><br>
 
@@ -56,9 +84,5 @@
         ./gradlew -PwAN=your_app_name assemble<br>
         ./gradlew -PwAN=your_app_name cDR<br>
         ./gradlew -PwAN=your_app_name cW<br><br>
-
-        <h4>Manual Installation with Java Command Line</h4><br>
-
-        Coming Soon
     </td>
 </tr>
