@@ -5,7 +5,7 @@ The following things need to be completed to ready the project for submission:
         - See the project 2 description page under Substring matching for more info
     - This needs to be accessible at 50.18.81.254/fabflix/reports/like-predicate
 
-README
+[X] README
     - Write a README file detailing how to compile java sources and deploy the application
     - File should be located in WEB-INF/sources
     - Should also be accessible at 50.18.81.254/fabflix/reports/readme
@@ -23,7 +23,7 @@ README
 	- Uncomment the authentication filter and check that it works
 	- Uncomment the error page and check that it works
 	
-Package WAR Submission
+[X] Package WAR Submission
     - Submit .war file to EEE, with all dependencies included
         - Use command: ./gradlew -PwAN=project2_7 assemble
         - Grab the generated WAR file from the build/libs directory generated
@@ -31,6 +31,6 @@ Package WAR Submission
 [X] Deploy Fabflix
     - Web app for grading should be located at 50.18.81.254/fabflix
 
-Lock Fabflix
+[X] Lock Fabflix
     - Nothing should be changed or deployed to the fabflix folder after submission
     - Block deployment in build script just in case

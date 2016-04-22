@@ -111,6 +111,9 @@ task checkLiveSite() << {
     if(project.property("wAN").toString().equals("live_site")) {
         throw new GradleException("Build failed. Do not run quick deploy on live site.")
     }
+    if(project.property("wAN").toString().equals("fabflix")) {
+        throw new GradleException("Do not deploy updates to fabflix while grading underway.")
+    }
 }
 
 // Macro to run assemble, redeploy, and cleanup all in a row
