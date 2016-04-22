@@ -28,7 +28,7 @@ Package WAR Submission
         - Use command: ./gradlew -PwAN=project2_7 assemble
         - Grab the generated WAR file from the build/libs directory generated
 
-Deploy Fabflix
+[X] Deploy Fabflix
     - Web app for grading should be located at 50.18.81.254/fabflix
 
 Lock Fabflix
