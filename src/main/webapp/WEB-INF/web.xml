@@ -137,8 +137,15 @@
   </servlet-mapping>
 
 
-<!-- Primary JSPs -->
+  <servlet>
+    <servlet-name>DashboardServlet</servlet-name>
+    <servlet-class>fabflix.core.Dashboard</servlet-class>
+  </servlet>
 
+  <servlet-mapping>
+    <servlet-name>DashboardServlet</servlet-name>
+    <url-pattern>/_dashboard/*</url-pattern>
+  </servlet-mapping>
 
 
 <!-- Filter Servlets -->
@@ -163,10 +170,12 @@
     <url-pattern>/checkout/*</url-pattern>
     <url-pattern>/confirmation/*</url-pattern>
     <url-pattern>/reports/*</url-pattern>
+    <url-pattern>/_dashboard/*</url-pattern>
   </filter-mapping>
 
 
 <!-- Other Declarations -->
+
 
   <jsp-config>
     <jsp-property-group>
@@ -176,7 +185,8 @@
     </jsp-property-group>
   </jsp-config>
 
-  <error-page>
+
+  <!-- <error-page>
     <error-code>401</error-code>
     <location>/error.html</location>
   </error-page>
@@ -195,7 +205,28 @@
   <error-page>
     <error-code>503</error-code>
     <location>/error.html</location>
-  </error-page>
+  </error-page> -->
+
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>HTTPSOnly</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>HTTPSorHTTP</web-resource-name>
+      <url-pattern>*.ico</url-pattern>
+      <url-pattern>/resources/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
 
 
 </web-app>
