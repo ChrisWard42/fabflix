@@ -7,7 +7,7 @@
   <title>Fabflix</title>
   <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
   <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/template-style.css">
+  <link rel="stylesheet" href="resources/css/dashboard-style.css">
 </head>
 <body>
   <!--  Start of Navigation Bar -->
@@ -16,31 +16,28 @@
   </header>
   <!--  End of Navigation Bar -->
 
-  <div class="page">
-
     <!-- Start of Section -->
-    <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
-      <%-- <c:choose>
+      <c:choose>
+      <c:when test="${dashboard == 'login'}">
+        <%@ include file="include/dashboard-login.jsp" %>
+      </c:when>
       <c:when test="${dashboard == 'insertstar'}">
         <%@ include file="include/dashboard-insertstar.jsp" %>
       </c:when>
       <c:when test="${dashboard == 'metadata'}">
         <%@ include file="include/dashboard-metadata.jsp" %>
       </c:when>
-      <c:when test="${dashboard == 'addmovie'}">
-        <%@ include file="include/dashboard-addmovie.jsp" %>
+      <c:when test="${dashboard == 'insertmovie'}">
+        <%@ include file="include/dashboard-insertmovie.jsp" %>
       </c:when>
-      <c:when test="${dashboard == 'modifymovie'}">
-        <%@ include file="include/dashboard-modifymovie.jsp" %>
+      <c:when test="${dashboard == 'updatemovie'}">
+        <%@ include file="include/dashboard-updatemovie.jsp" %>
       </c:when>
-      <c:otherwise> --%>
+      <c:otherwise>
         <%@ include file="include/dashboard-index.jsp" %>
-      <%-- </c:otherwise>
-      </c:choose> --%>
-    </table>
+      </c:otherwise>
+      </c:choose>
     <!-- End of Section -->
-
-  </div>
 
   <!-- Start of Footer -->
   <footer>

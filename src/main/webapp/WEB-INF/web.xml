@@ -170,7 +170,7 @@
     <url-pattern>/checkout/*</url-pattern>
     <url-pattern>/confirmation/*</url-pattern>
     <url-pattern>/reports/*</url-pattern>
-    <url-pattern>/_dashboard/*</url-pattern>
+    <!-- <url-pattern>/_dashboard/*</url-pattern> -->
   </filter-mapping>
 
 
