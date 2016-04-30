@@ -51,6 +51,7 @@ dependencies {
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
 
     compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar')
+    testCompile 'junit:junit:4.12'
     //compile files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
 
     //compile 'mysql:mysql-connector-java:5.1.38'

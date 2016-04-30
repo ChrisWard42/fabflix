@@ -1,5 +1,4 @@
 <div class="dashboard">
-  <form id="dashboard-metadata" method="post" action="./_dashboard">
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
       <tr>
         <td align="center" style="padding: 20px">
@@ -8,27 +7,50 @@
       </tr>
     </table>
 
-    <c:forEach var="table" items="${metadata}">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <c:forEach var="col" items="${table.head}">
-              <th>${col}</th>
-            </c:forEach>
-          </tr>
-        </thead>
-        <tbody>
-          <c:forEach var="row" items="${table.row}">
-            <tr>
-              <c:forEach var="col" items="${row.col}">
-                <td>${col}</td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
+      <tr>
+        <td align="center" style="padding: 20px">
+          <table class="table table-striped" align="center" border="0" cellpadding="0" cellspacing="0">
+            <thead>
+              <tr>
+                  <th>${metadataTblsHead}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:forEach var="tableName" items="${metadataTbls}">
+                <tr>
+                    <td>${tableName}</td>
+                </tr>
               </c:forEach>
-            </tr>
-          </c:forEach>
-        </tbody>
-      </table>
-    </c:forEach>
+            </tbody>
+          </table>
 
+          <c:forEach var="table" items="${metadata}">
+            <table class="table table-striped" align="center" border="0" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                    <th colspan="2">${table.key}</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <th>${metadataAttribute}</th>
+                    <th>${metadataType}</th>
+                  </tr>
+                <c:forEach var="row" items="${table.value}">
+                  <tr>
+                      <td>${row.key}</td>
+                      <td>${row.value}</td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+          </c:forEach>
+        </td>
+      </tr>
+    </table>
+
+  <form id="dashboard-metadata" method="post" action="./_dashboard">
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
       <tr class="title">
         <td align="center" style="padding: 20px">

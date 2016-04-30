@@ -112,3 +112,20 @@ footer .panel-footer {
   /*border-radius: 0px;*/
   width: 125px;
 }
+
+.table {
+  width: 50% !important;
+  table-layout: fixed !important;
+  word-wrap: break-word !important;
+  background: transparent !important;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #d1d1d1;
+ }
+
+ .table-striped>tbody>tr:nth-child(even)>td, 
+.table-striped>tbody>tr:nth-child(even)>th {
+   background-color: #f2f2f2;
+ }

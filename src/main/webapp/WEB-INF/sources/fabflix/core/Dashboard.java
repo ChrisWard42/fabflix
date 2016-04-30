@@ -36,6 +36,7 @@ public class Dashboard extends HttpServlet {
         // Perform actions based on requested module assuming employee properly logged in
         String action = request.getParameter("action");
 
+        // TODO: Move the Login database logic out of this file
         if (Objects.equals(action, "login")) {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
@@ -65,7 +66,7 @@ public class Dashboard extends HttpServlet {
 
                         try (ResultSet results = statement.executeQuery())
                         {
-                            // Found a matching employee in the database, so create Employee object and put it in session
+                            // Found a matching employee, create Employee object and put it in session
                             if (results.next()) {
                                 employee = new Employee(results.getString("email"), results.getString("password"),
                                                         results.getString("fullname"));
@@ -118,8 +119,52 @@ public class Dashboard extends HttpServlet {
             return;
         }
 
+        // TODO: Move the Metadata database logic out of this file
         else if (Objects.equals(dashboard, "metadata")) {
-            System.out.println("Metadata logic goes here.");
+            String loginUser = "root";
+            String loginPasswd = "waydowninthehole";
+            String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                {
+                    DatabaseMetaData meta = connection.getMetaData();
+                    ArrayList<String> tableNames = new ArrayList<String>();
+                    try (ResultSet results = meta.getTables(null, null, null, new String[]{"TABLE"});)
+                    {
+                        while (results.next()) {
+                            String table = results.getString("TABLE_NAME");
+                            tableNames.add(table);
+                        }
+
+                        request.setAttribute("metadataTblsHead", "Tables in Database");
+                        request.setAttribute("metadataTbls", tableNames);
+                    }
+
+                    LinkedHashMap<String, LinkedHashMap<String, String>> tables = 
+                                                        new LinkedHashMap<String, LinkedHashMap<String, String>>();
+                    for (String table : tableNames) {
+                        LinkedHashMap<String, String> columns = new LinkedHashMap<String, String>();
+                        try (ResultSet colResults = meta.getColumns(null, null, table, null);) {
+                            while (colResults.next()) {
+                                String field = colResults.getString("COLUMN_NAME");
+                                String type = colResults.getString("TYPE_NAME");
+
+                                columns.put(field, type);
+                            }
+                        }
+                        tables.put(table, columns);
+                    }
+
+                    request.setAttribute("metadataAttribute", "Attribute");
+                    request.setAttribute("metadataType", "Type");
+                    request.setAttribute("metadata", tables);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         request.setAttribute("dashboard", dashboard);
