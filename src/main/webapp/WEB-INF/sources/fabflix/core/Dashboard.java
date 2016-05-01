@@ -36,6 +36,11 @@ public class Dashboard extends HttpServlet {
         // Perform actions based on requested module assuming employee properly logged in
         String action = request.getParameter("action");
 
+        // Database information and credentials, consider making external
+        String loginUser = "root";
+        String loginPasswd = "waydowninthehole";
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
         // TODO: Move the Login database logic out of this file
         if (Objects.equals(action, "login")) {
             String email = request.getParameter("email");
@@ -49,10 +54,6 @@ public class Dashboard extends HttpServlet {
                 return;
             }
             else {
-                String loginUser = "root";
-                String loginPasswd = "waydowninthehole";
-                String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
                 String checkEmployee = "SELECT * FROM employees " +
                         "WHERE email = ? AND password = ?;";
 
@@ -93,13 +94,124 @@ public class Dashboard extends HttpServlet {
         }
 
 
+        // TODO: Move the Insert Movie database logic out of this file
         else if (Objects.equals(action, "insertmovie")) {
-            System.out.println("Insert Movie logic goes here.");
+            // Get parameters from form
+            String movieTitle = request.getParameter("movieTitle");
+            String movieYear = request.getParameter("movieYear");
+            String movieDirector = request.getParameter("movieDirector");
+            String movieBannerUrl = request.getParameter("movieBannerUrl");
+            String movieTrailerUrl = request.getParameter("movieTrailerUrl");
+
+            String genreName = request.getParameter("genreName");
+
+            String starFirstName = request.getParameter("starFirstName");
+            String starLastName = request.getParameter("starLastName");
+            String starDob = request.getParameter("starDob");
+            String starPhotoUrl = request.getParameter("starPhotoUrl");
+
+            // If title/year/director not entered, print error message
+            if (movieTitle.isEmpty() || movieYear.isEmpty() || movieDirector.isEmpty()) {
+                request.setAttribute("errorMsg", "Invalid movie information. 
+                    You must enter a title, year, and director to insert a movie.");
+                request.setAttribute("dashboard", "insertmovie");
+                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                return;
+            }
+            // If star dob or photo url entered, but no first/last name, print an error msg
+            else if (starFirstName.isEmpty() && starLastName.isEmpty() &&
+                    (!starDob.isEmpty() || !starPhotoUrl.isEmpty())) {
+                request.setAttribute("errorMsg", "Invalid star information. Please either provide a first name
+                    or last name for the star, or leave the date of birth and photo url fields blank.");
+                request.setAttribute("dashboard", "insertmovie");
+                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                return;
+            }
+
+            // If they only specified a first name, store it as the last name for DB consistency
+            if (lastName.isEmpty()) {
+                lastName = firstName;
+                firstName = "";
+            }
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                {                    
+                    System.out.println("Not implemented yet.");
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // If everything succeeded, send back to the dashboard page with a success message
+            request.getSession().setAttribute("successMsg", "Successfully inserted Movie into database: "
+                                 + movieTitle + ".");
+            response.sendRedirect(request.getContextPath() + "/_dashboard");
+            return;
         }
 
 
+        // TODO: Move the Insert Star database logic out of this file
         else if (Objects.equals(action, "insertstar")) {
-            System.out.println("Insert Star logic goes here.");
+            // Get parameters from form
+            String firstName = request.getParameter("starFirstName");
+            String lastName = request.getParameter("starLastName");
+            String dob = request.getParameter("starDob");
+            String photoURL = request.getParameter("starPhotoUrl");
+
+            // If no first or last name specified, return to page and print an error message
+            if (firstName.isEmpty() && lastName.isEmpty()) {
+                request.setAttribute("errorMsg", "Please provide at least a first name or last name.");
+                request.setAttribute("dashboard", "insertstar");
+                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                return;
+            }
+
+            // If they only specified a first name, store it as the last name for DB consistency
+            if (lastName.isEmpty()) {
+                lastName = firstName;
+                firstName = "";
+            }
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                {                    
+                    String insert = "INSERT INTO stars(first_name, last_name, dob, photo_url) VALUES(?, ?, ?, ?)";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(insert);){
+                           
+                        preparedStatement.setString(1, firstName);
+                        preparedStatement.setString(2, lastName);
+
+                        // Perform validation on dob and photoURL fields
+                        if (dob == null || dob.isEmpty()) {
+                            preparedStatement.setNull(3, java.sql.Types.DATE);
+                        }
+                        else {
+                            preparedStatement.setDate(3, java.sql.Date.valueOf(dob));
+                        }
+                        if (photoURL == null || photoURL.isEmpty()) {
+                            preparedStatement.setNull(4, java.sql.Types.VARCHAR);
+                        }
+                        else {
+                            preparedStatement.setString(4, photoURL);
+                        }
+                        
+                        preparedStatement.executeUpdate();
+                    }
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // If everything succeeded, send back to the dashboard page with a success message
+            request.getSession().setAttribute("successMsg", "Successfully inserted Star into database: "
+                                 + firstName + " " + lastName + ".");
+            response.sendRedirect(request.getContextPath() + "/_dashboard");
+            return;
         }
 
 
@@ -107,11 +219,13 @@ public class Dashboard extends HttpServlet {
             System.out.println("Update Movie logic goes here.");
         }
 
+
         // If page requested is login, and employee is logged in, redirect to index
         else if (Objects.equals(dashboard, "login") && employee != null) {
             response.sendRedirect(request.getContextPath() + "/_dashboard");
             return;
         }
+
 
         // If page requested is any other page and employee is not logged in, redirect to login
         else if (!Objects.equals(dashboard, "login") && employee == null) {
@@ -119,12 +233,9 @@ public class Dashboard extends HttpServlet {
             return;
         }
 
+
         // TODO: Move the Metadata database logic out of this file
         else if (Objects.equals(dashboard, "metadata")) {
-            String loginUser = "root";
-            String loginPasswd = "waydowninthehole";
-            String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)

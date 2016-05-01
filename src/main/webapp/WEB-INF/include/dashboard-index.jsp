@@ -14,6 +14,7 @@
                 </c:if>
                 <c:if test="${empty successMsg == false}">
                     <div class="alert alert-success" role="alert">${successMsg}</div><br>
+                    <c:remove var="successMsg" scope="session" />
                 </c:if>
 
                 <a href="./_dashboard/insertmovie" class="btn btn-default btn-lg" role="button">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insert New Movie&nbsp;&nbsp;&nbsp;&nbsp;</a><br>
