@@ -112,8 +112,8 @@ public class Dashboard extends HttpServlet {
 
             // If title/year/director not entered, print error message
             if (movieTitle.isEmpty() || movieYear.isEmpty() || movieDirector.isEmpty()) {
-                request.setAttribute("errorMsg", "Invalid movie information. 
-                    You must enter a title, year, and director to insert a movie.");
+                request.setAttribute("errorMsg", "Invalid movie information."
+                    + " You must enter a title, year, and director to insert a movie.");
                 request.setAttribute("dashboard", "insertmovie");
                 request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
                 return;
@@ -121,24 +121,78 @@ public class Dashboard extends HttpServlet {
             // If star dob or photo url entered, but no first/last name, print an error msg
             else if (starFirstName.isEmpty() && starLastName.isEmpty() &&
                     (!starDob.isEmpty() || !starPhotoUrl.isEmpty())) {
-                request.setAttribute("errorMsg", "Invalid star information. Please either provide a first name
-                    or last name for the star, or leave the date of birth and photo url fields blank.");
+                request.setAttribute("errorMsg", "Invalid star information. Please either provide a first name"
+                    + " or last name for the star, or leave the date of birth and photo url fields blank.");
                 request.setAttribute("dashboard", "insertmovie");
                 request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
                 return;
             }
 
             // If they only specified a first name, store it as the last name for DB consistency
-            if (lastName.isEmpty()) {
-                lastName = firstName;
-                firstName = "";
+            if (starLastName.isEmpty()) {
+                starLastName = starFirstName;
+                starFirstName = "";
             }
 
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
                 {                    
-                    System.out.println("Not implemented yet.");
+                    String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+                    try (CallableStatement cs = connection.prepareCall(procedure)) {
+                        // Store Movie Info in the corresponding procedure parameters
+                        cs.setString(1, movieTitle);
+                        cs.setInt(2, Integer.parseInt(movieYear));
+                        cs.setString(3, movieDirector);
+
+                        if (!movieBannerUrl.isEmpty())
+                            cs.setString(4, movieBannerUrl);
+                        else
+                            cs.setNull(4, java.sql.Types.VARCHAR);
+
+                        if (!movieTrailerUrl.isEmpty())
+                            cs.setString(5, movieTrailerUrl);
+                        else
+                            cs.setNull(5, java.sql.Types.VARCHAR);
+
+                        // Store Star Info in the corresponding procedure parameters
+                        cs.setString(6, starFirstName);
+                        cs.setString(7, starLastName);
+
+                        if (!starDob.isEmpty())
+                            cs.setDate(8, java.sql.Date.valueOf(starDob));
+                        else
+                            cs.setNull(8, java.sql.Types.DATE);
+
+                        if (!starPhotoUrl.isEmpty())
+                            cs.setString(9, starPhotoUrl);
+                        else
+                            cs.setNull(9, java.sql.Types.VARCHAR);
+
+                        // Store Genre Info in the corresponding procedure parameters
+                        cs.setString(10, genreName);
+
+                        // Indicate to procedure the request comes from Insert Movie page
+                        cs.setString(11, "insertmovie");
+
+                        // Register the return variables to check error status and message
+                        cs.registerOutParameter(12, java.sql.Types.VARCHAR);
+                        cs.registerOutParameter(13, java.sql.Types.VARCHAR);
+
+                        // Execute the stored procedure with provided parameters
+                        cs.execute();
+
+                        // Get the return variables containing error status and message
+                        int status = (Integer) cs.getInt(12);
+                        String output = (String) cs.getString(13);
+
+                        // If there was an error on insertion, report it and return to index
+                        if (status == 1 || status == 2) {
+                            request.getSession().setAttribute("errorMsg", output);
+                            response.sendRedirect(request.getContextPath() + "/_dashboard");
+                            return;
+                        }
+                    }
                 }
             }
             catch (Exception e) {

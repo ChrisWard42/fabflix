@@ -11,6 +11,7 @@
 
                 <c:if test="${empty errorMsg == false}">
                     <div class="alert alert-danger" role="alert">${errorMsg}</div><br>
+                    <c:remove var="errorMsg" scope="session" />
                 </c:if>
                 <c:if test="${empty successMsg == false}">
                     <div class="alert alert-success" role="alert">${successMsg}</div><br>

@@ -67,28 +67,28 @@
 
       <tr>
         <td align="left" style="padding: 10px">
-          <h3>Genre Details</h3>
+          <h3>Genre Details (Optional)</h3>
         </td>
       </tr>
       <tr>
         <td>
           <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Name</span>
-            <input type="text" class="form-control" name="genreName" value="${param.genreName}" placeholder="Optional">
+            <input type="text" class="form-control" name="genreName" value="${param.genreName}" placeholder="Required">
           </div>
         </td>
       </tr>
 
       <tr>
         <td align="left" style="padding: 10px">
-          <h3>Star Details</h3>
+          <h3>Star Details (Optional)</h3>
         </td>
       </tr>
       <tr>
         <td>
           <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">First Name</span>
-            <input type="text" class="form-control" name="starFirstName" value="${param.starFirstName}" placeholder="Optional">
+            <input type="text" class="form-control" name="starFirstName" value="${param.starFirstName}" placeholder="Required">
           </div>
         </td>
       </tr>
@@ -96,7 +96,7 @@
         <td>
           <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Last Name</span>
-            <input type="text" class="form-control" name="starLastName" value="${param.starLastName}" placeholder="Optional">
+            <input type="text" class="form-control" name="starLastName" value="${param.starLastName}" placeholder="Required">
           </div>
         </td>
       </tr>

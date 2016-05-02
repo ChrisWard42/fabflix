@@ -47,7 +47,7 @@ The following documents are provided which were used in the development of the a
 > Lists helpful frontend and backend libraries and resources we reviewed during development.
 	
 **Workflow Guidelines** (/docs/Workflow.txt)  
-> The guidelines we used for handling
+> The guidelines we used for handling project workflow, including how we interfaced with the repository and the Gradle build deployment system.
 
 ## License
 
