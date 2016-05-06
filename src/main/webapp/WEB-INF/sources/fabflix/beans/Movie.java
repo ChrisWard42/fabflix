@@ -124,6 +124,7 @@ public class Movie implements Serializable {
               Class.forName("com.mysql.jdbc.Driver").newInstance();
 
               Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+              connection.setAutoCommit(false);
 
               String starView = "CREATE OR REPLACE VIEW starView AS " + 
                 "SELECT * " + 
@@ -136,7 +137,7 @@ public class Movie implements Serializable {
                 "WHERE m.title LIKE ? OR m.director LIKE ? OR m.year LIKE ? OR " + 
                 "EXISTS(SELECT NULL FROM stars_in_movies AS sim WHERE sim.movie_id = m.id AND sim.star_id in(SELECT id from starView));";
 
-              String finalQuery = "SELECT * " + 
+              String finalQuery = "SELECT id AS mid, title, year, director, banner_url, trailer_url " + 
                "FROM  movieView;";
 
               //create array for first_name last_name permuations
@@ -206,11 +207,12 @@ public class Movie implements Serializable {
 
                   finalStatement = connection.createStatement();
 
-                  searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+                  searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
 
                   ++firstNameIndex;
                 }while(firstNameIndex != possibleFirstNames.size());
               
+              connection.commit();
               results.close();
               statement.close();
               finalStatement.close();
@@ -222,8 +224,7 @@ public class Movie implements Serializable {
       }// end if(!keywords.isEmpty())
       for(MovieInfo value : searchResultsMap.values())
         searchResults.add(value);
-      
-        return searchResults;
+      return searchResults;
   }
 
   public static List<MovieInfo> searchMovies(String title, String star, String year, String director){
@@ -364,7 +365,7 @@ public class Movie implements Serializable {
               statement.execute();
 
               finalStatement = connection.createStatement();
-              searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+              searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
 
               ++firstNameIndex;
 
@@ -425,7 +426,7 @@ public class Movie implements Serializable {
           statement.execute();
 
           finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
 
           results.close();
           statement.close();
@@ -474,7 +475,7 @@ public class Movie implements Serializable {
           statement.execute();
 
           finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
 
           results.close();
           statement.close();
@@ -521,7 +522,7 @@ public class Movie implements Serializable {
           statement.execute();
 
           finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
 
           statement.close();
           finalStatement.close();
@@ -539,59 +540,86 @@ public class Movie implements Serializable {
       return searchResults.get(0);
   }
 
-  private static HashMap<Integer, MovieInfo> getResults(Statement statement, String query, HashMap<Integer, MovieInfo> searchResultsMap) throws Exception{
+  private static HashMap<Integer, MovieInfo> getResults(Statement statement, String query, HashMap<Integer, MovieInfo> searchResultsMap, Connection connection) throws Exception{
     //TODO: update everything here with new, faster queries. The finalQuery is now just select * from movieView.
     //Iterate through all movies returned from that then do individual queries for each movie for a list of stars and genres
     //using prepared statements
     ResultSet results = null;
+    // results = statement.executeQuery(query);
     //Iterate through results twice, once for star list, again for genre list
-    for(int i = 0; i < 2; ++i){
-      if(i == 0){
+
+      // if(i == 0){
         results = statement.executeQuery(query);
-      }
-      else{
-        //change query to display all genres for each movie
-        String finalQueryGenre = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, g.name AS gname " + 
-        "FROM  movieView AS mv, genres AS g, genres_in_movies as gim " + 
-        "WHERE gim.genre_id = g.id AND gim.movie_id = mv.id;";
-        results = statement.executeQuery(finalQueryGenre);
-      }
+        
+      // }
+      // else{
+      //   //change query to display all genres for each movie
+      //   String finalQueryGenre = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, g.name AS gname " + 
+      //   "FROM  movieView AS mv, genres AS g, genres_in_movies as gim " + 
+      //   "WHERE gim.genre_id = g.id AND gim.movie_id = mv.id;";
+      //   results = statement.executeQuery(finalQueryGenre);
+      // }
 
       // Iterate through each row of results
+      Integer id = new Integer(0);
       while (results.next())
       {
-        Integer id = results.getInt("mid");
+        id = results.getInt("mid");
         String title = results.getString("title");
         Integer year = results.getInt("year");
         String director = results.getString("director");
         String bannerUrl = results.getString("banner_url");
         String trailerUrl = results.getString("trailer_url");
-        Integer sid = new Integer(0);
-        String actorF_Name = "";
-        String actorL_Name = "";
-        String genreName = "";
-        //get actor attributes if first iteration, else get genre attributes
-        if(i == 0){
-          sid = results.getInt("sid");
-          actorF_Name = results.getString("first_name");
-          actorL_Name = results.getString("last_name");
-        }
-        else{
-          genreName = results.getString("gname");
-        }
 
+
+        //get actor attributes if first iteration, else get genre attributes
         if(!searchResultsMap.containsKey(id)){
           searchResultsMap.put(id, 
             new MovieInfo(id, title, year, director, bannerUrl, trailerUrl, new HashSet<Star>(), new HashSet<String>()));
         }
+      
+        ResultSet moreResults = null;
         
-        //insert into star set if first iteration, else insert into genre set
-        if(i == 0)
+        PreparedStatement pStatement = null;
+        String getStarsQuery = "SELECT id as sid, first_name, last_name " + 
+          "FROM stars AS s " + 
+          "WHERE EXISTS(SELECT NULL FROM stars_in_movies AS sim WHERE s.id = sim.star_id AND sim.movie_id IN(SELECT id from movieView where id = ?));";
+
+        pStatement = connection.prepareStatement(getStarsQuery);
+        pStatement.setInt(1, id);
+        moreResults = pStatement.executeQuery();
+
+        Integer sid = new Integer(0);
+        String actorF_Name = "";
+        String actorL_Name = "";
+        while(moreResults.next()){
+          sid = moreResults.getInt("sid");
+          actorF_Name = moreResults.getString("first_name");
+          actorL_Name = moreResults.getString("last_name");
           searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, "", ""));
-        else
+        }
+        moreResults.close();
+      
+        String getGenresQuery = "SELECT name as gname " + 
+          "FROM genres AS g " + 
+          "WHERE EXISTS(SELECT NULL FROM genres_in_movies AS gim WHERE g.id = gim.genre_id AND gim.movie_id IN(SELECT id from movieView where id = ?));";
+
+        ResultSet evenMoreResults = null;
+        pStatement = connection.prepareStatement(getGenresQuery);
+        pStatement.setInt(1, id);
+        evenMoreResults = pStatement.executeQuery();
+
+        String genreName = "";
+        while(evenMoreResults.next()){
+          genreName = evenMoreResults.getString("gname");
           searchResultsMap.get(id).addToGenreSet(genreName);
+  
+        }
+        evenMoreResults.close();
+        
       }
-    }
+      
+    
     results.close();
     return searchResultsMap;
   }
