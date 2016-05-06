@@ -131,14 +131,13 @@ public class Movie implements Serializable {
                 "WHERE first_name LIKE ? OR last_name LIKE ?;";
 
               String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
-                "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
-                "FROM movies AS m, stars_in_movies AS sim " + 
+                "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
+                "FROM movies AS m " + 
                 "WHERE m.title LIKE ? OR m.director LIKE ? OR m.year LIKE ? OR " + 
-                "(sim.star_id IN (SELECT id FROM starView) AND sim.movie_id = m.id);";
+                "EXISTS(SELECT NULL FROM stars_in_movies AS sim WHERE sim.movie_id = m.id AND sim.star_id in(SELECT id from starView));";
 
-              String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
-               "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
-               "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
+              String finalQuery = "SELECT * " + 
+               "FROM  movieView;";
 
               //create array for first_name last_name permuations
               String names[] = keywords.split("\\s+");
@@ -541,6 +540,9 @@ public class Movie implements Serializable {
   }
 
   private static HashMap<Integer, MovieInfo> getResults(Statement statement, String query, HashMap<Integer, MovieInfo> searchResultsMap) throws Exception{
+    //TODO: update everything here with new, faster queries. The finalQuery is now just select * from movieView.
+    //Iterate through all movies returned from that then do individual queries for each movie for a list of stars and genres
+    //using prepared statements
     ResultSet results = null;
     //Iterate through results twice, once for star list, again for genre list
     for(int i = 0; i < 2; ++i){
