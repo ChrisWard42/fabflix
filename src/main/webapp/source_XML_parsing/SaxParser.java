@@ -41,7 +41,7 @@ public class SaxParser{
       try{
          Class.forName("com.mysql.jdbc.Driver").newInstance();
          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/", user, pass);
-         connection.setCatalog("moviedb_project3_gradingg");
+         connection.setCatalog("moviedb_project3_grading");
          connection.setAutoCommit(false);
 
          //Current keys are the XML movie IDs. We will later replace these with the keys

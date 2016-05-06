@@ -1,1 +1,0 @@
-Put java files in same directory as xml files.
