@@ -1,0 +1,15 @@
+ReCAPTCHA
+
+Site Key: 6Lc4VB4TAAAAAAa2OMV10xH92aFAvOukCyNhKGIs
+Secret Key: 6Lc4VB4TAAAAAPceIq-EY4HWHyppISqAz5LkAzWN
+
+Client-side Integration:
+
+(end of head tag)
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+(end of form where recaptcha should appear)
+<div class="g-recaptcha" data-sitekey="6Lc4VB4TAAAAAAa2OMV10xH92aFAvOukCyNhKGIs"></div>
+
+Server-side Integration:
+

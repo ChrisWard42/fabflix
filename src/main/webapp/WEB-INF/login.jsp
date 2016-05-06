@@ -11,6 +11,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/index-original.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body style="background-color:#FF3434">
 	<img src="resources/img/fabflix.png" alt="" height="100px">
@@ -24,6 +25,7 @@
 
 				<input type="text" name="email" placeholder="Email">
 				<input type="password" name="password" placeholder="Password">
+				<div class="g-recaptcha" data-sitekey="6Lc4VB4TAAAAAAa2OMV10xH92aFAvOukCyNhKGIs"></div>
 				<input type="submit" value="Sign In" id="enter">
 			</form>
 		</div>

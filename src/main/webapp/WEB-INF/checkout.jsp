@@ -79,7 +79,7 @@
       <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
         <tr class="title">
           <td align="center" style="padding: 20px">
-              <button type="submit" class="btn btn-default delete big" formmethod="get" formaction="./cart">Previous</button>
+              <button type="submit" class="btn btn-default delete big" formmethod="post" formaction="./cart">Previous</button>
           </td>
           <td align="center" style="padding: 20px">
               <button type="submit" class="btn btn-default update big" name="action" value="purchase">Purchase</button>

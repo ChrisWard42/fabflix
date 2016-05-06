@@ -24,7 +24,7 @@ repositories {
 
 // Wrapper task to generate ./gradlew
 wrapper {
-    gradleVersion = '2.12'
+    gradleVersion = '2.13'
 }
 
 // JDK Version (from java plugin)
@@ -51,6 +51,7 @@ dependencies {
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
 
     compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: '*.jar')
+    testCompile 'junit:junit:4.12'
     //compile files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
 
     //compile 'mysql:mysql-connector-java:5.1.38'
@@ -110,6 +111,9 @@ task cleanWars(type: Delete) {
 task checkLiveSite() << {
     if(project.property("wAN").toString().equals("live_site")) {
         throw new GradleException("Build failed. Do not run quick deploy on live site.")
+    }
+    if(project.property("wAN").toString().equals("fabflix")) {
+        throw new GradleException("Do not deploy updates to fabflix while grading underway.")
     }
 }
 
