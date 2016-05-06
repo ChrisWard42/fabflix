@@ -1,0 +1,31 @@
+Optimization descriptions:
+
+We implemented two optimizations to our parser to make it run faster,
+however only one of the optimizations made a difference.
+
+The two optimizations are to have auto commit false on the JDBC and
+use batch insert statements instead of executing the statements one by one.
+
+We implemented a timer in our parser to keep track of the running time.
+We ran it without either of the two optimizations, with only auto commit false,
+and with both optimizations.
+
+Results:
+
+No batch, auto commit true:
+	Runtime: 0 hours 5 minutes 43 seconds 680 milliseconds
+
+No batch, auto commit false:
+	Runtime: 0 hours 0 minutes 5 seconds 536 milliseconds
+
+Batch, auto commit false: 
+	Runtime: 0 hours 0 minutes 5 seconds 541 milliseconds
+
+Observations:
+
+Having auto commit on caused a massive amount of overhead compared to having it
+off and only commiting after executing the queries. After turning off auto commit,
+the runtime went from 5 minutes and 43 seconds to 5 seconds, a total of 68 times faster.
+
+Adding batch statements however, did not improve the run time at all. The runtime
+with or without batch statements is identical.
