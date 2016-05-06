@@ -19,7 +19,7 @@
                 </c:if>
 
                 <a href="./_dashboard/insertmovie" class="btn btn-default btn-lg" role="button">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insert New Movie&nbsp;&nbsp;&nbsp;&nbsp;</a><br>
-                <a href="./_dashboard/updatemovie" class="btn btn-default btn-lg" role="button">Update Existing Movie</a><br>
+                <a href="./_dashboard/updatemoviecheck" class="btn btn-default btn-lg" role="button">Update Existing Movie</a><br>
                 <a href="./_dashboard/insertstar" class="btn btn-default btn-lg" role="button">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insert New Star&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><br>
                 <a href="./_dashboard/metadata" class="btn btn-default btn-lg" role="button">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show Metadata&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             </td>

@@ -87,3 +87,11 @@ CREATE TABLE IF NOT EXISTS sales
     FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
     FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS employees
+(
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(20) NOT NULL,
+    fullname VARCHAR(100),
+    PRIMARY KEY (email)
+);

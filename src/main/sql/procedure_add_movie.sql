@@ -17,7 +17,7 @@ CREATE PROCEDURE add_movie(IN mv_title VARCHAR(100),
     IN mv_banner VARCHAR(200), IN mv_trailer VARCHAR(200),
     IN st_fname VARCHAR(50), IN st_lname VARCHAR(50),
     IN st_dob DATE, IN st_photo VARCHAR(200),
-    IN gn_name VARCHAR(32), IN src VARCHAR(50),
+    IN gn_name VARCHAR(32), IN src INTEGER,
     OUT status INTEGER, OUT output VARCHAR(200))
 
 BEGIN
@@ -52,7 +52,7 @@ IF mv_exists = 1 THEN
 END IF;
 
 -- 2. Insert/Update movie entry if valid procedure
-IF src = "insertmovie" THEN
+IF src = 0 THEN
     IF mv_exists = 0 THEN
         INSERT INTO movies(title, year, director, banner_url, trailer_url)
         VALUES(mv_title, mv_year, mv_director, mv_banner, mv_trailer);
@@ -61,12 +61,9 @@ IF src = "insertmovie" THEN
         SET status = 1;
         SET output = "Error. Movie already exists so insert failed. Try updating instead.";
     END IF;
-ELSEIF src = "updatemovie" THEN
-    IF mv_exists = 1 THEN
-        UPDATE movies
-        SET banner = mv_banner, trailer = mv_trailer
-        WHERE title = mv_title AND year = mv_year AND director = mv_director;
-    ELSE
+END IF;
+IF src = 1 THEN
+    IF mv_exists = 0 THEN
         SET status = 2;
         SET output = "Error. Movie doesn't exist so update failed. Try inserting instead.";
     END IF;

@@ -2,12 +2,17 @@
   <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
     <tr>
       <td align="center" style="padding: 20px">
-        <h1>Update Movie</h1>
+        <h1>Insert Movie</h1>
       </td>
     </tr>
   </table>
 
-  <form id="dashboard-updatemovie" method = "post" action="./_dashboard">
+  <form id="dashboard-insertmovie" method = "post" action="./_dashboard">
+    <input type="hidden" name="movieTitle" value="${movieTitle}">
+    <input type="hidden" name="movieYear" value="${movieYear}">
+    <input type="hidden" name="movieDirector" value="${movieDirector}">
+    <input type="hidden" name="movieBannerUrl" value="${movieBannerUrl}">
+    <input type="hidden" name="movieTrailerUrl" value="${movieTrailerUrl}">
 
     <!-- Start of Dashboard Login -->
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%">
@@ -20,49 +25,10 @@
       </tr>
 
       <tr>
-        <td align="left" style="padding: 10px">
-          <h3>Movie Details</h3>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Title</span>
-            <input type="text" class="form-control" name="movieTitle" value="${param.movieTitle}" placeholder="Required">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Year</span>
-            <input type="text" class="form-control" name="movieYear" value="${param.movieYear}" placeholder="Required">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Director</span>
-            <input type="text" class="form-control" name="movieDirector" value="${param.movieDirector}" placeholder="Required">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Banner URL</span>
-            <input type="text" class="form-control" name="movieBannerUrl" value="${param.movieBannerUrl}" placeholder="Optional">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Trailer URL</span>
-            <input type="text" class="form-control" name="movieTrailerUrl" value="${param.movieTrailerUrl}" placeholder="Optional">
-          </div>
-        </td>
+        <td style="text-align: center">Please provide the information to update for the following movie:<br>
+        <b>Title:</b> ${movieTitle}<br>
+        <b>Year:</b> ${movieYear}<br>
+        <b>Director:</b> ${movieDirector}</td>
       </tr>
 
       <tr>

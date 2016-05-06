@@ -173,10 +173,10 @@ public class Dashboard extends HttpServlet {
                         cs.setString(10, genreName);
 
                         // Indicate to procedure the request comes from Insert Movie page
-                        cs.setString(11, "insertmovie");
+                        cs.setInt(11, 0);
 
                         // Register the return variables to check error status and message
-                        cs.registerOutParameter(12, java.sql.Types.VARCHAR);
+                        cs.registerOutParameter(12, java.sql.Types.INTEGER);
                         cs.registerOutParameter(13, java.sql.Types.VARCHAR);
 
                         // Execute the stored procedure with provided parameters
@@ -269,8 +269,201 @@ public class Dashboard extends HttpServlet {
         }
 
 
+        // TODO: Move the Update Movie Check database logic out of this file
+        else if (Objects.equals(action, "updatemoviecheck")) {
+            // Get parameters from form
+            String movieTitle = request.getParameter("movieTitle");
+            String movieYear = request.getParameter("movieYear");
+            String movieDirector = request.getParameter("movieDirector");
+
+            // If title/year/director not entered, print error message
+            if (movieTitle.isEmpty() || movieYear.isEmpty() || movieDirector.isEmpty()) {
+                request.setAttribute("errorMsg", "Invalid movie information."
+                    + " You must enter a title, year, and director to update a movie.");
+                request.setAttribute("dashboard", "updatemoviecheck");
+                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                return;
+            }
+
+            String checkMovie = "SELECT * FROM movies " +
+                        "WHERE title = ? AND year = ? AND director = ?;";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     PreparedStatement statement = connection.prepareStatement(checkMovie))
+                {                    
+                    statement.setString(1, movieTitle);
+                    statement.setString(2, movieYear);
+                    statement.setString(3, movieDirector);
+
+                    try (ResultSet results = statement.executeQuery())
+                    {
+                        // Found a matching movie, store it in request attributes and pass to update movie
+                        if (results.next()) {
+                            request.setAttribute("movieTitle", results.getString("title"));
+                            request.setAttribute("movieYear", results.getInt("year"));
+                            request.setAttribute("movieDirector", results.getString("director"));
+                            request.setAttribute("movieBannerUrl", results.getString("banner_url"));
+                            request.setAttribute("movieTrailerUrl", results.getString("trailer_url"));
+                            request.setAttribute("dashboard", "updatemovie");
+                            request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                            return;
+                        }
+
+                        // No matching movie found, set error parameter and send back to updatemoviecheck page
+                        else {
+                            request.setAttribute("errorMsg", "Movie not found. Please provide information for a movie"
+                                + " which exists in the database, or insert the movie from the dashboard.");
+                            request.setAttribute("dashboard", "updatemoviecheck");
+                            request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        // TODO: Move the Update Movie database logic out of this file
         else if (Objects.equals(action, "updatemovie")) {
-            System.out.println("Update Movie logic goes here.");
+            // Get parameters from form
+            String movieTitle = request.getParameter("movieTitle");
+            String movieYear = request.getParameter("movieYear");
+            String movieDirector = request.getParameter("movieDirector");
+            String movieBannerUrl = request.getParameter("movieBannerUrl");
+            String movieTrailerUrl = request.getParameter("movieTrailerUrl");
+
+            String genreName = request.getParameter("genreName");
+
+            String starFirstName = request.getParameter("starFirstName");
+            String starLastName = request.getParameter("starLastName");
+            String starDob = request.getParameter("starDob");
+            String starPhotoUrl = request.getParameter("starPhotoUrl");
+
+            // If title/year/director not entered, something went wrong, should be hidden attributes
+            if (movieTitle.isEmpty() || movieYear.isEmpty() || movieDirector.isEmpty()) {
+                request.setAttribute("errorMsg", "Something went wrong. Tried to update a movie without"
+                    + " first specifying which movie to update. Please utilize the dashboard.");
+                response.sendRedirect(request.getContextPath() + "/_dashboard");
+                return;
+            }
+
+            // If nothing relevant entered, print an error message
+            if (genreName.isEmpty() && starLastName.isEmpty()) {
+                request.setAttribute("errorMsg", "Please enter a star or genre to update the movie entry with,"
+                    + " or return to the dashboard for other options.");
+                request.setAttribute("dashboard", "updatemovie");
+                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                return;
+            }
+
+            // If star dob or photo url entered, but no first/last name, print an error msg
+            else if (starFirstName.isEmpty() && starLastName.isEmpty() &&
+                    (!starDob.isEmpty() || !starPhotoUrl.isEmpty())) {
+                request.setAttribute("errorMsg", "Invalid star information. Please either provide a first name"
+                    + " or last name for the star, or leave the date of birth and photo url fields blank.");
+                request.setAttribute("dashboard", "updatemovie");
+                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                return;
+            }
+
+            // If they only specified a first name, store it as the last name for DB consistency
+            if (starLastName.isEmpty()) {
+                starLastName = starFirstName;
+                starFirstName = "";
+            }
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                {                    
+                    String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+                    try (CallableStatement cs = connection.prepareCall(procedure)) {
+                        // Store Movie Info in the corresponding procedure parameters
+                        cs.setString(1, movieTitle);
+                        cs.setInt(2, Integer.parseInt(movieYear));
+                        cs.setString(3, movieDirector);
+
+                        if (!movieBannerUrl.isEmpty())
+                            cs.setString(4, movieBannerUrl);
+                        else
+                            cs.setNull(4, java.sql.Types.VARCHAR);
+
+                        if (!movieTrailerUrl.isEmpty())
+                            cs.setString(5, movieTrailerUrl);
+                        else
+                            cs.setNull(5, java.sql.Types.VARCHAR);
+
+                        // Store Star Info in the corresponding procedure parameters
+                        cs.setString(6, starFirstName);
+                        cs.setString(7, starLastName);
+
+                        if (!starDob.isEmpty())
+                            cs.setDate(8, java.sql.Date.valueOf(starDob));
+                        else
+                            cs.setNull(8, java.sql.Types.DATE);
+
+                        if (!starPhotoUrl.isEmpty())
+                            cs.setString(9, starPhotoUrl);
+                        else
+                            cs.setNull(9, java.sql.Types.VARCHAR);
+
+                        // Store Genre Info in the corresponding procedure parameters
+                        cs.setString(10, genreName);
+
+                        // Indicate to procedure the request comes from Update Movie page
+                        cs.setInt(11, 1);
+
+                        // Register the return variables to check error status and message
+                        cs.registerOutParameter(12, java.sql.Types.INTEGER);
+                        cs.registerOutParameter(13, java.sql.Types.VARCHAR);
+
+                        // Execute the stored procedure with provided parameters
+                        cs.execute();
+
+                        // Get the return variables containing error status and message
+                        int status = (Integer) cs.getInt(12);
+                        String output = (String) cs.getString(13);
+
+                        // If there was an error on insertion, report it and return to index
+                        if (status == 1 || status == 2) {
+                            request.getSession().setAttribute("errorMsg", output);
+                            response.sendRedirect(request.getContextPath() + "/_dashboard");
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                String errorOutput = sw.toString();
+                request.getSession().setAttribute("errorMsg", "Encountered SQL error.<br><br>"
+                    + movieTitle + "<br>"
+                    + movieYear + "<br>"
+                    + movieDirector + "<br>"
+                    + movieBannerUrl + "<br>"
+                    + movieTrailerUrl + "<br>"
+                    + genreName + "<br>"
+                    + starFirstName + "<br>"
+                    + starLastName + "<br>"
+                    + starDob + "<br>"
+                    + starPhotoUrl + "<br>"
+                    + errorOutput);
+                response.sendRedirect(request.getContextPath() + "/_dashboard");
+                return;
+            }
+
+            // If everything succeeded, send back to the dashboard page with a success message
+            request.getSession().setAttribute("successMsg", "Successfully updated Movie in the database: "
+                                 + movieTitle + ".");
+            response.sendRedirect(request.getContextPath() + "/_dashboard");
+            return;
         }
 
 

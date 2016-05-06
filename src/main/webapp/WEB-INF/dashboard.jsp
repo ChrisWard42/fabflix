@@ -30,6 +30,9 @@
       <c:when test="${dashboard == 'insertmovie'}">
         <%@ include file="include/dashboard-insertmovie.jsp" %>
       </c:when>
+      <c:when test="${dashboard == 'updatemoviecheck'}">
+        <%@ include file="include/dashboard-updatemoviecheck.jsp" %>
+      </c:when>
       <c:when test="${dashboard == 'updatemovie'}">
         <%@ include file="include/dashboard-updatemovie.jsp" %>
       </c:when>
