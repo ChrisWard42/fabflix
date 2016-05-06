@@ -27,6 +27,9 @@
       <c:when test="${report == 'like-predicate'}">
         <%@ include file="include/report-like-predicate.jsp" %>
       </c:when>
+      <c:when test="${report == 'xml-parsing-optimization'}">
+        <%@ include file="include/report-xml-parsing-optimization.jsp" %>
+      </c:when>
       <c:otherwise>
         <%@ include file="include/report-index.jsp" %>
       </c:otherwise>

@@ -186,7 +186,7 @@
   </jsp-config>
 
 
-  <!-- <error-page>
+  <error-page>
     <error-code>401</error-code>
     <location>/error.html</location>
   </error-page>
@@ -205,7 +205,7 @@
   <error-page>
     <error-code>503</error-code>
     <location>/error.html</location>
-  </error-page> -->
+  </error-page>
 
 
   <security-constraint>
