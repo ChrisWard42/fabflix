@@ -4,5 +4,6 @@
 
         <a href="./reports/readme">Readme</a><br>
         <a href="./reports/like-predicate">LIKE Predicate Usage</a><br>
+        <a href="./reports/xml-parsing-optimization">XML Parsing Optimization</a><br>
     </td>
 </tr>
