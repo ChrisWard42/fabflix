@@ -148,6 +148,17 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>MobileServlet</servlet-name>
+    <servlet-class>fabflix.core.Mobile</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MobileServlet</servlet-name>
+    <url-pattern>/m/*</url-pattern>
+  </servlet-mapping>
+
+
 <!-- Filter Servlets -->
 
 
@@ -169,8 +180,9 @@
     <url-pattern>/cart/*</url-pattern>
     <url-pattern>/checkout/*</url-pattern>
     <url-pattern>/confirmation/*</url-pattern>
-    <url-pattern>/reports/*</url-pattern>
+    <!-- <url-pattern>/reports/*</url-pattern> -->
     <!-- <url-pattern>/_dashboard/*</url-pattern> -->
+    <!-- <url-pattern>/m/*</url-pattern -->
   </filter-mapping>
 
 

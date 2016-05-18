@@ -8,10 +8,6 @@
 	<base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
 	<link rel="stylesheet" href="resources/css/bootstrap.min.css">
 	<link rel="stylesheet" href="resources/css/login-style.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/index-original.js"></script>
-	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body style="background-color:#FF3434">
 	<img src="resources/img/fabflix.png" alt="" height="100px">
@@ -30,5 +26,9 @@
 			</form>
 		</div>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/index-original.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>
