@@ -6,7 +6,11 @@
 	<meta charset="UTF-8">
 	<title>Fabflix</title>
 	<base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
+	<link rel="icon" href="resources/img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="resources/img/favicon.ico" type="image/x-icon"> 
 	<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+	<link rel="stylesheet" href="resources/css/jquery-ui.css">
+	<link rel="stylesheet" href="resources/css/fabflix-style.css">
 	<link rel="stylesheet" href="resources/css/login-style.css">
 </head>
 <body style="background-color:#FF3434">

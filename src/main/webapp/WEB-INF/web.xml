@@ -159,6 +159,17 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>AjaxServlet</servlet-name>
+    <servlet-class>fabflix.core.Ajax</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AjaxServlet</servlet-name>
+    <url-pattern>/ajax/*</url-pattern>
+  </servlet-mapping>
+
+
 <!-- Filter Servlets -->
 
 
@@ -183,6 +194,7 @@
     <!-- <url-pattern>/reports/*</url-pattern> -->
     <!-- <url-pattern>/_dashboard/*</url-pattern> -->
     <!-- <url-pattern>/m/*</url-pattern -->
+    <!-- <url-pattern>/ajax/*</url-pattern -->
   </filter-mapping>
 
 
@@ -220,7 +232,7 @@
   </error-page>
 
 
-  <security-constraint>
+  <!-- <security-constraint>
     <web-resource-collection>
       <web-resource-name>HTTPSOnly</web-resource-name>
       <url-pattern>/*</url-pattern>
@@ -228,7 +240,7 @@
     <user-data-constraint>
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
-  </security-constraint>
+  </security-constraint> -->
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>HTTPSorHTTP</web-resource-name>

@@ -1,0 +1,116 @@
+
+/* Services Ajax requests */
+package fabflix.core;
+
+import java.io.*;
+import java.net.*;
+import java.sql.*;
+import java.text.*;
+import java.util.*;
+import java.util.Date;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import com.google.gson.Gson;
+import fabflix.beans.*;
+
+public class Ajax extends HttpServlet {
+    public String getServletInfo() {
+       return "Services Ajax requests";
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        // Get the report requested from the path info
+        String ajaxRequest = null;
+        
+        if (request.getPathInfo() != null)
+            ajaxRequest = request.getPathInfo().toString();
+
+        if (ajaxRequest != null && !ajaxRequest.equals("") && !ajaxRequest.equals("/"))
+            ajaxRequest = ajaxRequest.substring(1);
+
+        // Database information and credentials, consider making external
+        String loginUser = "root";
+        String loginPasswd = "waydowninthehole";
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+        // Perform a search for data source for autocomplete widget
+        if (Objects.equals(ajaxRequest, "autocomplete")) {
+            String term = request.getParameter("term");
+
+            // Modify the terms for use in boolean mode fulltext search
+            String[] terms = term.trim().split(" ");
+            term = "";
+            for (int i = 0; i < terms.length; ++i) {
+                if (i == 0 && !terms[i].isEmpty())
+                    term = "+" + terms[i];
+                else if (!terms[i].isEmpty())
+                    term = term + " +" + terms[i];
+
+                if (i == terms.length - 1)
+                    term = term + "*";
+            }
+
+            String checkTitles = "SELECT title FROM movies " +
+                        "WHERE MATCH(title) " +
+                        "AGAINST(? IN BOOLEAN MODE);";
+
+            List<String> movieTitles = new ArrayList<String>();
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     PreparedStatement statement = connection.prepareStatement(checkTitles))
+                {
+                    statement.setString(1, term);
+
+                    try (ResultSet results = statement.executeQuery())
+                    {
+                        // Found a matching title, add it to the list
+                        while (results.next()) {
+                            movieTitles.add(results.getString("title"));
+                            // TODO: Convert into object which provides different label and value properties
+                            //       since year can show in dropdown but shouldn't be inserted into search bar
+                            //movieTitles.add(results.getString("title") + " (" + results.getString("year") + ")");
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Send back the JSON response object
+            String json = new Gson().toJson(movieTitles);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+            return;
+
+            // DEBUG
+            // String json = new Gson().toJson(terms);
+            // response.setContentType("application/json");
+            // response.setCharacterEncoding("UTF-8");
+            // response.getWriter().write(json);
+            // return;
+        }
+
+        // Perform a tooltip display for tooltip widget
+        else if (Objects.equals(ajaxRequest, "tooltip")) {
+            return;
+        }
+
+        // Send back an empty JSON response object
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{}");
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        doGet(request, response);
+    }
+}
