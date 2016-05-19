@@ -112,7 +112,7 @@
         <td class="spacing"></td>
 
         <td class="description">
-          <h3><a href="./movie/${item.id}">${item.title}</a> (${item.year})</h3>
+          <h3><a id="movie-title" href="./movie/${item.id}" data-id="${item.id}">${item.title}</a> (${item.year})</h3>
           <h4 id="genres"><c:forEach var="genre" items="${item.genreSet}" varStatus="genreSetStatus">
                       <c:choose>
                         <c:when test="${genreSetStatus.last == true}">

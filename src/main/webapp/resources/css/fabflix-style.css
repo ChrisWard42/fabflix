@@ -1,5 +1,25 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Montserrat|Varela+Round|Monda);
+
 .ui-autocomplete {
   max-height: 100px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+div.ui-tooltip {
+  width: auto !important;
+}
+
+div.movie-tooltip-text {
+  padding: 5px 5px;
+  text-align: left;
+  word-wrap: break-word;
+  font-family: "Roboto", sans-serif !important;
+  font-size: 14px;
+}
+
+div.movie-tooltip-image {
+  padding: 5px 5px;
+  text-align: center;
 }

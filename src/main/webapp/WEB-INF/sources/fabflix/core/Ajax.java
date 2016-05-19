@@ -14,6 +14,35 @@ import com.google.gson.Gson;
 import fabflix.beans.*;
 
 public class Ajax extends HttpServlet {
+    // AutoComplete class for use in auto completion JSON
+    class AutoComplete {
+        private String value;
+        private String label;
+        private String id;
+        
+        public AutoComplete() {
+            this.value = "";
+            this.label = "";
+            this.id = "";
+        }
+
+        public AutoComplete(String value, String label, String id) {
+            this.value = value;
+            this.label = label;
+            this.id = id;
+        }
+
+        public String getValue() {
+            return value;
+        }
+        public String getLabel() {
+            return label;
+        }
+        public String getId() {
+            return id;
+        }
+    }
+
     public String getServletInfo() {
        return "Services Ajax requests";
     }
@@ -53,11 +82,11 @@ public class Ajax extends HttpServlet {
                     term = term + "*";
             }
 
-            String checkTitles = "SELECT title FROM movies " +
+            String checkTitles = "SELECT id,title,year FROM movies " +
                         "WHERE MATCH(title) " +
                         "AGAINST(? IN BOOLEAN MODE);";
 
-            List<String> movieTitles = new ArrayList<String>();
+            List<AutoComplete> movieTitles = new ArrayList<AutoComplete>();
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
@@ -69,10 +98,11 @@ public class Ajax extends HttpServlet {
                     {
                         // Found a matching title, add it to the list
                         while (results.next()) {
-                            movieTitles.add(results.getString("title"));
-                            // TODO: Convert into object which provides different label and value properties
-                            //       since year can show in dropdown but shouldn't be inserted into search bar
-                            //movieTitles.add(results.getString("title") + " (" + results.getString("year") + ")");
+                            String value = results.getString("title");
+                            String label = value + " (" + results.getString("year") + ")";
+                            String id = Integer.toString(results.getInt("id"));
+                            AutoComplete entry = new AutoComplete(value, label, id);
+                            movieTitles.add(entry);
                         }
                     }
                 }
@@ -87,24 +117,30 @@ public class Ajax extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             return;
-
-            // DEBUG
-            // String json = new Gson().toJson(terms);
-            // response.setContentType("application/json");
-            // response.setCharacterEncoding("UTF-8");
-            // response.getWriter().write(json);
-            // return;
         }
 
         // Perform a tooltip display for tooltip widget
         else if (Objects.equals(ajaxRequest, "tooltip")) {
-            return;
+            // Get the movie id from the request
+            String movieId = request.getParameter("id");
+
+            if (movieId != null && !movieId.equals("")) {
+                // Search for the movie in the database
+                MovieInfo movie = Movie.getMovieById(movieId);
+
+                // Send back the JSON response object
+                String json = new Gson().toJson(movie);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+                return;
+            }   
         }
 
         // Send back an empty JSON response object
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{}");
+        response.getWriter().write("{'failed': 'true'}");
     }
 
     @Override
