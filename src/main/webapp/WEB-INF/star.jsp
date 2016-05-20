@@ -45,10 +45,10 @@
             <span>Movies</span>:&nbsp;<c:forEach var="movie" items="${star.movieSet}" varStatus="movieSetStatus">
               <c:choose>
                 <c:when test="${movieSetStatus.last == true}">
-                  <a href="./movie/${movie.id}">${movie.title}</a>
+                  <a id="movie-title" href="./movie/${movie.id}" data-id="${item.id}">${movie.title}</a>
                 </c:when>
                 <c:otherwise>
-                  <a href="./movie/${movie.id}">${movie.title}</a>,&nbsp;
+                  <a id="movie-title" href="./movie/${movie.id}" data-id="${item.id}">${movie.title}</a>,&nbsp;
                 </c:otherwise>
               </c:choose>
            </c:forEach><br>
