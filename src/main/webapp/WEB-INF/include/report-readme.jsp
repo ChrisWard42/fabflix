@@ -10,7 +10,7 @@
 
         <h4>Quick Installation</h4><br>
 
-        The WAR file "project4_07.war" included with our submission should be sufficient to
+        The WAR file "fabflix_webapp.war" included with our submission should be sufficient to
         run the project on a Tomcat server which meets the above requirements. If such a server is not available,
         feel free to install the project to a different directory under webapps on our AWS instance. The webapp
         names we currently deploy to which shouldn't be used are: live_site, chris, stevo, benla.<br><br>
