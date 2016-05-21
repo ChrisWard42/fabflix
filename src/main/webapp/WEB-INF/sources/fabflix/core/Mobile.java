@@ -116,23 +116,28 @@ public class Mobile extends HttpServlet
 
         // Process mobile search (EX: ../m/search?query=good%20bad%20ug)
         else if (Objects.equals(mobile_action, "search")) {
+
+            String query = request.getParameter("query");
+            String json = "";
             // Get the result of the query string
             if (request.getParameter("query") != null && !request.getParameter("query").equals("")) {
                 // NOTE: Movie.searchMovies(query) needs to be replaced with a function which performs full-text
                 //       search on 'title' only, as opposed to LIKE predicate search on all movie fields.
-                List<MovieInfo> searchResults = Movie.searchMovies(request.getParameter("query"));
+               List<Movie> searchResults = 
+                    new ArrayList<>(Movie.searchMoviesByTitle(request.getParameter("query")));
 
-                // TODO: Convert List of MovieInfo into a JSON object which contains the MovieInfo of all
-                //       movies returned by the search.
+                json = new Gson().toJson(searchResults);
             }
 
             // If no query parameters at all are supplied, generate an empty list
             else {
-                // TODO: Create an empty JSON object
+                List<Movie> emptyList = new ArrayList<>();
+                json = new Gson().toJson(emptyList);
             }
 
-            // TODO: Pass the JSON object back to the Android application search view. Make sure to cache the
-            //       JSON object until another search is received so that the back button works correctly.
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
             return;
         }
 

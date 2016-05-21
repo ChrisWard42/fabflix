@@ -120,6 +120,23 @@ public class Movie implements Serializable {
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         MovieInfo movie = null;
+
+        String words[] = keywords.split("\\s+");
+
+        for(int i = 0; i < words.length; ++i){
+            words[i] = "+" + words[i];
+            if(i == words.length - 1)
+                words[i] += "*";
+        }
+
+        keywords = "";
+        for(int i = 0; i < words.length; ++i){
+            if(i == words.length - 1)
+                keywords += words[i];
+            else
+                keywords += words[i] + " ";
+        }
+
         try {
               Class.forName("com.mysql.jdbc.Driver").newInstance();
 
@@ -129,12 +146,12 @@ public class Movie implements Serializable {
               String starView = "CREATE OR REPLACE VIEW starView AS " + 
                 "SELECT * " + 
                 "FROM stars AS s2 " + 
-                "WHERE first_name LIKE ? OR last_name LIKE ?;";
+                "WHERE MATCH(first_name, last_name) AGAINST(? IN BOOLEAN MODE);";
 
               String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
                 "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
                 "FROM movies AS m " + 
-                "WHERE m.title LIKE ? OR m.director LIKE ? OR m.year LIKE ? OR " + 
+                "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE) OR MATCH(director) AGAINST(? IN BOOLEAN MODE) OR m.year = ? OR " + 
                 "EXISTS(SELECT NULL FROM stars_in_movies AS sim WHERE sim.movie_id = m.id AND sim.star_id in(SELECT id from starView));";
 
               String finalQuery = "SELECT id AS mid, title, year, director, banner_url, trailer_url " + 
@@ -171,19 +188,18 @@ public class Movie implements Serializable {
               //for iterating do while, stop when finished iterating through all permutations
               int firstNameIndex = -1;
 
-              do{
+             // do{
                   //always use firstname OR lastname with all keywords for first iteration
                   if(firstNameIndex == -1){
                     // Declare our statement
                     statement = connection.prepareStatement(starView);
 
-                    statement.setString(1, "%" + keywords + "%");
-                    statement.setString(2, "%" + keywords + "%");
+                    statement.setString(1, keywords);
                     statement.execute();
                   }
                   //for subsequent iterations, use permutations of first and last names ANDed together
                   else{
-                    starView = "CREATE OR REPLACE VIEW starView AS " + 
+                   /* starView = "CREATE OR REPLACE VIEW starView AS " + 
                     "SELECT * " + 
                     "FROM stars AS s2 " + 
                     "WHERE first_name LIKE ? AND last_name LIKE ?;";
@@ -192,15 +208,15 @@ public class Movie implements Serializable {
 
                     statement.setString(1, "%" + possibleFirstNames.get(firstNameIndex) + "%");
                     statement.setString(2, "%" + possibleLastNames.get(firstNameIndex) + "%");
-                    statement.execute();
+                    statement.execute();*/
 
                   }
 
                   statement = connection.prepareStatement(movieView);
 
-                  statement.setString(1, "%" + keywords + "%");
-                  statement.setString(2, "%" + keywords + "%");
-                  statement.setString(3, "%" + keywords + "%");
+                  statement.setString(1, keywords);
+                  statement.setString(2, keywords);
+                  statement.setString(3, keywords);
                   statement.execute();
 
                   
@@ -209,8 +225,8 @@ public class Movie implements Serializable {
 
                   searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
 
-                  ++firstNameIndex;
-                }while(firstNameIndex != possibleFirstNames.size());
+                 /* ++firstNameIndex;
+                }while(firstNameIndex != possibleFirstNames.size());*/
               
               connection.commit();
               results.close();
@@ -538,6 +554,45 @@ public class Movie implements Serializable {
       return null;
     else
       return searchResults.get(0);
+  }
+
+  public static List<Movie> searchMoviesByTitle(String keywords){
+      List<Movie> searchResults = new ArrayList<Movie>();
+        String loginUser = "testuser";
+        String loginPasswd = "testpass";
+        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+
+        try {
+              Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+              Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+              String query = "SELECT id, title, director, year FROM movies " +
+                  "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE);";
+
+              PreparedStatement statement = connection.prepareStatement(query);
+              statement.setString(1, keywords);
+
+              ResultSet results = statement.executeQuery();
+
+              while(results.next()){
+                  Integer id = results.getInt("id");
+                  String title = results.getString("title");
+                  Integer year = results.getInt("year");
+                  String director = results.getString("director");
+
+                  searchResults.add(new Movie(id, title, year, director, "", "")); 
+              }
+              statement.close();
+              results.close();
+              connection.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return searchResults;
+
   }
 
   private static HashMap<Integer, MovieInfo> getResults(Statement statement, String query, HashMap<Integer, MovieInfo> searchResultsMap, Connection connection) throws Exception{
