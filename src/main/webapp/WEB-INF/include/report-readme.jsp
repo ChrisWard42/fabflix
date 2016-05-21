@@ -10,7 +10,7 @@
 
         <h4>Quick Installation</h4><br>
 
-        The WAR file "project2_07.war" included with our submission should be sufficient to
+        The WAR file "project4_07.war" included with our submission should be sufficient to
         run the project on a Tomcat server which meets the above requirements. If such a server is not available,
         feel free to install the project to a different directory under webapps on our AWS instance. The webapp
         names we currently deploy to which shouldn't be used are: live_site, chris, stevo, benla.<br><br>
@@ -26,7 +26,7 @@
         First unpack the WAR file somewhere and navigate to the WEB-INF/classes folder. Delete all of the *.class files from
         here so that they can be recompiled. From that folder:<br><br>
 
-        rm -r fabflix<br><br>
+        rm -rf fabflix<br><br>
 
         Then navigate to the sources folder:<br><br>
 
@@ -54,9 +54,9 @@
         We're utilizing <a href="http://gradle.org/">Gradle</a> as our build and deploy system for the projects.
         In order to utilize our Gradle build scripts, download the files at the following link:<br><br>
 
-        <span style="font-weight:bold"><a href="http://50.18.81.254/chris/resources/gradle/gradle.zip">Download Gradle Build Files</a></span> (<span style="font-weight:bold"><a href="https://www.sendspace.com/file/vzh2bi">Mirror</a></span>)<br><br>
+        <span style="font-weight:bold"><a href="http://fabflix.me/resources/gradle/gradle.zip">Download Gradle Build Files</a></span> (<span style="font-weight:bold"><a href="https://www.sendspace.com/file/vzh2bi">Mirror</a></span>)<br><br>
 
-        Extract the ZIP file to any directory, and extract the submitted WAR file as well, deleting all of the *.class files in WEB-INF/classes if desired. Then place all of the contents of the WAR file (META-INF folder, WEB-INF folder, resources folder, error.html) in the folder:<br><br>
+        Extract the ZIP file to any directory, and extract the submitted WAR file as well, deleting all of the *.class files in WEB-INF/classes if desired. Then place all of the contents of the WAR file (META-INF folder, WEB-INF folder, source_xml_parsing folder, resources folder, error.html) in the folder (must be created):<br><br>
 
         [folder with build.gradle]/src/main/webapp<br><br>
 
