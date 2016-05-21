@@ -562,6 +562,22 @@ public class Movie implements Serializable {
         String loginPasswd = "testpass";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
+        String words[] = keywords.split("\\s+");
+
+        for(int i = 0; i < words.length; ++i){
+            words[i] = "+" + words[i];
+            if(i == words.length - 1)
+                words[i] += "*";
+        }
+
+        keywords = "";
+        for(int i = 0; i < words.length; ++i){
+            if(i == words.length - 1)
+                keywords += words[i];
+            else
+                keywords += words[i] + " ";
+        }
+
         try {
               Class.forName("com.mysql.jdbc.Driver").newInstance();
 
