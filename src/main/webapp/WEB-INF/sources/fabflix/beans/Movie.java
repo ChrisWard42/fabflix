@@ -110,6 +110,32 @@ public class Movie implements Serializable {
     this.trailerUrl = trailerUrl;
   }
 
+  @Override
+  public String toString(){
+    String toReturn = id + " " + title;
+    return toReturn;
+  }
+
+  private static String toBooleanKeywords(String keywords){
+      String words[] = keywords.split("\\s+");
+
+      for(int i = 0; i < words.length; ++i){
+          words[i] = "+" + words[i];
+          if(i == words.length - 1)
+              words[i] += "*";
+      }
+
+      keywords = "";
+      for(int i = 0; i < words.length; ++i){
+          if(i == words.length - 1)
+              keywords += words[i];
+          else
+              keywords += words[i] + " ";
+      }
+
+      return keywords;
+  }
+
   public static List<MovieInfo> searchMovies(String keywords){
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
@@ -119,120 +145,31 @@ public class Movie implements Serializable {
         String loginPasswd = "testpass";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
-        MovieInfo movie = null;
-
-        String words[] = keywords.split("\\s+");
-
-        for(int i = 0; i < words.length; ++i){
-            words[i] = "+" + words[i];
-            if(i == words.length - 1)
-                words[i] += "*";
-        }
-
-        keywords = "";
-        for(int i = 0; i < words.length; ++i){
-            if(i == words.length - 1)
-                keywords += words[i];
-            else
-                keywords += words[i] + " ";
-        }
+        keywords = toBooleanKeywords(keywords);
 
         try {
-              Class.forName("com.mysql.jdbc.Driver").newInstance();
+          Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-              Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-              connection.setAutoCommit(false);
+          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-              String starView = "CREATE OR REPLACE VIEW starView AS " + 
-                "SELECT * " + 
-                "FROM stars AS s2 " + 
-                "WHERE MATCH(first_name, last_name) AGAINST(? IN BOOLEAN MODE);";
+          String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
+          "FROM movies AS m " +
+          "WHERE MATCH(title) AGAINST( ? IN BOOLEAN MODE) OR MATCH(director) AGAINST( ? IN BOOLEAN MODE) OR " +
+          "m.id IN(SELECT movie_id FROM stars_in_movies AS sim WHERE " +
+          "  sim.star_id in(SELECT id " +
+          "                 FROM stars AS s2   " +
+          "                 WHERE MATCH(first_name, last_name) AGAINST(? IN BOOLEAN MODE)) " +
+          " );";
 
-              String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
-                "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
-                "FROM movies AS m " + 
-                "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE) OR MATCH(director) AGAINST(? IN BOOLEAN MODE) OR m.year = ? OR " + 
-                "EXISTS(SELECT NULL FROM stars_in_movies AS sim WHERE sim.movie_id = m.id AND sim.star_id in(SELECT id from starView));";
+          PreparedStatement statement = connection.prepareStatement(query);
+          statement.setString(1, keywords);
+          statement.setString(2, keywords);
+          statement.setString(3, keywords);
 
-              String finalQuery = "SELECT id AS mid, title, year, director, banner_url, trailer_url " + 
-               "FROM  movieView;";
+          searchResultsMap = getResultss(statement, connection);
 
-              //create array for first_name last_name permuations
-              String names[] = keywords.split("\\s+");
-              ArrayList<String> possibleFirstNames = new ArrayList<String>();
-              ArrayList<String> possibleLastNames = new ArrayList<String>();
-
-              // Building the different permutations of
-              // first and last names when many names seperated by a space are entered
-              if(names.length > 1){
-                  StringBuilder firstName = new StringBuilder();
-                  StringBuilder lastName = new StringBuilder();
-                  for(int i = 0; i < names.length - 1; ++i){
-                      firstName.append(names[i]);
-                      firstName.append(" ");
-                      possibleFirstNames.add(firstName.substring(0, firstName.length()-1));
-
-                      for(int j = i + 1; j < names.length; ++j){
-                          if(j != names.length){
-                              lastName.append(names[j]);
-                              lastName.append(" ");
-                          }
-                      }
-                      possibleLastNames.add(lastName.substring(0, lastName.length()-1));
-                      lastName.setLength(0);
-                  }
-              }
-              PreparedStatement statement = null;
-              Statement finalStatement = null;
-              ResultSet results = null;
-              //for iterating do while, stop when finished iterating through all permutations
-              int firstNameIndex = -1;
-
-             // do{
-                  //always use firstname OR lastname with all keywords for first iteration
-                  if(firstNameIndex == -1){
-                    // Declare our statement
-                    statement = connection.prepareStatement(starView);
-
-                    statement.setString(1, keywords);
-                    statement.execute();
-                  }
-                  //for subsequent iterations, use permutations of first and last names ANDed together
-                  else{
-                   /* starView = "CREATE OR REPLACE VIEW starView AS " + 
-                    "SELECT * " + 
-                    "FROM stars AS s2 " + 
-                    "WHERE first_name LIKE ? AND last_name LIKE ?;";
-
-                    statement = connection.prepareStatement(starView);
-
-                    statement.setString(1, "%" + possibleFirstNames.get(firstNameIndex) + "%");
-                    statement.setString(2, "%" + possibleLastNames.get(firstNameIndex) + "%");
-                    statement.execute();*/
-
-                  }
-
-                  statement = connection.prepareStatement(movieView);
-
-                  statement.setString(1, keywords);
-                  statement.setString(2, keywords);
-                  statement.setString(3, keywords);
-                  statement.execute();
-
-                  
-
-                  finalStatement = connection.createStatement();
-
-                  searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
-
-                 /* ++firstNameIndex;
-                }while(firstNameIndex != possibleFirstNames.size());*/
-              
-              connection.commit();
-              results.close();
-              statement.close();
-              finalStatement.close();
-              connection.close();
+          statement.close();
+          connection.close();
         } 
         catch (Exception e) {
           e.printStackTrace();
@@ -253,14 +190,8 @@ public class Movie implements Serializable {
     if(director == null)
       director = "";
 
-    //list of attributes that were entered not including star
-    List<String> attributeList = new ArrayList<String>();
-    if(!title.isEmpty())
-      attributeList.add(title);
-    if(!year.isEmpty())
-      attributeList.add(year);
-    if(!director.isEmpty())
-      attributeList.add(director);
+    //map of attributes that were entered, keys are their prepared statement index, value the attributes
+    Map<Integer, String> attributeMap = new HashMap<>();
 
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
@@ -271,126 +202,60 @@ public class Movie implements Serializable {
 
     MovieInfo movie = null;
     try {
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+      Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-          StringBuilder starView =  new StringBuilder("CREATE OR REPLACE VIEW starView AS " + 
-            "SELECT * " + 
-            "FROM stars AS s2 " + 
-            "WHERE "); //first_name LIKE ? OR last_name LIKE ?;";
+      Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-          StringBuilder movieView = new StringBuilder("CREATE OR REPLACE VIEW movieView AS " + 
-            "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
-            "FROM movies AS m, stars_in_movies AS sim " + 
-            "WHERE "); // m.title LIKE ? AND m.director LIKE ? AND m.year LIKE ? AND " + 
-            //"(sim.star_id IN (SELECT id FROM starView) AND sim.movie_id = m.id);";
+      StringBuilder query = new StringBuilder("SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
+      "FROM movies AS m " +
+      "WHERE ");
 
-          String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
-           "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
-           "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
+      //n is used for the index of the statement (e.g. setString(n, attribute))
+      int n = 0;
 
-          String names[] = star.split("\\s+");
-          ArrayList<String> possibleFirstNames = new ArrayList<String>();
-          ArrayList<String> possibleLastNames = new ArrayList<String>();
+      if(!title.isEmpty()){
+        query.append("MATCH(title) AGAINST( ? IN BOOLEAN MODE) AND ");
+        title = toBooleanKeywords(title);
+        attributeMap.put(++n, title);
+      }
 
-          // Building the different permutations of
-          // first and last names when many names seperated by a space are entered
-          if(names.length > 1){
-              StringBuilder firstName = new StringBuilder();
-              StringBuilder lastName = new StringBuilder();
-              for(int i = 0; i < names.length - 1; ++i){
-                  firstName.append(names[i]);
-                  firstName.append(" ");
-                  possibleFirstNames.add(firstName.substring(0, firstName.length()-1));
+      if(!year.isEmpty()){
+        query.append("year = ? AND ");
+        attributeMap.put(++n, year);
+      }
 
-                  for(int j = i + 1; j < names.length; ++j){
-                      if(j != names.length){
-                          lastName.append(names[j]);
-                          lastName.append(" ");
-                      }
-                  }
-                  possibleLastNames.add(lastName.substring(0, lastName.length()-1));
-                  lastName.setLength(0);
-              }
-          }
-          PreparedStatement statement = null;
-          Statement finalStatement = null;
-          ResultSet results = null;
-          //for iterating do while, stop when finished iterating through all permutations
-          int firstNameIndex = -1;
+      if(!director.isEmpty()){
+        query.append("MATCH(director) AGAINST( ? IN BOOLEAN MODE) AND ");
+        director = toBooleanKeywords(director);
+        attributeMap.put(++n, director);
+      }
 
-          do{
-              //always use firstname OR lastname with all keywords for first iteration(if star is entered)
-              if(firstNameIndex == -1 && !star.isEmpty()){
-                // Declare our statement
-                starView.append(" first_name LIKE ? OR last_name LIKE ?;");
-                statement = connection.prepareStatement(starView.toString());
+      if(!star.isEmpty()){
+        query.append("m.id IN(SELECT movie_id FROM stars_in_movies AS sim WHERE " +
+                      "  sim.star_id in(SELECT id " +
+                      "                 FROM stars AS s2   " +
+                      "                 WHERE MATCH(first_name, last_name) AGAINST(? IN BOOLEAN MODE)) " +
+                      " )");
+        star = toBooleanKeywords(star);
+        attributeMap.put(++n, star);
+      }
+      //trim off excess AND if no star was inputted
+      else{
+        query.delete(query.length() - 4, query.length());
+      }
+      query.append(";");
 
-                statement.setString(1, "%" + star + "%");
-                statement.setString(2, "%" + star + "%");
-                statement.execute();
-              }
-              //for subsequent iterations, use permutations of first and last names ANDed together
-              else if(!star.isEmpty()){
-                //delete append from previous iteration
-                //the AND and OR appends are both 39 characters long
-                starView.delete(starView.length() - 39, starView.length());
-                starView.append("first_name LIKE ? AND last_name LIKE ?;");
+      PreparedStatement statement = connection.prepareStatement(query.toString());
 
-                statement = connection.prepareStatement(starView.toString());
+      //set prepared statements according to which attributes were entered
+      for(Map.Entry<Integer, String> entry : attributeMap.entrySet()){
+        statement.setString(entry.getKey(), entry.getValue());
+      }
 
-                statement.setString(1, "%" + possibleFirstNames.get(firstNameIndex) + "%");
-                statement.setString(2, "%" + possibleLastNames.get(firstNameIndex) + "%");
-                statement.execute();
+      searchResultsMap = getResultss(statement, connection);
 
-              }
-
-              //only append to query the on first iteration
-              if(firstNameIndex == -1){
-                if(!title.isEmpty()){
-                  movieView.append("m.title LIKE ? AND ");
-                }
-
-                if(!year.isEmpty()){
-                  movieView.append("m.year LIKE ? AND ");
-                }
-
-                if(!director.isEmpty()){
-                  movieView.append("m.director LIKE ? AND ");
-                }
-
-                if(!star.isEmpty()){
-                  movieView.append("(sim.star_id IN (SELECT id FROM starView) AND sim.movie_id = m.id)");
-                }
-                //trim off excess AND if no star was inputted
-                else{
-                  movieView.delete(movieView.length() - 4, movieView.length());
-                }
-                movieView.append(";");
-              }
-
-
-              statement = connection.prepareStatement(movieView.toString());
-
-              int n = 1;
-              //set prepared statements according to which attributes were entered
-              for(String attribute : attributeList){
-                statement.setString(n, "%" + attribute + "%");
-                n++;
-              }
-              statement.execute();
-
-              finalStatement = connection.createStatement();
-              searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
-
-              ++firstNameIndex;
-
-          }while(firstNameIndex != possibleFirstNames.size());
-          
-          results.close();
-          statement.close();
-          finalStatement.close();
-          connection.close();
+      statement.close();
+      connection.close();
     } 
     catch (Exception e) {
       e.printStackTrace();
@@ -409,44 +274,26 @@ public class Movie implements Serializable {
     String loginPasswd = "testpass";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
-    MovieInfo movie = null;
     try {
           Class.forName("com.mysql.jdbc.Driver").newInstance();
 
           Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-          String genreView = "CREATE OR REPLACE VIEW genreView AS " + 
-            "SELECT * " + 
-            "FROM genres AS g2 " + 
-            "WHERE g2.name = ?;";
+          String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
+          "FROM movies AS m " +
+          "WHERE " +
+          "m.id IN(SELECT movie_id FROM genres_in_movies AS gim WHERE " +
+          "  gim.genre_id in(SELECT id " +
+          "                 FROM genres AS g2   " +
+          "                 WHERE g2.name = ? ) " +
+          " );";
 
-          String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
-            "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
-            "FROM movies AS m, genres_in_movies AS gim " + 
-            "WHERE (gim.genre_id IN (SELECT id FROM genreView) AND gim.movie_id = m.id);";
-
-          String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
-           "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
-           "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
-
-          PreparedStatement statement = null;
-          Statement finalStatement = null;
-          ResultSet results = null;
-
-          statement = connection.prepareStatement(genreView);
-
+          PreparedStatement statement = connection.prepareStatement(query);
           statement.setString(1, genre);
-          statement.execute();
 
-          statement = connection.prepareStatement(movieView);
-          statement.execute();
+          searchResultsMap = getResultss(statement, connection);
 
-          finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
-
-          results.close();
           statement.close();
-          finalStatement.close();
           connection.close();
     } 
     catch (Exception e) {
@@ -463,6 +310,10 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
+    // letter = letter + "*";
+    if(!letter.isEmpty())
+      letter = letter + "%";
+
     String loginUser = "testuser";
     String loginPasswd = "testpass";
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
@@ -472,30 +323,25 @@ public class Movie implements Serializable {
           Class.forName("com.mysql.jdbc.Driver").newInstance();
 
           Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-
-          String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
-              "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
-              "FROM movies AS m, stars_in_movies AS sim " + 
-              "WHERE m.title LIKE ? "; 
-
-          String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
-            "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
-            "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
-
+          String query = "";
           PreparedStatement statement = null;
-          Statement finalStatement = null;
-          ResultSet results = null;
 
-          statement = connection.prepareStatement(movieView);
-          statement.setString(1, letter + "%");
-          statement.execute();
+          if(!letter.isEmpty()){
+            query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
+            "FROM movies AS m " +
+            "WHERE title LIKE ?";
 
-          finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
+            statement = connection.prepareStatement(query);
+            statement.setString(1, letter);
+          } else {
+            query = "SELECT * FROM  movies";
 
-          results.close();
+            statement = connection.prepareStatement(query);
+          }
+
+          searchResultsMap = getResultss(statement, connection);
+
           statement.close();
-          finalStatement.close();
           connection.close();
     } 
     catch (Exception e) {
@@ -520,28 +366,14 @@ public class Movie implements Serializable {
 
           Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-          String movieView = "CREATE OR REPLACE VIEW movieView AS " + 
-              "SELECT DISTINCT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " + 
-              "FROM movies AS m " + 
-              "WHERE m.id = ? "; 
+          String query = "SELECT * FROM movies WHERE id = ?;";
 
-          String finalQuery = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, s.id AS sid, s.first_name, s.last_name " + 
-            "FROM  movieView AS mv, stars AS s, stars_in_movies as sim1 " + 
-            "WHERE sim1.star_id = s.id AND sim1.movie_id = mv.id;";
-
-          PreparedStatement statement = null;
-          Statement finalStatement = null;
-          ResultSet results = null;
-
-          statement = connection.prepareStatement(movieView);
+          PreparedStatement statement = connection.prepareStatement(query);
           statement.setString(1, id);
-          statement.execute();
 
-          finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap, connection);
+          searchResultsMap = getResultss(statement, connection);
 
           statement.close();
-          finalStatement.close();
           connection.close();
     } 
     catch (Exception e) {
@@ -611,88 +443,54 @@ public class Movie implements Serializable {
 
   }
 
-  private static HashMap<Integer, MovieInfo> getResults(Statement statement, String query, HashMap<Integer, MovieInfo> searchResultsMap, Connection connection) throws Exception{
-    //TODO: update everything here with new, faster queries. The finalQuery is now just select * from movieView.
-    //Iterate through all movies returned from that then do individual queries for each movie for a list of stars and genres
-    //using prepared statements
-    ResultSet results = null;
-    // results = statement.executeQuery(query);
-    //Iterate through results twice, once for star list, again for genre list
-
-      // if(i == 0){
-        results = statement.executeQuery(query);
-        
-      // }
-      // else{
-      //   //change query to display all genres for each movie
-      //   String finalQueryGenre = "SELECT mv.id AS mid, mv.title, mv.year, mv.director, mv.banner_url, mv.trailer_url, g.name AS gname " + 
-      //   "FROM  movieView AS mv, genres AS g, genres_in_movies as gim " + 
-      //   "WHERE gim.genre_id = g.id AND gim.movie_id = mv.id;";
-      //   results = statement.executeQuery(finalQueryGenre);
-      // }
+  private static HashMap<Integer, MovieInfo> getResultss(PreparedStatement statement, Connection connection) throws Exception{
+      HashMap<Integer, MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
+      ResultSet results = statement.executeQuery();
 
       // Iterate through each row of results
       Integer id = new Integer(0);
-      while (results.next())
-      {
-        id = results.getInt("mid");
-        String title = results.getString("title");
-        Integer year = results.getInt("year");
-        String director = results.getString("director");
+      while (results.next()) {
+        id = results.getInt("id");
+        String titleResult = results.getString("title");
+        Integer yearResult = results.getInt("year");
+        String directorResult = results.getString("director");
         String bannerUrl = results.getString("banner_url");
         String trailerUrl = results.getString("trailer_url");
 
-
-        //get actor attributes if first iteration, else get genre attributes
         if(!searchResultsMap.containsKey(id)){
           searchResultsMap.put(id, 
-            new MovieInfo(id, title, year, director, bannerUrl, trailerUrl, new HashSet<Star>(), new HashSet<String>()));
+            new MovieInfo(id, titleResult, yearResult, directorResult, bannerUrl, trailerUrl, 
+                          new HashSet<Star>(getStarsInMovies(id, connection)), new HashSet<String>()));
         }
-      
-        ResultSet moreResults = null;
-        
-        PreparedStatement pStatement = null;
-        String getStarsQuery = "SELECT id as sid, first_name, last_name " + 
-          "FROM stars AS s " + 
-          "WHERE EXISTS(SELECT NULL FROM stars_in_movies AS sim WHERE s.id = sim.star_id AND sim.movie_id IN(SELECT id from movieView where id = ?));";
 
-        pStatement = connection.prepareStatement(getStarsQuery);
-        pStatement.setInt(1, id);
-        moreResults = pStatement.executeQuery();
-
-        Integer sid = new Integer(0);
-        String actorF_Name = "";
-        String actorL_Name = "";
-        while(moreResults.next()){
-          sid = moreResults.getInt("sid");
-          actorF_Name = moreResults.getString("first_name");
-          actorL_Name = moreResults.getString("last_name");
-          searchResultsMap.get(id).addToStarSet(new Star(sid, actorF_Name, actorL_Name, "", ""));
-        }
-        moreResults.close();
-      
-        String getGenresQuery = "SELECT name as gname " + 
-          "FROM genres AS g " + 
-          "WHERE EXISTS(SELECT NULL FROM genres_in_movies AS gim WHERE g.id = gim.genre_id AND gim.movie_id IN(SELECT id from movieView where id = ?));";
-
-        ResultSet evenMoreResults = null;
-        pStatement = connection.prepareStatement(getGenresQuery);
-        pStatement.setInt(1, id);
-        evenMoreResults = pStatement.executeQuery();
-
-        String genreName = "";
-        while(evenMoreResults.next()){
-          genreName = evenMoreResults.getString("gname");
-          searchResultsMap.get(id).addToGenreSet(genreName);
-  
-        }
-        evenMoreResults.close();
-        
       }
       
-    
-    results.close();
-    return searchResultsMap;
+      results.close();
+      return searchResultsMap;
   }
 
+    private static Set<Star> getStarsInMovies(Integer movieId, Connection connection) throws Exception{
+    Set<Star> starSet = new HashSet<Star>();
+
+    String query = "SELECT id as sid, first_name, last_name " +
+                    "FROM (SELECT * FROM stars_in_movies " +
+                            "WHERE movie_id = ?) sub " +
+                    "JOIN stars s ON s.id = sub.star_id;";
+    PreparedStatement statement = connection.prepareStatement(query);
+    statement.setInt(1, movieId);
+
+    ResultSet results = statement.executeQuery();
+    while(results.next()){
+      Integer id = results.getInt("sid");
+      String fName = results.getString("first_name");
+      String lName = results.getString("last_name");
+
+      starSet.add(new Star(id, fName, lName, "", ""));
+    }
+
+    statement.close();
+    results.close();
+
+    return starSet;
+  }
 }

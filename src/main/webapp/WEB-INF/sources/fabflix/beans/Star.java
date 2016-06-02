@@ -105,79 +105,96 @@ public class Star implements Serializable, Comparable<Star>{
         this.photoUrl = photoUrl;
     }
 
+    @Override
+    public String toString(){
+      String toReturn = id + " " + firstName + " " + lastName;
+      return toReturn;
+    }
+
+
+
     public static StarInfo getStarById(String id){
-        List<StarInfo> searchResults = new ArrayList<StarInfo>();
-        HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
+      List<StarInfo> searchResults = new ArrayList<StarInfo>();
+      HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
 
-        String loginUser = "testuser";
-        String loginPasswd = "testpass";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+      String loginUser = "testuser";
+      String loginPasswd = "testpass";
+      String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
-        try {
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+      try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-          String starView = "CREATE OR REPLACE VIEW starView AS " + 
-              "SELECT DISTINCT s.id, s.first_name, s.last_name, s.dob, s.photo_url " + 
-              "FROM stars AS s " + 
-              "WHERE s.id = ?; "; 
+            String query = "SELECT * FROM stars WHERE id = ? ;";
 
-          String finalQuery = "SELECT sv.id AS sid, sv.first_name, sv.last_name, sv.dob, sv.photo_url, m.id as mid, m.title " + 
-            "FROM  starView AS sv, movies AS m, stars_in_movies as sim1 " + 
-            "WHERE sim1.star_id = sv.id AND sim1.movie_id = m.id;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, id);
 
-          PreparedStatement statement = null;
-          Statement finalStatement = null;
+            searchResultsMap = getResults(statement, connection);
 
-          statement = connection.prepareStatement(starView);
-          statement.setString(1, id);
-          statement.execute();
+            statement.close();
+            connection.close();
+      } 
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+      for(StarInfo value : searchResultsMap.values())
+          searchResults.add(value);
 
-          finalStatement = connection.createStatement();
-          searchResultsMap = getResults(finalStatement, finalQuery, searchResultsMap);
+      if(searchResults.isEmpty())
+        return null;
+      else
+        return searchResults.get(0);
+      }
 
-          statement.close();
-          finalStatement.close();
-          connection.close();
-        } 
-        catch (Exception e) {
-          e.printStackTrace();
-        }
+      private static HashMap<Integer, StarInfo> getResults(PreparedStatement statement, Connection connection) throws Exception{
+        HashMap<Integer, StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
+        ResultSet results = statement.executeQuery();
 
-        for(StarInfo value : searchResultsMap.values())
-            searchResults.add(value);
+        // Iterate through each row of results
+        Integer id = new Integer(0);
+        while (results.next())
+        {
+          id = results.getInt("id");
+          String fName = results.getString("first_name");
+          String lName = results.getString("last_name");
+          String dob = results.getString("dob");
+          String photo_url = results.getString("photo_url");
 
-        if(searchResults.isEmpty())
-          return null;
-        else
-          return searchResults.get(0);
-    }
+          if(!searchResultsMap.containsKey(id)){
+            searchResultsMap.put(id, 
+              new StarInfo(id, fName, lName, dob, photo_url, new HashSet<Movie>(getMoviesWithStars(id, connection))));
+          }
+          
+         }
+        results.close();
+        return searchResultsMap;
+      }
 
-    private static HashMap<Integer, StarInfo> getResults(Statement statement, String query, HashMap<Integer, StarInfo> searchResultsMap) throws Exception{
-      ResultSet results = null;
-      results = statement.executeQuery(query);
+    private static Set<Movie> getMoviesWithStars(Integer starId, Connection connection) throws Exception{
+      Set<Movie> movieSet = new HashSet<Movie>();
 
-      // Iterate through each row of results
-      while (results.next())
-      {
-        Integer id = results.getInt("sid");
-        String fName = results.getString("first_name");
-        String lName = results.getString("last_name");
-        String dob = results.getString("dob");
-        String photo_url = results.getString("photo_url");
-        Integer movieId = results.getInt("mid");
-        String movieTitle = results.getString("title");
+      String query = "SELECT id as mid, title " +
+                      "FROM (SELECT * FROM stars_in_movies " +
+                              "WHERE star_id = ?) sub " +
+                      "JOIN movies m ON m.id = sub.movie_id;";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, starId);
 
-        if(!searchResultsMap.containsKey(id)){
-          searchResultsMap.put(id, 
-            new StarInfo(id, fName, lName, dob, photo_url, new HashSet<Movie>()));
-        }
-        
-        searchResultsMap.get(id).addToMovieSet(new Movie(movieId, movieTitle, 0, "", "", ""));
-       }
+      ResultSet results = statement.executeQuery();
+      while(results.next()){
+        Integer id = results.getInt("mid");
+        String title = results.getString("title");
+
+        movieSet.add(new Movie(id, title, 0, "", "", ""));
+      }
+
+      statement.close();
       results.close();
-      return searchResultsMap;
-    }
+
+      return movieSet;
+  }
+
     
-    }
+}

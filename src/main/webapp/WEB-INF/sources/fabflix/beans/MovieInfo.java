@@ -117,4 +117,10 @@ public class MovieInfo implements Serializable {
     	}
     }
 
+	@Override
+	public String toString(){
+		String toReturn = id + " " + title;
+		return toReturn;
+	}
+
 }
