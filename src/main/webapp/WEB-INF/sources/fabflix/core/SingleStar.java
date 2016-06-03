@@ -12,7 +12,27 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class SingleStar extends HttpServlet {
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+
     public String getServletInfo() {
        return "Displays the single star page and handles interactions therein";
     }
@@ -29,7 +49,7 @@ public class SingleStar extends HttpServlet {
 
         if (starId != null && !starId.equals("") && !starId.equals("/")) {
             starId = starId.substring(1);
-            StarInfo star = Star.getStarById(starId);
+            StarInfo star = MovieDB.getStarById(starId, ds);
             request.setAttribute("star", star);
         }
         else {

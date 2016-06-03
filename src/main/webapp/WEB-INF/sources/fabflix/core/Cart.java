@@ -11,7 +11,27 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Cart extends HttpServlet {
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+    
     public String getServletInfo() {
        return "Displays the cart page and handles interactions therein";
     }
@@ -48,7 +68,7 @@ public class Cart extends HttpServlet {
             }
             // Item not in cart, add with quantity 1
             else {
-                MovieInfo details = Movie.getMovieById(Integer.toString(id));
+                MovieInfo details = MovieDB.getMovieById(Integer.toString(id), ds);
                 if (details != null) {
                     cart.put(id, new CartItem(id, 1, details));
                 }

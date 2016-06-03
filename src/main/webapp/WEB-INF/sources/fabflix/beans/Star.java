@@ -9,6 +9,10 @@ import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 
 public class Star implements Serializable, Comparable<Star>{
     private int id;
@@ -122,19 +126,25 @@ public class Star implements Serializable, Comparable<Star>{
       String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
       try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+        // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+        Context initCtx = new InitialContext();
+        Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            String query = "SELECT * FROM stars WHERE id = ? ;";
+        DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
 
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, id);
+        Connection connection = ds.getConnection();
 
-            searchResultsMap = getResults(statement, connection);
+        String query = "SELECT * FROM stars WHERE id = ? ;";
 
-            statement.close();
-            connection.close();
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, id);
+
+        searchResultsMap = getResults(statement, connection);
+
+        statement.close();
+        connection.close();
       } 
       catch (Exception e) {
         e.printStackTrace();

@@ -18,8 +18,28 @@ import javax.servlet.http.*;
 import fabflix.beans.*;
 import com.google.gson.Gson;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Mobile extends HttpServlet
 {
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+
     public String getServletInfo()
     {
        return "Servlet performs backend actions for the Fabflix Android application";
@@ -124,7 +144,7 @@ public class Mobile extends HttpServlet
                 // NOTE: Movie.searchMovies(query) needs to be replaced with a function which performs full-text
                 //       search on 'title' only, as opposed to LIKE predicate search on all movie fields.
                List<Movie> searchResults = 
-                    new ArrayList<>(Movie.searchMoviesByTitle(request.getParameter("query")));
+                    new ArrayList<>(MovieDB.searchMoviesByTitle(request.getParameter("query"), ds));
 
                 json = new Gson().toJson(searchResults);
             }
@@ -151,7 +171,7 @@ public class Mobile extends HttpServlet
 
             if (movieId != null && !movieId.equals("") && !movieId.equals("/")) {
                 movieId = movieId.substring(1);
-                MovieInfo movie = Movie.getMovieById(movieId);
+                MovieInfo movie = MovieDB.getMovieById(movieId, ds);
 
                 // TODO: Convert the MovieInfo object returned into a JSON to be used for the display
                 //       of the single movie. See movie.jsp for transformations to the MovieInfo data

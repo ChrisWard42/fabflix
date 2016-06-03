@@ -18,6 +18,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Login extends HttpServlet
 {
     public static final String SITE_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
@@ -111,10 +115,17 @@ public class Login extends HttpServlet
                         "WHERE email = ? AND password = ?;";
 
                 try {
-                    Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                         PreparedStatement statement = connection.prepareStatement(checkUser))
-                    {
+                    // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    // try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                    // {
+                        Context initCtx = new InitialContext();
+                        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                        DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+                        Connection connection = ds.getConnection();
+
+                        PreparedStatement statement = connection.prepareStatement(checkUser);
                         statement.setString(1, email);
                         statement.setString(2, password);
 
@@ -137,7 +148,7 @@ public class Login extends HttpServlet
                                 return;
                             }
                         }
-                    }
+                    // }
                 }
                 catch (Exception e) {
                     e.printStackTrace();

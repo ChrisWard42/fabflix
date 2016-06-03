@@ -12,7 +12,28 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Checkout extends HttpServlet {
+
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+
     public String getServletInfo() {
        return "Displays the checkout and handles interactions therein";
     }
@@ -44,20 +65,20 @@ public class Checkout extends HttpServlet {
 
                 // Get credit card number and expiry permutations
                 if (Pattern.matches("\\d\\d/\\d\\d", expiry)) {
-                    valid = CreditCard.check(ccId, expiry, firstName, lastName);
+                    valid = MovieDB.checkCC(ccId, expiry, firstName, lastName, ds);
                     if (!valid){
-                        valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
+                        valid = MovieDB.checkCC(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName, ds);
                     }
                 }
                 else if (Pattern.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d", expiry)) {
-                    valid = CreditCard.check(ccId, expiry.substring(5,7) + "/" + expiry.substring(2,4), firstName, lastName);
+                    valid = MovieDB.checkCC(ccId, expiry.substring(5,7) + "/" + expiry.substring(2,4), firstName, lastName, ds);
                     if (!valid)
-                        valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry.substring(5,7) + "/" + expiry.substring(2,4), firstName, lastName);
+                        valid = MovieDB.checkCC(ccId.replace(" ", "").replace("-", ""), expiry.substring(5,7) + "/" + expiry.substring(2,4), firstName, lastName, ds);
                 }
                 else {
-                    valid = CreditCard.check(ccId, expiry, firstName, lastName);
+                    valid = MovieDB.checkCC(ccId, expiry, firstName, lastName, ds);
                     if (!valid)
-                        valid = CreditCard.check(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName);
+                        valid = MovieDB.checkCC(ccId.replace(" ", "").replace("-", ""), expiry, firstName, lastName, ds);
                 }
 
                 if (valid) {

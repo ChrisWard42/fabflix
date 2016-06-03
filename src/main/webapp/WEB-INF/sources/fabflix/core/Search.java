@@ -11,9 +11,29 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Search extends HttpServlet {
+    private DataSource ds = null;
+
     public String getServletInfo() {
        return "Servlet searches for a movie";
+    }
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
     }
 
     @Override
@@ -39,7 +59,8 @@ public class Search extends HttpServlet {
 
             // If query is in the parameter list, use that and ignore the rest
             if (request.getParameter("query") != null && !request.getParameter("query").equals("")) {
-                List<MovieInfo> searchResults = Movie.searchMovies(request.getParameter("query"));
+                List<MovieInfo> searchResults = MovieDB.searchMovies(request.getParameter("query"), ds);
+                System.out.println("searchmovies called");
                 request.getSession().setAttribute("searchResults", searchResults);
             }
 
@@ -49,11 +70,11 @@ public class Search extends HttpServlet {
                      (request.getParameter("director") != null && !request.getParameter("director").equals("")) ||
                      (request.getParameter("star") != null && !request.getParameter("star").equals("")))
             {
-                List<MovieInfo> searchResults = Movie.searchMovies(
+                List<MovieInfo> searchResults = MovieDB.searchMovies(
                     request.getParameter("title"),
                     request.getParameter("star"),
                     request.getParameter("year"),
-                    request.getParameter("director"));
+                    request.getParameter("director"), ds);
                 request.getSession().setAttribute("searchResults", searchResults);
             }
 

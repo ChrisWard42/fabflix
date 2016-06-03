@@ -9,6 +9,10 @@ import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Movie implements Serializable {
   private int id;
   private String title;
@@ -148,9 +152,16 @@ public class Movie implements Serializable {
         keywords = toBooleanKeywords(keywords);
 
         try {
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+          // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+          // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          Context initCtx = new InitialContext();
+          Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+          DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+          Connection connection = ds.getConnection();
 
           String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
           "FROM movies AS m " +
@@ -202,9 +213,15 @@ public class Movie implements Serializable {
 
     MovieInfo movie = null;
     try {
-      Class.forName("com.mysql.jdbc.Driver").newInstance();
+      // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-      Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+      // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+      Context initCtx = new InitialContext();
+      Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+      DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+      Connection connection = ds.getConnection();
 
       StringBuilder query = new StringBuilder("SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
       "FROM movies AS m " +
@@ -275,9 +292,16 @@ public class Movie implements Serializable {
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+          // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+          // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          Context initCtx = new InitialContext();
+          Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+          DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+          Connection connection = ds.getConnection();
 
           String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
           "FROM movies AS m " +
@@ -320,9 +344,16 @@ public class Movie implements Serializable {
 
     MovieInfo movie = null;
     try {
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+          // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+          // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          Context initCtx = new InitialContext();
+          Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+          DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+          Connection connection = ds.getConnection();
           String query = "";
           PreparedStatement statement = null;
 
@@ -362,9 +393,16 @@ public class Movie implements Serializable {
     String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {
-          Class.forName("com.mysql.jdbc.Driver").newInstance();
+          // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-          Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+          // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+          Context initCtx = new InitialContext();
+          Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+          DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+          Connection connection = ds.getConnection();
 
           String query = "SELECT * FROM movies WHERE id = ?;";
 
@@ -411,29 +449,36 @@ public class Movie implements Serializable {
         }
 
         try {
-              Class.forName("com.mysql.jdbc.Driver").newInstance();
+              // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-              Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+              // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-              String query = "SELECT id, title, director, year FROM movies " +
-                  "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE);";
+          Context initCtx = new InitialContext();
+          Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-              PreparedStatement statement = connection.prepareStatement(query);
-              statement.setString(1, keywords);
+          DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
 
-              ResultSet results = statement.executeQuery();
+          Connection connection = ds.getConnection();
 
-              while(results.next()){
-                  Integer id = results.getInt("id");
-                  String title = results.getString("title");
-                  Integer year = results.getInt("year");
-                  String director = results.getString("director");
+          String query = "SELECT id, title, director, year FROM movies " +
+              "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE);";
 
-                  searchResults.add(new Movie(id, title, year, director, "", "")); 
-              }
-              statement.close();
-              results.close();
-              connection.close();
+          PreparedStatement statement = connection.prepareStatement(query);
+          statement.setString(1, keywords);
+
+          ResultSet results = statement.executeQuery();
+
+          while(results.next()){
+              Integer id = results.getInt("id");
+              String title = results.getString("title");
+              Integer year = results.getInt("year");
+              String director = results.getString("director");
+
+              searchResults.add(new Movie(id, title, year, director, "", "")); 
+          }
+          statement.close();
+          results.close();
+          connection.close();
 
 
         } catch (Exception e) {

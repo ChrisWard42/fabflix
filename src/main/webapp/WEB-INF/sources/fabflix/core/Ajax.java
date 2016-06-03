@@ -13,7 +13,12 @@ import javax.servlet.http.*;
 import com.google.gson.Gson;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Ajax extends HttpServlet {
+
+    private DataSource ds = null;
     // AutoComplete class for use in auto completion JSON
     class AutoComplete {
         private String value;
@@ -41,6 +46,22 @@ public class Ajax extends HttpServlet {
         public String getId() {
             return id;
         }
+    }
+    
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
     }
 
     public String getServletInfo() {
@@ -126,7 +147,7 @@ public class Ajax extends HttpServlet {
 
             if (movieId != null && !movieId.equals("")) {
                 // Search for the movie in the database
-                MovieInfo movie = Movie.getMovieById(movieId);
+                MovieInfo movie = MovieDB.getMovieById(movieId, ds);
 
                 // Send back the JSON response object
                 String json = new Gson().toJson(movie);

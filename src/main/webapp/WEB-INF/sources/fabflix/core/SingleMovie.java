@@ -12,7 +12,27 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class SingleMovie extends HttpServlet {
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+
     public String getServletInfo() {
        return "Displays the single movie page and handles interactions therein";
     }
@@ -29,7 +49,7 @@ public class SingleMovie extends HttpServlet {
 
         if (movieId != null && !movieId.equals("") && !movieId.equals("/")) {
             movieId = movieId.substring(1);
-            MovieInfo movie = Movie.getMovieById(movieId);
+            MovieInfo movie = MovieDB.getMovieById(movieId, ds);
             request.setAttribute("movie", movie);
         }   
         else {

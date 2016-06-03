@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true"
+	crossContext="true"
+	swallowOutput="true">
+	<Resource name="jdbc/moviedb"
+		auth="Container"
+		type="javax.sql.DataSource"
+		removeAbandoned="true"
+		removeAbandonedTimeout="30"
+		username="root"
+		password="waydowninthehole"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/moviedb"
+		maxActive="50"
+		maxIdle="10"/>
+</Context>

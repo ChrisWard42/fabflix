@@ -8,6 +8,10 @@ import java.text.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class CreditCard implements Serializable {
     private int id;
     private String firstName;
@@ -75,9 +79,15 @@ public class CreditCard implements Serializable {
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            // Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+
+            Connection connection = ds.getConnection();
 
             String checkQuery = "SELECT * FROM  creditcards " +
                                 "WHERE id = ? AND expiration >= ? AND expiration < ? AND first_name = ? AND last_name = ?;";

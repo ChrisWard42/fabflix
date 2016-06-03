@@ -11,7 +11,28 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import fabflix.beans.*;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class Browse extends HttpServlet {
+
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+
     public String getServletInfo() {
        return "Displays the browse page and handles interactions therein";
     }
@@ -36,20 +57,20 @@ public class Browse extends HttpServlet {
 
             // If genre is in parameter list, use that
             if (request.getParameter("genre") != null && !request.getParameter("genre").equals("")) {
-                List<MovieInfo> searchResults = Movie.browseMoviesByGenre(request.getParameter("genre"));
+                List<MovieInfo> searchResults = MovieDB.browseMoviesByGenre(request.getParameter("genre"), ds);
                 request.getSession().setAttribute("browseResults", searchResults);
             }
 
             // Otherwise, if startsWith is in parameter list, use that
             else if (request.getParameter("startsWith") != null && !request.getParameter("startsWith").equals(""))
             {
-                List<MovieInfo> searchResults = Movie.browseMoviesByLetter(request.getParameter("startsWith"));
+                List<MovieInfo> searchResults = MovieDB.browseMoviesByLetter(request.getParameter("startsWith"), ds);
                 request.getSession().setAttribute("browseResults", searchResults);
             }
 
             // If no query parameters at all are supplied, get all results
             else {
-                List<MovieInfo> searchResults = Movie.browseMoviesByLetter("");
+                List<MovieInfo> searchResults = MovieDB.browseMoviesByLetter("", ds);
                 request.getSession().setAttribute("browseResults", searchResults);
             }
         }
