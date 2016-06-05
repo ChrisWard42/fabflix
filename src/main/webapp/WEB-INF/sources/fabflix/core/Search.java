@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 public class Search extends HttpServlet {
     private DataSource ds = null;
+    long startTime = 0;
 
     public String getServletInfo() {
        return "Servlet searches for a movie";
@@ -23,6 +24,7 @@ public class Search extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        
         try {
              //Create a datasource for pooled connections.
              ds = (DataSource) getServletContext().getAttribute("DBCPool");
@@ -40,6 +42,7 @@ public class Search extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException
     {
+        startTime = System.nanoTime();
         // If we don't have previous results or params don't match what's in session, run query for results
         if (request.getSession().getAttribute("searchResults") == null ||
             !Objects.equals(request.getSession().getAttribute("query"), request.getParameter("query")) ||
@@ -86,6 +89,28 @@ public class Search extends HttpServlet {
 
         request.setAttribute("listSrc", "search");
         request.getRequestDispatcher("/movie-list").forward(request, response);
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime; // elapsed time in nano seconds. Note: print the values in nano seconds
+        File file = new File("/p5log/searchTimes.txt");
+        // boolean exists = false;
+        // if(file.exists() && !file.isDirectory()){
+        //     exists = true;
+        // }
+        // else{
+        //     file.createNewFile();
+        //     Files.setPosixFilePermisions(file.toPath(), 
+        //         EnumSet.of(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ, GROUP_EXECUTE));
+        // }
+        //code below borrowed from http://stackoverflow.com/questions/1625234/how-to-append-text-to-an-existing-file-in-java
+        try(FileWriter fwriter = new FileWriter("/p5log/searchTimes.txt", true);
+            BufferedWriter bw = new BufferedWriter(fwriter);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.println(elapsedTime);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
