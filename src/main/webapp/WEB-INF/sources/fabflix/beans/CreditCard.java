@@ -74,9 +74,9 @@ public class CreditCard implements Serializable {
         if(lastName == null)
             lastName = "";
 
-        String loginUser = "testuser";
-        String loginPasswd = "testpass";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "testuser";
+        // String loginPasswd = "testpass";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         try {
             // Class.forName("com.mysql.jdbc.Driver").newInstance();

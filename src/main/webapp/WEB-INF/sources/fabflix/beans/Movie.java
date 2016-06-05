@@ -145,9 +145,9 @@ public class Movie implements Serializable {
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
     if(!keywords.isEmpty()){
-        String loginUser = "testuser";
-        String loginPasswd = "testpass";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "testuser";
+        // String loginPasswd = "testpass";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         keywords = toBooleanKeywords(keywords);
 
@@ -207,9 +207,9 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
     try {
@@ -287,9 +287,9 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {
           // Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -338,9 +338,9 @@ public class Movie implements Serializable {
     if(!letter.isEmpty())
       letter = letter + "%";
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
     try {
@@ -388,9 +388,9 @@ public class Movie implements Serializable {
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {
           // Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -428,9 +428,9 @@ public class Movie implements Serializable {
 
   public static List<Movie> searchMoviesByTitle(String keywords){
       List<Movie> searchResults = new ArrayList<Movie>();
-        String loginUser = "testuser";
-        String loginPasswd = "testpass";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "testuser";
+        // String loginPasswd = "testpass";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         String words[] = keywords.split("\\s+");
 

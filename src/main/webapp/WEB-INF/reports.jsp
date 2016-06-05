@@ -34,6 +34,15 @@
       <c:when test="${report == 'xml-parsing-optimization'}">
         <%@ include file="include/report-xml-parsing-optimization.jsp" %>
       </c:when>
+      <c:when test="${report == 'connection_pooling'}">
+        <%@ include file="include/report-connection-pooling.jsp" %>
+      </c:when>
+      <c:when test="${report == 'jmeter_report'}">
+        <%@ include file="include/report-jmeter.jsp" %>
+      </c:when>
+      <c:when test="${report == 'jmeter_report.html'}">
+        <%@ include file="include/report-jmeter.jsp" %>
+      </c:when>
       <c:otherwise>
         <%@ include file="include/report-index.jsp" %>
       </c:otherwise>

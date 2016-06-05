@@ -27,9 +27,9 @@ public class MovieDB{
 	    HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
 	    if(!keywords.isEmpty()){
-	        String loginUser = "testuser";
-	        String loginPasswd = "testpass";
-	        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+	        // String loginUser = "testuser";
+	        // String loginPasswd = "testpass";
+	        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
 	        keywords = toBooleanKeywords(keywords);
 
@@ -93,9 +93,9 @@ public class MovieDB{
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
     try {
@@ -169,9 +169,9 @@ public class MovieDB{
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {
           // Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -215,9 +215,9 @@ public class MovieDB{
     if(!letter.isEmpty())
       letter = letter + "%";
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     MovieInfo movie = null;
     try {
@@ -260,9 +260,9 @@ public class MovieDB{
     List<MovieInfo> searchResults = new ArrayList<MovieInfo>();
     HashMap<Integer,MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
 
-    String loginUser = "testuser";
-    String loginPasswd = "testpass";
-    String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+    // String loginUser = "testuser";
+    // String loginPasswd = "testpass";
+    // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
     try {
           // Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -295,9 +295,9 @@ public class MovieDB{
 
   public static List<Movie> searchMoviesByTitle(String keywords, DataSource ds){
       List<Movie> searchResults = new ArrayList<Movie>();
-        String loginUser = "testuser";
-        String loginPasswd = "testpass";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "testuser";
+        // String loginPasswd = "testpass";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         String words[] = keywords.split("\\s+");
 
@@ -452,9 +452,9 @@ public class MovieDB{
       List<StarInfo> searchResults = new ArrayList<StarInfo>();
       HashMap<Integer,StarInfo> searchResultsMap = new HashMap<Integer, StarInfo>();
 
-      String loginUser = "testuser";
-      String loginPasswd = "testpass";
-      String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+      // String loginUser = "testuser";
+      // String loginPasswd = "testpass";
+      // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
       try {
         // Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -545,9 +545,9 @@ public class MovieDB{
         if(lastName == null)
             lastName = "";
 
-        String loginUser = "testuser";
-        String loginPasswd = "testpass";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "testuser";
+        // String loginPasswd = "testpass";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         try {
             // Class.forName("com.mysql.jdbc.Driver").newInstance();

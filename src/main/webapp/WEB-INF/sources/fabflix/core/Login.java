@@ -106,9 +106,9 @@ public class Login extends HttpServlet
                 return;
             }
             else {
-                String loginUser = "root";
-                String loginPasswd = "waydowninthehole";
-                String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+                // String loginUser = "root";
+                // String loginPasswd = "waydowninthehole";
+                // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
                 Customer user = null;
                 String checkUser = "SELECT * FROM customers " +

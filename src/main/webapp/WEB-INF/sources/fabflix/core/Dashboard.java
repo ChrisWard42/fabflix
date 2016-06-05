@@ -10,6 +10,10 @@ import java.util.*;
 import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+import javax.naming.*;
 import fabflix.beans.*;
 
 public class Dashboard extends HttpServlet {
@@ -37,9 +41,9 @@ public class Dashboard extends HttpServlet {
         String action = request.getParameter("action");
 
         // Database information and credentials, consider making external
-        String loginUser = "root";
-        String loginPasswd = "waydowninthehole";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "root";
+        // String loginPasswd = "waydowninthehole";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         // TODO: Move the Login database logic out of this file
         if (Objects.equals(action, "login")) {
@@ -58,9 +62,14 @@ public class Dashboard extends HttpServlet {
                         "WHERE email = ? AND password = ?;";
 
                 try {
-                    Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                         PreparedStatement statement = connection.prepareStatement(checkEmployee))
+                    // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    Context initCtx = new InitialContext();
+                    Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                    DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                    try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                         Connection connection = ds.getConnection();
+                         PreparedStatement statement = connection.prepareStatement(checkEmployee);)
                     {
                         statement.setString(1, email);
                         statement.setString(2, password);
@@ -135,8 +144,13 @@ public class Dashboard extends HttpServlet {
             }
 
             try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     Connection connection = ds.getConnection();)
                 {                    
                     String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
                     try (CallableStatement cs = connection.prepareCall(procedure)) {
@@ -230,8 +244,13 @@ public class Dashboard extends HttpServlet {
             }
 
             try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     Connection connection = ds.getConnection();)
                 {                    
                     String insert = "INSERT INTO stars(first_name, last_name, dob, photo_url) VALUES(?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(insert);){
@@ -289,9 +308,14 @@ public class Dashboard extends HttpServlet {
                         "WHERE title = ? AND year = ? AND director = ?;";
 
             try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     PreparedStatement statement = connection.prepareStatement(checkMovie))
+                // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     Connection connection = ds.getConnection();
+                     PreparedStatement statement = connection.prepareStatement(checkMovie);)
                 {                    
                     statement.setString(1, movieTitle);
                     statement.setString(2, movieYear);
@@ -378,8 +402,13 @@ public class Dashboard extends HttpServlet {
             }
 
             try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     Connection connection = ds.getConnection();)
                 {                    
                     String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
                     try (CallableStatement cs = connection.prepareCall(procedure)) {
@@ -484,8 +513,13 @@ public class Dashboard extends HttpServlet {
         // TODO: Move the Metadata database logic out of this file
         else if (Objects.equals(dashboard, "metadata")) {
             try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);)
+                // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     Connection connection = ds.getConnection();)
                 {
                     DatabaseMetaData meta = connection.getMetaData();
                     ArrayList<String> tableNames = new ArrayList<String>();

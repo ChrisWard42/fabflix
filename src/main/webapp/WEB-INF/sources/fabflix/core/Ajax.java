@@ -10,6 +10,10 @@ import java.util.*;
 import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+import javax.naming.*;
 import com.google.gson.Gson;
 import fabflix.beans.*;
 
@@ -82,9 +86,9 @@ public class Ajax extends HttpServlet {
             ajaxRequest = ajaxRequest.substring(1);
 
         // Database information and credentials, consider making external
-        String loginUser = "root";
-        String loginPasswd = "waydowninthehole";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        // String loginUser = "root";
+        // String loginPasswd = "waydowninthehole";
+        // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         // Perform a search for data source for autocomplete widget
         if (Objects.equals(ajaxRequest, "autocomplete")) {
@@ -109,9 +113,14 @@ public class Ajax extends HttpServlet {
 
             List<AutoComplete> movieTitles = new ArrayList<AutoComplete>();
             try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     PreparedStatement statement = connection.prepareStatement(checkTitles))
+                // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                     Connection connection = ds.getConnection();
+                     PreparedStatement statement = connection.prepareStatement(checkTitles);)
                 {
                     statement.setString(1, term);
 
