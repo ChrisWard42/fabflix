@@ -32,7 +32,6 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/index-original.js"></script>
 	<script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>

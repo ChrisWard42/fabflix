@@ -15,6 +15,10 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+import javax.naming.*;
 import fabflix.beans.*;
 import com.google.gson.Gson;
 
@@ -80,18 +84,23 @@ public class Mobile extends HttpServlet
             }
 
             else {
-                String loginUser = "root";
-                String loginPasswd = "waydowninthehole";
-                String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+                // String loginUser = "root";
+                // String loginPasswd = "waydowninthehole";
+                // String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
                 Customer user = null;
                 String checkUser = "SELECT * FROM customers " +
                         "WHERE email = ? AND password = ?;";
 
                 try {
-                    Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                         PreparedStatement statement = connection.prepareStatement(checkUser))
+                    // Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    Context initCtx = new InitialContext();
+                    Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+                    DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                    try (//Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                         Connection connection = ds.getConnection();
+                         PreparedStatement statement = connection.prepareStatement(checkUser);)
                     {
                         statement.setString(1, email);
                         statement.setString(2, password);
