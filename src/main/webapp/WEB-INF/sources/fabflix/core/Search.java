@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 public class Search extends HttpServlet {
     private DataSource ds = null;
     long startTime = 0;
+    long elapsedTimeJDBC = 0;
 
     public String getServletInfo() {
        return "Servlet searches for a movie";
@@ -62,7 +63,12 @@ public class Search extends HttpServlet {
 
             // If query is in the parameter list, use that and ignore the rest
             if (request.getParameter("query") != null && !request.getParameter("query").equals("")) {
+                long startTimeJDBC = System.nanoTime();
+
                 List<MovieInfo> searchResults = MovieDB.searchMovies(request.getParameter("query"), ds);
+                
+                long endTimeJDBC = System.nanoTime();
+                elapsedTimeJDBC = endTimeJDBC - startTimeJDBC;
                 System.out.println("searchmovies called");
                 request.getSession().setAttribute("searchResults", searchResults);
             }
@@ -106,7 +112,7 @@ public class Search extends HttpServlet {
             BufferedWriter bw = new BufferedWriter(fwriter);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.println(elapsedTime);
+            out.println(elapsedTimeJDBC + " " + elapsedTime);
         } catch(IOException e){
             e.printStackTrace();
         }
