@@ -26,6 +26,9 @@ public class Dashboard extends HttpServlet {
              //Create a datasource for pooled connections.
              ds = (DataSource) getServletContext().getAttribute("DBCPool");
 
+             // Create secondary datasource for write connections
+             ds2 = (DataSource) getServletContext().getAttribute("DBCPool2");
+
              // //Register the driver for non-pooled connections.
              // Class.forName("com.mysql.jdbc.Driver").newInstance();
         }
@@ -163,7 +166,7 @@ public class Dashboard extends HttpServlet {
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = MovieDB.getConnection(ds);)
+                     Connection connection = MovieDB.getConnection(ds2);)
                 {                    
                     connection.setReadOnly(false);
                     String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
@@ -260,7 +263,7 @@ public class Dashboard extends HttpServlet {
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = MovieDB.getConnection(ds);)
+                     Connection connection = MovieDB.getConnection(ds2);)
                 {                    
                     connection.setReadOnly(false);
                     String insert = "INSERT INTO stars(first_name, last_name, dob, photo_url) VALUES(?, ?, ?, ?)";
@@ -415,7 +418,7 @@ public class Dashboard extends HttpServlet {
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = MovieDB.getConnection(ds);)
+                     Connection connection = MovieDB.getConnection(ds2);)
                 {                    
                     connection.setReadOnly(false);
                     String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";

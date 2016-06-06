@@ -96,11 +96,11 @@ cargo {
     }
     
     // Primary Fabflix
-    remote {
-        hostname = '50.18.81.254'
-        username = 'build'
-        password = 'detectivemcnulters'
-    }
+    // remote {
+    //     hostname = '50.18.81.254'
+    //     username = 'build'
+    //     password = 'detectivemcnulters'
+    // }
 
     // Master Mirror
     // remote {
@@ -110,11 +110,11 @@ cargo {
     // }
 
     // Slave Mirror
-    // remote {
-    //     hostname = '52.9.218.72'
-    //     username = 'build'
-    //     password = 'detectivemcnulters'
-    // }
+    remote {
+        hostname = '52.9.218.72'
+        username = 'build'
+        password = 'detectivemcnulters'
+    }
 }
 
 // Cleanup task to remove old build files so no accidental deploy of outdated stuff

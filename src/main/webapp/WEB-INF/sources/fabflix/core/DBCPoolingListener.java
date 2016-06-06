@@ -24,6 +24,15 @@ public class DBCPoolingListener implements ServletContextListener{
 
 			sce.getServletContext().setAttribute("DBCPool", ds);
 
+			// Second data source for writing only to master
+
+			// Obtain our environment naming context
+			Context envCtx2 = (Context) new InitialContext().lookup("java:comp/env");
+
+			// Look up our data source
+			DataSource ds2 = (DataSource) envCtx2.lookup("jdbc/moviedbwrite");
+
+			sce.getServletContext().setAttribute("DBCPool2", ds2);
 		} catch(NamingException e){
 			e.printStackTrace();
 		}
