@@ -27,6 +27,23 @@ public class Login extends HttpServlet
     public static final String SITE_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
     public static final String SITE_KEY ="6Lc4VB4TAAAAAAa2OMV10xH92aFAvOukCyNhKGIs";
     public static final String SECRET_KEY ="6Lc4VB4TAAAAAPceIq-EY4HWHyppISqAz5LkAzWN";
+    private DataSource ds = null;
+
+    @Override
+    public void init() throws ServletException {
+        
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
 
     public String getServletInfo()
     {
@@ -43,7 +60,7 @@ public class Login extends HttpServlet
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+            /*String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
             boolean success = false;
 
             if (gRecaptchaResponse == null || gRecaptchaResponse.length() == 0) {
@@ -97,7 +114,7 @@ public class Login extends HttpServlet
                 request.setAttribute("errorMsg", "Failed ReCAPTCHA. Please try again.");
                 request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
                 return;
-            }
+            }*/
 
             if (email == null || password == null || email.equals("") || password.equals("")) {
                 request.getSession().setAttribute("user", null);
@@ -118,12 +135,12 @@ public class Login extends HttpServlet
                     // Class.forName("com.mysql.jdbc.Driver").newInstance();
                     // try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
                     // {
-                        Context initCtx = new InitialContext();
-                        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+                        // Context initCtx = new InitialContext();
+                        // Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-                        DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+                        // DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
 
-                        Connection connection = ds.getConnection();
+                        Connection connection = MovieDB.getConnection(ds);
 
                         PreparedStatement statement = connection.prepareStatement(checkUser);
                         statement.setString(1, email);
@@ -137,6 +154,8 @@ public class Login extends HttpServlet
                                             results.getString("cc_id"), results.getString("address"), results.getString("email"), null);
                                 request.getSession().setAttribute("user", user);
                                 response.sendRedirect(request.getContextPath() + "/");
+                                statement.close();
+                                connection.close();
                                 return;
                             }
 
@@ -145,6 +164,8 @@ public class Login extends HttpServlet
                                 request.getSession().setAttribute("user", null);
                                 request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
                                 request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+                                statement.close();
+                                connection.close();
                                 return;
                             }
                         }

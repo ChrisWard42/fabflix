@@ -18,7 +18,7 @@ import javax.naming.*;
 
 public class MovieDB{
 
-	private static synchronized Connection getConnection(DataSource ds) throws SQLException{
+	public static synchronized Connection getConnection(DataSource ds) throws SQLException{
 		return ds.getConnection();
 	}
 
