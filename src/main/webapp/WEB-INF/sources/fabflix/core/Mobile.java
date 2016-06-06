@@ -94,45 +94,44 @@ public class Mobile extends HttpServlet
 
                 try {
                     // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    Context initCtx = new InitialContext();
-                    Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                    DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                     try (//Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                         Connection connection = ds.getConnection();
-                         PreparedStatement statement = connection.prepareStatement(checkUser);)
+                         Connection connection = MovieDB.getConnection(ds);)
                     {
-                        statement.setString(1, email);
-                        statement.setString(2, password);
-
-                        try (ResultSet results = statement.executeQuery())
+                        connection.setReadOnly(true);
+                        try (PreparedStatement statement = connection.prepareStatement(checkUser);)
                         {
-                            // Found a matching user in the database, so create user object from Customer and put it in session
-                            if (results.next()) {
-                                // TODO: Login was a success, send back JSON indicating to navigate past login page
-                                user = new Customer(results.getInt("id"), results.getString("first_name"), results.getString("last_name"),
-                                            results.getString("cc_id"), results.getString("address"), results.getString("email"), null);
-                                request.getSession().setAttribute("user", user);
-                                
-                                String json = new Gson().toJson("Success");
-                                response.setContentType("application/json");
-                                response.setCharacterEncoding("UTF-8");
-                                response.getWriter().write(json); 
+                            statement.setString(1, email);
+                            statement.setString(2, password);
 
-                                return;
-                            }
+                            try (ResultSet results = statement.executeQuery())
+                            {
+                                // Found a matching user in the database, so create user object from Customer and put it in session
+                                if (results.next()) {
+                                    // TODO: Login was a success, send back JSON indicating to navigate past login page
+                                    user = new Customer(results.getInt("id"), results.getString("first_name"), results.getString("last_name"),
+                                                results.getString("cc_id"), results.getString("address"), results.getString("email"), null);
+                                    request.getSession().setAttribute("user", user);
+                                    
+                                    String json = new Gson().toJson("Success");
+                                    response.setContentType("application/json");
+                                    response.setCharacterEncoding("UTF-8");
+                                    response.getWriter().write(json); 
 
-                            // No matching user found, set error parameter and send back to login page
-                            else {
-                                request.getSession().setAttribute("user", null);
-                                request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
+                                    return;
+                                }
 
-                                String json = new Gson().toJson("Failure");
-                                response.setContentType("application/json");
-                                response.setCharacterEncoding("UTF-8");
-                                response.getWriter().write(json);
+                                // No matching user found, set error parameter and send back to login page
+                                else {
+                                    request.getSession().setAttribute("user", null);
+                                    request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
 
-                                return;
+                                    String json = new Gson().toJson("Failure");
+                                    response.setContentType("application/json");
+                                    response.setCharacterEncoding("UTF-8");
+                                    response.getWriter().write(json);
+
+                                    return;
+                                }
                             }
                         }
                     }

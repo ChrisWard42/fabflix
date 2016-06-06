@@ -52,7 +52,6 @@ public class Ajax extends HttpServlet {
         }
     }
     
-
     @Override
     public void init() throws ServletException {
         try {
@@ -114,25 +113,24 @@ public class Ajax extends HttpServlet {
             List<AutoComplete> movieTitles = new ArrayList<AutoComplete>();
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Context initCtx = new InitialContext();
-                Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = ds.getConnection();
-                     PreparedStatement statement = connection.prepareStatement(checkTitles);)
+                     Connection connection = MovieDB.getConnection(ds);)
                 {
-                    statement.setString(1, term);
-
-                    try (ResultSet results = statement.executeQuery())
+                    connection.setReadOnly(true);
+                    try (PreparedStatement statement = connection.prepareStatement(checkTitles);)
                     {
-                        // Found a matching title, add it to the list
-                        while (results.next()) {
-                            String value = results.getString("title");
-                            String label = value + " (" + results.getString("year") + ")";
-                            String id = Integer.toString(results.getInt("id"));
-                            AutoComplete entry = new AutoComplete(value, label, id);
-                            movieTitles.add(entry);
+                        statement.setString(1, term);
+
+                        try (ResultSet results = statement.executeQuery())
+                        {
+                            // Found a matching title, add it to the list
+                            while (results.next()) {
+                                String value = results.getString("title");
+                                String label = value + " (" + results.getString("year") + ")";
+                                String id = Integer.toString(results.getInt("id"));
+                                AutoComplete entry = new AutoComplete(value, label, id);
+                                movieTitles.add(entry);
+                            }
                         }
                     }
                 }

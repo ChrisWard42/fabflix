@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true"
+	crossContext="true"
+	swallowOutput="true">
+	<Resource name="jdbc/moviedb"
+		auth="Container"
+		type="javax.sql.DataSource"
+		removeAbandoned="true"
+		removeAbandonedTimeout="30"
+		username="root"
+		password="waydowninthehole"
+		driverClassName="com.mysql.jdbc.ReplicationDriver"
+		url="jdbc:mysql:replication://localhost:3306,172.31.14.39:3306/moviedb?loadBalanceBlacklistTimeout=5000&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;loadBalanceAutoCommitStatementThreshold=3&amp;roundRobinLoadBalance=true"
+		maxActive="50"
+		maxIdle="10"/>
+
+	<Resource name="jdbc/moviedbwrite"
+		auth="Container"
+		type="javax.sql.DataSource"
+		removeAbandoned="true"
+		removeAbandonedTimeout="30"
+		username="root"
+		password="waydowninthehole"
+		driverClassName="com.mysql.jdbc.ReplicationDriver"
+		url="jdbc:mysql:replication://localhost:3306/moviedb?loadBalanceBlacklistTimeout=5000&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;loadBalanceAutoCommitStatementThreshold=3&amp;roundRobinLoadBalance=true"
+		maxActive="50"
+		maxIdle="10"/>
+</Context>

@@ -47,6 +47,7 @@ public class MovieDB{
 	          // DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
 
 	          connection = getConnection(ds);
+            connection.setReadOnly(true);
 
 	          String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
 	          "FROM movies AS m " +
@@ -127,6 +128,7 @@ public class MovieDB{
       // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
       Connection connection = getConnection(ds);
+      connection.setReadOnly(true);
 
       StringBuilder query = new StringBuilder("SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
       "FROM movies AS m " +
@@ -202,6 +204,7 @@ public class MovieDB{
           // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
+          connection.setReadOnly(true);
 
           String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
           "FROM movies AS m " +
@@ -249,6 +252,7 @@ public class MovieDB{
           // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
+          connection.setReadOnly(true);
           String query = "";
           PreparedStatement statement = null;
 
@@ -293,6 +297,7 @@ public class MovieDB{
           // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
+          connection.setReadOnly(true);
 
           String query = "SELECT * FROM movies WHERE id = ?;";
 
@@ -344,6 +349,7 @@ public class MovieDB{
               // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
+          connection.setReadOnly(true);
 
           String query = "SELECT id, title, director, year FROM movies " +
               "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE);";
@@ -485,6 +491,7 @@ public class MovieDB{
         // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
         Connection connection = getConnection(ds);
+        connection.setReadOnly(true);
 
         String query = "SELECT * FROM stars WHERE id = ? ;";
 
@@ -578,6 +585,7 @@ public class MovieDB{
             // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
             Connection connection = getConnection(ds);
+            connection.setReadOnly(true);
 
             String checkQuery = "SELECT * FROM  creditcards " +
                                 "WHERE id = ? AND expiration >= ? AND expiration < ? AND first_name = ? AND last_name = ?;";
