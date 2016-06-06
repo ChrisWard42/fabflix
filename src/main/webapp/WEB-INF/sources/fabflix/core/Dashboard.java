@@ -18,6 +18,7 @@ import fabflix.beans.*;
 
 public class Dashboard extends HttpServlet {
     private DataSource ds = null;
+    private DataSource ds2 = null;
 
     @Override
     public void init() throws ServletException {
