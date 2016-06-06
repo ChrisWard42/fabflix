@@ -60,7 +60,7 @@ public class Login extends HttpServlet
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            /*String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+            String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
             boolean success = false;
 
             if (gRecaptchaResponse == null || gRecaptchaResponse.length() == 0) {
@@ -114,7 +114,7 @@ public class Login extends HttpServlet
                 request.setAttribute("errorMsg", "Failed ReCAPTCHA. Please try again.");
                 request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
                 return;
-            }*/
+            }
 
             if (email == null || password == null || email.equals("") || password.equals("")) {
                 request.getSession().setAttribute("user", null);

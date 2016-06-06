@@ -28,7 +28,7 @@ td {
     <td>61</td>
     <td>14.853206</td>
     <td>15.468881</td>
-    <td>--</td>
+    <td>This case is the baseline value. One user accessing a single server and querying the database with both optimizations gets a response from the search servlet in a reasonable 14ms.</td>
   </tr>
   <tr>
     <td>Case 2: HTTP/10 threads</td>
@@ -36,7 +36,7 @@ td {
     <td>156</td>
     <td>107.60589</td>
     <td>22.959246</td>
-    <td>--</td>
+    <td>Ramping up to 10 users with the same infrastructure causes an increase in the time it takes for the servlet to respond to each request, though the jdbc access time remains relatively short. This may be due to concurrency handling which halts the processing outside the DB call but inside the servlet.</td>
   </tr>
   <tr>
     <td>Case 3: HTTPS/10 threads</td>
@@ -44,7 +44,7 @@ td {
     <td>171</td>
     <td>107.14191</td>
     <td>26.837635</td>
-    <td>--</td>
+    <td>Changing to HTTPS from HTTP makes no noticeable difference on the execution times. It increases very marginally, probably due to extra information carried with the packets for the SSL part of the protocol wjem returning a response, but it more or less remains the same.</td>
   </tr>
   <tr>
     <td>Case 4: HTTP/10 threads/No prepared statements</td>
@@ -52,7 +52,7 @@ td {
     <td>183</td>
     <td>107.02299</td>
     <td>36.77036</td>
-    <td>--</td>
+    <td>We see a slight performance degradation when we keep connection pooling but remove prepared statements. This extra time is the time it takes to compile the statements in MySQL before execution, whereas prepared statements utilize preexisting statements, saving some time.</td>
   </tr>
   <tr>
     <td>Case 5: HTTP/10 threads/No connection pooling</td>
@@ -60,7 +60,7 @@ td {
     <td>608</td>
     <td>492.47267</td>
     <td>148.951771</td>
-    <td>--</td>
+    <td>We see a massive performance degradation when we remove connection pooling, since the 10 users are all being bottlenecked by the single shared resource connection within the servlet. It's unclear why the JDBC access time increased as much as it did, but both numbers are noticeably worse.</td>
   </tr>
 
 </table>
@@ -81,7 +81,7 @@ td {
     <td>70</td>
     <td>10.231909</td>
     <td>10.608188</td>
-    <td>--</td>
+    <td>The times for one user with connection pooling, prepared statements, and scaled server replication are the best overall results. The system is not under heavy load with only one user making requests, and the backend has more resources to handle those requests in a quicker timeframe.</td>
   </tr>
   <tr>
     <td>Case 2: HTTP/10 threads</td>
@@ -89,7 +89,7 @@ td {
     <td>112</td>
     <td>60.142991</td>
     <td>18.325761</td>
-    <td>--</td>
+    <td>When the scaled architecture is increased to 10 users accessing it, the servlet time sees a noticeable increase as does the total execution time, though both remain quicker than the non-scaled 10-thread counterpart. With two instances there's still some waiting for connections in the servlet, but almost half as much as in the single server case.</td>
   </tr>
   <tr>
     <td>Case 3: HTTP/10 threads/No prepared statements</td>
@@ -97,15 +97,15 @@ td {
     <td>118</td>
     <td>70.136067</td>
     <td>18.988144</td>
-    <td>--</td>
+    <td>When we remove prepared statements from the scaled architecture we see very marginal differences. Just as with the single server version, removing prepared statements results in extra work being done by MySQL to service a query request, but it's small with respect to the execution time of the query itself.</td>
   </tr>
   <tr>
     <td>Case 4: HTTP/10 threads/No connection pooling</td>
     <td><img src="resources/img/HTTP_10_Scaled_NoPooling.png" alt="Graph Results Screenshot Case 4" style="width:500px;"></td>
     <td>533</td>
-    <td>86.882719</td>
-    <td>555.159667</td>
-    <td>--</td>
+    <td>91.206025</td>
+    <td>465.328652</td>
+    <td>When we remove connection pooling from the scaled architecture it gets noticeably worse.</td>
   </tr>
 
 </table>

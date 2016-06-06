@@ -25,7 +25,7 @@
 
 				<input type="text" name="email" placeholder="Email">
 				<input type="password" name="password" placeholder="Password">
-                <!-- <div class="g-recaptcha" data-sitekey="6Lc4VB4TAAAAAAa2OMV10xH92aFAvOukCyNhKGIs"></div> -->
+                <div class="g-recaptcha" data-sitekey="6Lc4VB4TAAAAAAa2OMV10xH92aFAvOukCyNhKGIs"></div>
 				<input type="submit" value="Sign In" id="enter">
 			</form>
 		</div>
