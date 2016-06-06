@@ -46,24 +46,22 @@ public class MovieDB{
 	          // DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
 
 	          connection = getConnection(ds);
-            connection.setReadOnly(true);
 
 	          String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
 	          "FROM movies AS m " +
-	          "WHERE MATCH(title) AGAINST( " + keywords + " IN BOOLEAN MODE) OR MATCH(director) AGAINST( " + keywords + " IN BOOLEAN MODE) OR " +
+	          "WHERE MATCH(title) AGAINST( ? IN BOOLEAN MODE) OR MATCH(director) AGAINST( ? IN BOOLEAN MODE) OR " +
 	          "m.id IN(SELECT movie_id FROM stars_in_movies AS sim WHERE " +
 	          "  sim.star_id in(SELECT id " +
 	          "                 FROM stars AS s2   " +
-	          "                 WHERE MATCH(first_name, last_name) AGAINST( " + keywords + " IN BOOLEAN MODE)) " +
+	          "                 WHERE MATCH(first_name, last_name) AGAINST(? IN BOOLEAN MODE)) " +
 	          " );";
 
-            Statement statement = connection.createStatement();
-	          // PreparedStatement statement = connection.prepareStatement(query);
-	          // statement.setString(1, keywords);
-	          // statement.setString(2, keywords);
-	          // statement.setString(3, keywords);
+	          PreparedStatement statement = connection.prepareStatement(query);
+	          statement.setString(1, keywords);
+	          statement.setString(2, keywords);
+	          statement.setString(3, keywords);
 
-	          searchResultsMap = getMovieResultss(statement, connection, query);
+	          searchResultsMap = getMovieResults(statement, connection);
 
 	          statement.close();
 	        } 
@@ -107,7 +105,6 @@ public class MovieDB{
       // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
       Connection connection = getConnection(ds);
-      connection.setReadOnly(true);
 
       StringBuilder query = new StringBuilder("SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
       "FROM movies AS m " +
@@ -183,7 +180,6 @@ public class MovieDB{
           // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
-          connection.setReadOnly(true);
 
           String query = "SELECT m.id, m.title, m.year, m.director, m.banner_url, m.trailer_url " +
           "FROM movies AS m " +
@@ -231,7 +227,6 @@ public class MovieDB{
           // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
-          connection.setReadOnly(true);
           String query = "";
           PreparedStatement statement = null;
 
@@ -276,7 +271,6 @@ public class MovieDB{
           // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
-          connection.setReadOnly(true);
 
           String query = "SELECT * FROM movies WHERE id = ?;";
 
@@ -328,7 +322,6 @@ public class MovieDB{
               // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
           Connection connection = getConnection(ds);
-          connection.setReadOnly(true);
 
           String query = "SELECT id, title, director, year FROM movies " +
               "WHERE MATCH(title) AGAINST(? IN BOOLEAN MODE);";
@@ -361,33 +354,6 @@ public class MovieDB{
   private static HashMap<Integer, MovieInfo> getMovieResults(PreparedStatement statement, Connection connection) throws Exception{
       HashMap<Integer, MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
       ResultSet results = statement.executeQuery();
-
-      // Iterate through each row of results
-      Integer id = new Integer(0);
-      while (results.next()) {
-        id = results.getInt("id");
-        String titleResult = results.getString("title");
-        Integer yearResult = results.getInt("year");
-        String directorResult = results.getString("director");
-        String bannerUrl = results.getString("banner_url");
-        String trailerUrl = results.getString("trailer_url");
-
-        if(!searchResultsMap.containsKey(id)){
-          searchResultsMap.put(id, 
-            new MovieInfo(id, titleResult, yearResult, directorResult, bannerUrl, trailerUrl, 
-                          new HashSet<Star>(getStarsInMovies(id, connection)),
-                          new HashSet<String>(getGenresInMovies(id, connection))));
-        }
-
-      }
-      
-      results.close();
-      return searchResultsMap;
-  }
-
-    private static HashMap<Integer, MovieInfo> getMovieResultss(Statement statement, Connection connection, String query) throws Exception{
-      HashMap<Integer, MovieInfo> searchResultsMap = new HashMap<Integer, MovieInfo>();
-      ResultSet results = statement.executeQuery(query);
 
       // Iterate through each row of results
       Integer id = new Integer(0);
@@ -497,7 +463,6 @@ public class MovieDB{
         // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
         Connection connection = getConnection(ds);
-        connection.setReadOnly(true);
 
         String query = "SELECT * FROM stars WHERE id = ? ;";
 
@@ -591,7 +556,6 @@ public class MovieDB{
             // Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
             Connection connection = getConnection(ds);
-            connection.setReadOnly(true);
 
             String checkQuery = "SELECT * FROM  creditcards " +
                                 "WHERE id = ? AND expiration >= ? AND expiration < ? AND first_name = ? AND last_name = ?;";
