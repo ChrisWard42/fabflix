@@ -17,6 +17,28 @@ import javax.naming.*;
 import fabflix.beans.*;
 
 public class Dashboard extends HttpServlet {
+    private DataSource ds = null;
+    private DataSource ds2 = null;
+
+    @Override
+    public void init() throws ServletException {
+        
+        try {
+             //Create a datasource for pooled connections.
+             ds = (DataSource) getServletContext().getAttribute("DBCPool");
+
+             // Create secondary datasource for write connections
+             ds2 = (DataSource) getServletContext().getAttribute("DBCPool2");
+
+             // //Register the driver for non-pooled connections.
+             // Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (Exception e) {
+          throw new ServletException(e.getMessage());
+        }
+
+    }
+
     public String getServletInfo() {
        return "Displays the dashboard page and handles interactions therein";
     }
@@ -63,35 +85,34 @@ public class Dashboard extends HttpServlet {
 
                 try {
                     // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    Context initCtx = new InitialContext();
-                    Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                    DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                     try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                         Connection connection = ds.getConnection();
-                         PreparedStatement statement = connection.prepareStatement(checkEmployee);)
+                         Connection connection = MovieDB.getConnection(ds);)
                     {
-                        statement.setString(1, email);
-                        statement.setString(2, password);
-
-                        try (ResultSet results = statement.executeQuery())
+                        connection.setReadOnly(true);
+                        try (PreparedStatement statement = connection.prepareStatement(checkEmployee);)
                         {
-                            // Found a matching employee, create Employee object and put it in session
-                            if (results.next()) {
-                                employee = new Employee(results.getString("email"), results.getString("password"),
-                                                        results.getString("fullname"));
-                                request.getSession().setAttribute("employee", employee);
-                                response.sendRedirect(request.getContextPath() + "/_dashboard");
-                                return;
-                            }
+                            statement.setString(1, email);
+                            statement.setString(2, password);
 
-                            // No matching employee found, set error parameter and send back to login page
-                            else {
-                                request.getSession().setAttribute("employee", null);
-                                request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
-                                request.setAttribute("dashboard", "login");
-                                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
-                                return;
+                            try (ResultSet results = statement.executeQuery())
+                            {
+                                // Found a matching employee, create Employee object and put it in session
+                                if (results.next()) {
+                                    employee = new Employee(results.getString("email"), results.getString("password"),
+                                                            results.getString("fullname"));
+                                    request.getSession().setAttribute("employee", employee);
+                                    response.sendRedirect(request.getContextPath() + "/_dashboard");
+                                    return;
+                                }
+
+                                // No matching employee found, set error parameter and send back to login page
+                                else {
+                                    request.getSession().setAttribute("employee", null);
+                                    request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
+                                    request.setAttribute("dashboard", "login");
+                                    request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                                    return;
+                                }
                             }
                         }
                     }
@@ -145,13 +166,10 @@ public class Dashboard extends HttpServlet {
 
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Context initCtx = new InitialContext();
-                Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = ds.getConnection();)
+                     Connection connection = MovieDB.getConnection(ds2);)
                 {                    
+                    connection.setReadOnly(false);
                     String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
                     try (CallableStatement cs = connection.prepareCall(procedure)) {
                         // Store Movie Info in the corresponding procedure parameters
@@ -245,13 +263,10 @@ public class Dashboard extends HttpServlet {
 
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Context initCtx = new InitialContext();
-                Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = ds.getConnection();)
+                     Connection connection = MovieDB.getConnection(ds2);)
                 {                    
+                    connection.setReadOnly(false);
                     String insert = "INSERT INTO stars(first_name, last_name, dob, photo_url) VALUES(?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(insert);){
                            
@@ -309,39 +324,39 @@ public class Dashboard extends HttpServlet {
 
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Context initCtx = new InitialContext();
-                Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = ds.getConnection();
-                     PreparedStatement statement = connection.prepareStatement(checkMovie);)
+                     Connection connection = MovieDB.getConnection(ds);)
                 {                    
-                    statement.setString(1, movieTitle);
-                    statement.setString(2, movieYear);
-                    statement.setString(3, movieDirector);
+                    connection.setReadOnly(true);
 
-                    try (ResultSet results = statement.executeQuery())
+                    try (PreparedStatement statement = connection.prepareStatement(checkMovie);)
                     {
-                        // Found a matching movie, store it in request attributes and pass to update movie
-                        if (results.next()) {
-                            request.setAttribute("movieTitle", results.getString("title"));
-                            request.setAttribute("movieYear", results.getInt("year"));
-                            request.setAttribute("movieDirector", results.getString("director"));
-                            request.setAttribute("movieBannerUrl", results.getString("banner_url"));
-                            request.setAttribute("movieTrailerUrl", results.getString("trailer_url"));
-                            request.setAttribute("dashboard", "updatemovie");
-                            request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
-                            return;
-                        }
+                        statement.setString(1, movieTitle);
+                        statement.setString(2, movieYear);
+                        statement.setString(3, movieDirector);
 
-                        // No matching movie found, set error parameter and send back to updatemoviecheck page
-                        else {
-                            request.setAttribute("errorMsg", "Movie not found. Please provide information for a movie"
-                                + " which exists in the database, or insert the movie from the dashboard.");
-                            request.setAttribute("dashboard", "updatemoviecheck");
-                            request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
-                            return;
+                        try (ResultSet results = statement.executeQuery())
+                        {
+                            // Found a matching movie, store it in request attributes and pass to update movie
+                            if (results.next()) {
+                                request.setAttribute("movieTitle", results.getString("title"));
+                                request.setAttribute("movieYear", results.getInt("year"));
+                                request.setAttribute("movieDirector", results.getString("director"));
+                                request.setAttribute("movieBannerUrl", results.getString("banner_url"));
+                                request.setAttribute("movieTrailerUrl", results.getString("trailer_url"));
+                                request.setAttribute("dashboard", "updatemovie");
+                                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                                return;
+                            }
+
+                            // No matching movie found, set error parameter and send back to updatemoviecheck page
+                            else {
+                                request.setAttribute("errorMsg", "Movie not found. Please provide information for a movie"
+                                    + " which exists in the database, or insert the movie from the dashboard.");
+                                request.setAttribute("dashboard", "updatemoviecheck");
+                                request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+                                return;
+                            }
                         }
                     }
                 }
@@ -403,13 +418,10 @@ public class Dashboard extends HttpServlet {
 
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Context initCtx = new InitialContext();
-                Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = ds.getConnection();)
+                     Connection connection = MovieDB.getConnection(ds2);)
                 {                    
+                    connection.setReadOnly(false);
                     String procedure = "{call add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
                     try (CallableStatement cs = connection.prepareCall(procedure)) {
                         // Store Movie Info in the corresponding procedure parameters
@@ -514,13 +526,10 @@ public class Dashboard extends HttpServlet {
         else if (Objects.equals(dashboard, "metadata")) {
             try {
                 // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Context initCtx = new InitialContext();
-                Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-                DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
                 try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                     Connection connection = ds.getConnection();)
+                     Connection connection = MovieDB.getConnection(ds);)
                 {
+                    connection.setReadOnly(true);
                     DatabaseMetaData meta = connection.getMetaData();
                     ArrayList<String> tableNames = new ArrayList<String>();
                     try (ResultSet results = meta.getTables(null, null, null, new String[]{"TABLE"});)

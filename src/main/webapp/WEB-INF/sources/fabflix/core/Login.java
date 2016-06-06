@@ -133,42 +133,41 @@ public class Login extends HttpServlet
 
                 try {
                     // Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    // try (Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-                    // {
-                        // Context initCtx = new InitialContext();
-                        // Context envCtx = (Context) initCtx.lookup("java:comp/env");
+                    try (// Connection connection = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                         Connection connection = MovieDB.getConnection(ds);)
+                    {
+                        connection.setReadOnly(true);
 
-                        // DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
-
-                        Connection connection = MovieDB.getConnection(ds);
-
-                        PreparedStatement statement = connection.prepareStatement(checkUser);
-                        statement.setString(1, email);
-                        statement.setString(2, password);
-
-                        try (ResultSet results = statement.executeQuery())
+                        try (PreparedStatement statement = connection.prepareStatement(checkUser);)
                         {
-                            // Found a matching user in the database, so create user object from Customer and put it in session
-                            if (results.next()) {
-                                user = new Customer(results.getInt("id"), results.getString("first_name"), results.getString("last_name"),
-                                            results.getString("cc_id"), results.getString("address"), results.getString("email"), null);
-                                request.getSession().setAttribute("user", user);
-                                response.sendRedirect(request.getContextPath() + "/");
-                                statement.close();
-                                connection.close();
-                                return;
-                            }
+                            statement.setString(1, email);
+                            statement.setString(2, password);
 
-                            // No matching user found, set error parameter and send back to login page
-                            else {
-                                request.getSession().setAttribute("user", null);
-                                request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
-                                request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-                                statement.close();
-                                connection.close();
-                                return;
+                            try (ResultSet results = statement.executeQuery();)
+                            {
+                                // Found a matching user in the database, so create user object from Customer and put it in session
+                                if (results.next()) {
+                                    user = new Customer(results.getInt("id"), results.getString("first_name"), results.getString("last_name"),
+                                                results.getString("cc_id"), results.getString("address"), results.getString("email"), null);
+                                    request.getSession().setAttribute("user", user);
+                                    response.sendRedirect(request.getContextPath() + "/");
+                                    statement.close();
+                                    connection.close();
+                                    return;
+                                }
+
+                                // No matching user found, set error parameter and send back to login page
+                                else {
+                                    request.getSession().setAttribute("user", null);
+                                    request.setAttribute("errorMsg", "Incorrect login information. Please try again.");
+                                    request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+                                    statement.close();
+                                    connection.close();
+                                    return;
+                                }
                             }
                         }
+                    }
                     // }
                 }
                 catch (Exception e) {

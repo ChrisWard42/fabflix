@@ -8,9 +8,33 @@
         
         <span style="font-weight:bold">Java 8 JRE or higher:</span> The code might compile under Java 7 but definitely not Java 6 or lower since there are a couple places we use the try-with-resources statement introduced in Java 7.<br><br>
 
+        <span style="font-weight:bold">MySQL 5.7 or higher:</span> The project may work with MySQL 5.5, but there are some features like indexing which are better implemented on 5.7.<br><br>
+
+        <h4>Master/Slave Setup Information</h4><br>
+
+        <span style="font-weight:bold">Master Private IP:</span> 172.31.0.57<br>
+        <span style="font-weight:bold">Slave Private IP:</span> 172.31.14.39<br><br>
+
+        The installation instructions below are for the single instance deployment utilized for Projects 1-4. In order to deploy the webapp to the master/slave version, in addition to the instructions below, you will also need to 
+        edit the context.xml file located in the unpacked WAR file at:<br><br>
+
+        META-INF/context.xml<br><br>
+
+        Change the following line at line 25:<br><br>
+
+        url="jdbc:mysql://localhost:3306/moviedb"<br><br>
+
+        To read:<br><br>
+
+        url="jdbc:mysql://172.31.0.57:3306/moviedb"<br><br>
+
+        Save the file. Now you should be able to do the quick or manual installation as normal. For the Gradle installation, the new build script has commented out remotes for the master and slave private IPs, so just 
+        comment out the first remote and uncomment the master remote, deploy, comment the master remote and uncomment
+        the slave remote, and deploy again. Note that gradle cargo doesn't support deploying to multiple remotes simultaneously.<br><br>
+
         <h4>Quick Installation</h4><br>
 
-        The WAR file "fabflix_webapp.war" included with our submission should be sufficient to
+        The WAR file "project5_07.war" included with our submission should be sufficient to
         run the project on a Tomcat server which meets the above requirements. If such a server is not available,
         feel free to install the project to a different directory under webapps on our AWS instance. The webapp
         names we currently deploy to which shouldn't be used are: live_site, chris, stevo, benla.<br><br>
@@ -54,7 +78,7 @@
         We're utilizing <a href="http://gradle.org/">Gradle</a> as our build and deploy system for the projects.
         In order to utilize our Gradle build scripts, download the files at the following link:<br><br>
 
-        <span style="font-weight:bold"><a href="http://fabflix.me/resources/gradle/gradle.zip">Download Gradle Build Files</a></span> (<span style="font-weight:bold"><a href="https://www.sendspace.com/file/vzh2bi">Mirror</a></span>)<br><br>
+        <span style="font-weight:bold"><a href="http://fabflix.me:8080/resources/gradle/gradle.zip">Download Gradle Build Files</a></span> (<span style="font-weight:bold"><a href="https://www.sendspace.com/file/i14elt">Mirror</a></span>)<br><br>
 
         Extract the ZIP file to any directory, and extract the submitted WAR file as well, deleting all of the *.class files in WEB-INF/classes if desired. Then place all of the contents of the WAR file (META-INF folder, WEB-INF folder, source_xml_parsing folder, resources folder, error.html) in the folder (must be created):<br><br>
 
@@ -75,7 +99,7 @@
         <code>&lt;user username="scriptuser" password="somesecurepassword" roles="manager-script" /&gt;</code><br><br>
 
         Then the 'cargo':'remote' section of build.gradle starting at Line 98 should be updated to contain the hostname of the
-        server to be deployed to and the username / password combo for the tomcat user specified above. Once that's done you should be able to run the following command to compile, build, package, deploy, and remove the intermediary WAR:<br><br>
+        server to be deployed to and the username / password combo for the tomcat user specified above. For our AWS server the tomcat user defined in the existing remote declarations within build.gradle will work for each of the three EC2 servers. Once that's done you should be able to run the following command to compile, build, package, deploy, and remove the intermediary WAR:<br><br>
 
         ./gradlew -PwAN=your_app_name wAD<br><br>
 

@@ -13,4 +13,16 @@
 		url="jdbc:mysql://localhost:3306/moviedb"
 		maxActive="50"
 		maxIdle="10"/>
+
+	<Resource name="jdbc/moviedbwrite"
+		auth="Container"
+		type="javax.sql.DataSource"
+		removeAbandoned="true"
+		removeAbandonedTimeout="30"
+		username="root"
+		password="waydowninthehole"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/moviedb"
+		maxActive="50"
+		maxIdle="10"/>
 </Context>
